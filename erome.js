@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Erome Downloader Premium
-// @namespace    https://github.com/maadvfx/
+// @namespace    https://github.com/castielwallker/
 // @icon         https://www.erome.com/favicon.ico
 // @version      1.2
 // @description  Download videos e images de erome com controle de botões.
