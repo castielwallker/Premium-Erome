@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Erome Downloader Premium
-// @namespace    https://github.com/castielwallker/
+// @namespace    https://github.com/maadvfx/
 // @icon         https://www.erome.com/favicon.ico
 // @version      1.2
 // @description  Download videos e images de erome com controle de botões.
 // @author       Maad
-// @match        https://www.erome.com/*
+// @match        https://www.erome.com/a/*
 // @grant        GM.xmlHttpRequest
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js
-// @updateURL https://update.greasyfork.org/scripts/431691/Bypass%20All%20Shortlinks.meta.js
-// @downloadURL https://update.greasyfork.org/scripts/431691/Bypass%20All%20Shortlinks.user.js
+// @updateURL https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
+// @downloadURL https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
 // ==/UserScript==
 
 (function () {
@@ -158,7 +158,7 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            z-index: 1000; /* Garante que o botão fique acima da mídia */
+            z-index: 9999; /* Garante que o botão fique acima da mídia */
         `;
             button.innerHTML = `
     <svg
@@ -200,7 +200,7 @@ function NewBntAndHide() {
     // Cria o novo botão
     const newButton = document.createElement('button');
     newButton.className = 'btn btn-pink'; // Mantém o mesmo estilo
-    newButton.style.marginLeft = '1px'; // Adiciona margem esquerda
+    newButton.style.marginLeft = '7px'; // Adiciona margem esquerda
     newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads'; // Texto inicial igual ao do botão de ocultar fotos
 
     newButton.addEventListener('click', () => {
@@ -222,9 +222,21 @@ function NewBntAndHide() {
     const userInfo = document.querySelector('.user-info'); // Use uma classe comum
     if (userInfo) userInfo.appendChild(newButton); // Adiciona o botão à interface
 }
+    // Removendo Botão Follow
+    function removerBotoes() {
+    const botaoFollow = document.querySelector('button.btn.btn-pink[data-toggle="modal"][data-target="#needAccount"]');
+    if (botaoFollow) {
+        botaoFollow.remove(); // Remove o botão do DOM
+    }
+    const botaoOlho = document.querySelector('button.btn.btn-pink[data-toggle="modal"][data-target="#needAccount"] i.fas.fa-eye-slash');
+    if (botaoOlho) {
+        botaoOlho.closest('button').remove(); // Remove o botão do DOM
+    }
+}
 
 
-function ocultarFotosEBotoes() {
+//Ocultar Fotos e Deixar Videos
+    function ocultarFotosEBotoes() {
     const fotos = document.querySelectorAll('.media-group img');
     const botoesDownload = document.querySelectorAll('.btn-download'); // Corrigir classe se necessário
     const userInfo = document.querySelector('.user-info'); // Use uma classe comum
@@ -232,8 +244,10 @@ function ocultarFotosEBotoes() {
     if (userInfo) {
         const toggleButton = document.createElement('button');
         toggleButton.className = 'btn btn-pink';
-        toggleButton.style.marginLeft = '6px'; // Adiciona margem esquerda
+        toggleButton.style.marginLeft = '8px'; // Adiciona margem esquerda
+        toggleButton.style.padding = '5px 10px'; // Aumenta área clicável
         toggleButton.innerHTML = '<i class="fas fa-eye"></i> Fotos'; // Texto inicial
+        toggleButton.style.position = 'relative'; // Garante que o pseudo-elemento posicione corretamente
 
         toggleButton.addEventListener('click', () => {
             const isHidden = fotos[0].style.display === 'none';
@@ -348,6 +362,102 @@ function ocultarFotosEBotoes() {
             this.userActive(true);
         });
     }
+    // Modo Noite
+    let overlay;
+
+    function NewBntAndToggleNight() {
+        const nightButton = document.createElement('button');
+        nightButton.className = 'btn btn-pink';
+        nightButton.style.marginLeft = '1px';
+        nightButton.innerHTML = '<i class="fas fa-moon"></i> Modo Noite';
+
+        let nightMode = false;
+
+        nightButton.addEventListener('click', () => {
+            nightMode = !nightMode;
+
+            if (nightMode) {
+                activateNightMode();
+                nightButton.innerHTML = '<i class="fas fa-sun"></i> Modo Dia';
+                showToast('Modo Noite Ativado!');
+            } else {
+                deactivateNightMode();
+                nightButton.innerHTML = '<i class="fas fa-moon"></i> Modo Noite';
+                showToast('Modo Noite Desativado!');
+            }
+        });
+
+        const userInfo = document.querySelector('.user-info');
+        if (userInfo) userInfo.appendChild(nightButton);
+    }
+
+    function activateNightMode() {
+        document.body.style.backgroundColor = '#111';
+        document.body.style.color = '#fff';
+
+        overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        overlay.style.zIndex = '998';
+        overlay.style.pointerEvents = 'none';
+        document.body.appendChild(overlay);
+
+        highlightMedia();
+    }
+
+    function deactivateNightMode() {
+        document.body.style.backgroundColor = '';
+        document.body.style.color = '';
+
+        if (overlay) {
+            overlay.remove();
+            overlay = null;
+        }
+
+        resetMedia();
+    }
+
+    function highlightMedia() {
+        const videos = document.querySelectorAll('.media-group video');
+
+        videos.forEach(video => {
+            video.style.filter = 'brightness(1)'; // Mantém brilho
+            video.parentElement.style.backgroundColor = 'transparent'; // Remove fundo preto
+
+            // Remover controles nativos e garantir o uso do Video.js
+            video.removeAttribute('controls');
+
+            const wrapper = video.closest('.video-js');
+            if (wrapper) {
+                wrapper.style.backgroundColor = 'transparent';
+                wrapper.style.zIndex = '9999'; // Garante que o player fique visível
+            }
+        });
+
+        const images = document.querySelectorAll('.media-group img');
+        images.forEach(img => {
+            img.style.filter = 'none';
+            img.style.position = 'relative';
+            img.style.zIndex = '9999';
+        });
+    }
+
+    function resetMedia() {
+        const medias = document.querySelectorAll('.media-group video, .media-group img');
+        medias.forEach(media => {
+            media.style.filter = '';
+            media.style.backgroundColor = '';
+
+            if (media.tagName === 'VIDEO') {
+                media.removeAttribute('controls'); // Mantém controle apenas via Video.js
+                media.style.backgroundColor = '#000000';
+            }
+        });
+    }
 
     // Encontra todos os players de vídeo e os modifica
     function initializePlayers() {
@@ -359,7 +469,8 @@ function ocultarFotosEBotoes() {
         }
     }
 
-
+    removerBotoes();
+    NewBntAndToggleNight();
     window.addEventListener('load', init);
     window.addEventListener('load', initializePlayers);
     document.addEventListener('DOMContentLoaded', init);
