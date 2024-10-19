@@ -1,14 +1,14 @@
 # Erome Downloader Premium  
 
 ## Descrição  
-Este script facilita o download de vídeos e imagens diretamente do site **erome.com**, com controle aprimorado através de botões. Ele também realiza ajustes na interface e contorna restrições do site para uma navegação mais fluida.  
+Este script facilita o download de vídeos e imagens diretamente do site **Erome.com**, com controle aprimorado através de botões. Ele também realiza ajustes na interface e contorna restrições do site para uma navegação mais fluida.  
 
 ### Funcionalidades  
 - **Download direto** de vídeos e imagens com um clique.
-- **Modo Noite/Cinema**: Função modo noite/cinema com foco em Imagens e Vídeos.  
-- **Controle de velocidade** de reprodução para vídeos (0.5x a 4x).  
+- **Modo Cinema**: Função modo cinema com foco em Imagens e Vídeos.  
+- **Controle de velocidade** de reprodução para vídeos (0.5x a 5x).  
 - **Alteração automática** do título da página e nome do usuário para "By Maad".  
-- **Bypass de restrições**, removendo bloqueios de login e disclaimers.  
+- **Bypass**, removendo bloqueios de login e disclaimers.  
 - **Botões personalizáveis** para mostrar/ocultar mídias e downloads.  
 - **Notificações rápidas** (toast) para feedback imediato ao usuário.  
 - **Integração com Video.js** para adicionar controles extras nos players de vídeo.  
@@ -33,6 +33,10 @@ Este script facilita o download de vídeos e imagens diretamente do site **erome
 - **GM.xmlHttpRequest**: Para download das mídias diretamente via script.  
 - **JSZip**: Preparado para compressão futura de arquivos.  
 - **Video.js**: Manipulação e controle avançado de players de vídeo.  
+
+## Notas
+- **Disclaimer:** Ao acessar a página, o script remove o disclaimer e permite o fluxo normal de uso.
+- **Modo Cinema:** Permite uma visualização mais imersiva dos conteúdos, alterando a cor de fundo e ocultando elementos não essenciais.
 
 ## Autor  
 **Maad** - [GitHub](https://github.com/castielwallker/) 
