@@ -15,7 +15,7 @@
 (function () {
     'use strict';
 
-     Adiciona estilo CSS para o efeito de desfoque
+     //Adiciona estilo CSS para o efeito de desfoque
     const style = document.createElement('style');
     style.textContent = `
         .blur {
@@ -27,7 +27,7 @@
     const addButtonToNavbar = function () {
         const navbarRight = document.querySelector('.navbar-nav.navbar-right');
 
-         Verifica se o botão já existe para não duplicar
+         //Verifica se o botão já existe para não duplicar
         if (!document.getElementById('nsfw-toggle-btn')) {
              Botão NSFW
             const nsfwButton = document.createElement('li');
