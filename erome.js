@@ -2,110 +2,151 @@
 // @name         Erome Downloader Premium
 // @namespace    https://github.com/maadvfx/
 // @icon         https://www.erome.com/favicon.ico
-// @version      1.2
+// @version      1.5
 // @description  Download videos e images de erome com controle de botões.
 // @author       Maad
 // @match        https://www.erome.com/a/*
+// @match        https://www.erome.com/*
+// @match        https://www.erome.com/explore*
+// @match        https://www.erome.com/search?q=*
 // @grant        GM.xmlHttpRequest
-// @require      https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js
-// @updateURL https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
-// @downloadURL https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
+// @grant        GM_addStyle
+// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/player.js
+// @updateURL    https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
+// @downloadURL  https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
 // ==/UserScript==
+/* globals $ Maad */
 
 (function () {
     'use strict';
 
-    const speeds = [0.5, 1, 1.5,2,4]; // Opções de velocidade
-    let currentSpeedIndex = 2;
-
-    function mudarTitulo() {
-        document.title = "By Maad - Premium"; // Altera o título da página
-
-        // Efeito de piscar
-        let originalTitle = document.title; // Guarda o título original
-        let blinkInterval = setInterval(() => {
-            document.title = document.title === originalTitle ? "By Maad" : originalTitle; // Alterna entre os títulos
-        }, 200000); // Altera a cada 1 segundo
-
-        // Para o efeito após 10 segundos
-        setTimeout(() => {
-            clearInterval(blinkInterval); // Para o efeito de piscar
-            document.title = originalTitle; // Restaura o título original após o efeito
-        }, 200000); // Dura 10 segundos
+    // Adiciona CSS customizado
+    GM_addStyle(`
+    .vjs-control:hover {
+        background: rgba(211, 69, 121, 0.5); /* Cor ao passar o mouse */
     }
+    button:hover {
+        background: rgba(211, 69, 121, 0.5); /* Cor ao passar o mouse */
+    }
+   .media-group .img-back { /* Corrigido com ponto antes de media-group */
+    width: 100%;
+    height: auto;
+    filter: brightness(40%) blur(10px); /* Combine os filtros em uma única declaração */
+    border-radius: 15px;
+    opacity: 1;
+    }
+`);
+    const speeds = [0.5, 1, 1.5,2,4];
+    let currentSpeedIndex = 2;
+    const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        const target = mutation.target;
+        if (target.classList.contains('lg-visible') ||
+            target.classList.contains('lg-backdrop') ||
+            target.classList.contains('in')) {
+            target.classList.remove('lg-visible', 'lg-show-after-load', 'lg-hide-items', 'lg-backdrop', 'in');
+            console.log('Classes lg-* e backdrop removidas!');
+            target.style.display = 'none';
+        }
+    });
+});
 
-    // Função para mudar o texto do H1
-    function mudarTextoH1() {
-        const h1Element = document.querySelector('.col-sm-12.page-content h1');
-        if (h1Element) {
-            h1Element.textContent = "By Maad - Premium Erome"; // Altera o texto do H1
+    // Remover Botões Padrão
+    function removerBotoes() {
+        const botaoFollow = document.querySelector('button.btn.btn-pink[data-toggle="modal"][data-target="#needAccount"]');
+        if (botaoFollow) {
+            botaoFollow.remove();
+        }
+        const botaoOlho = document.querySelector('button.btn.btn-pink[data-toggle="modal"][data-target="#needAccount"] i.fas.fa-eye-slash');
+        if (botaoOlho) {
+            botaoOlho.closest('button').remove();
         }
     }
 
-    mudarTitulo(); // Chama a função para mudar o título
-    mudarTextoH1(); // Chama a função para mudar o texto do H1
-    mudarTitulo(); // Chama a função para mudar o título
-    function removerDisclaimer() {
+    //Detectar Perfil
+    function isProfilePage() {
+        return document.querySelector('#user') !== null;
+    }
 
-        //Bloquear Login
+    // Mudar Titulo
+    function ChangeTitle() {
+        const h1Element = document.querySelector('.col-sm-12.page-content h1');
+        if (h1Element) {
+            h1Element.textContent = "By Maad - Premium Erome";
+        }
+
+        document.title = "By Maad - Premium";
+        let originalTitle = document.title;
+        let blinkInterval = setInterval(() => {
+            document.title = document.title === originalTitle ? "By Maad" : originalTitle;
+        }, 200000);
+
+        setTimeout(() => {
+            clearInterval(blinkInterval);
+            document.title = originalTitle;
+        }, 200000);
+    }
+
+    // Disclaimer
+    function Disclaimer() {
+        const disclaimer = document.getElementById('disclaimer');
+        if (disclaimer) {
+            disclaimer.remove();
+            document.body.style.overflow = 'visible';
+            $.ajax({ type: 'POST', url: '/user/disclaimer', async: true });
+        }
+    }
+
+    // Bypass Account
+    function BypassAccount() {
         var modalElement = document.getElementById("needAccount");
         if (modalElement) {
             modalElement.parentNode.removeChild(modalElement);
          } else {
         }
 
-        // Mudar Nome
         var userNameElement = document.getElementById("user_name") || document.querySelector(".username");
-
         if (userNameElement) {
-
              userNameElement.textContent = "By Maad";
              userNameElement.innerHTML = "By Maad&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>"; // Atualiza o texto e adiciona o ícone
 
         } else {
 
         }
-
-         //Bypass
-        const disclaimer = document.getElementById('disclaimer');
-        if (disclaimer) {
-            disclaimer.remove();
-            document.body.style.overflow = 'visible';
-        }
     }
-    removerDisclaimer();
-    setTimeout(removerDisclaimer, 1000);
-
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('enter')) {
-            removerDisclaimer();
-            window.open(document.URL);
-            location.href = "/o/p-1";
-        }
-    });
 
     function getFileName(url) {
         return url.split('/').pop().split('?')[0];
     }
-
-    // Toast
+    // Toast Mensagem
     function showToast(message, isError = false) {
-        const toast = document.createElement('div');
-        toast.textContent = message;
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: ${isError ? '#101010' : '#ffffff'};
-            color: ${isError ? '#ffffff' : '#101010'};
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 14px;
-            z-index: 9999;
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
+    const existingToasts = document.querySelectorAll('.toast');
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: ${existingToasts.length > 0 ? (existingToasts.length * 60 + 20) + 'px' : '20px'};
+        right: 20px;
+        background-color: ${isError ? '#101010' : '#ffffff'};
+        color: ${isError ? '#ffffff' : '#101010'};
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 14px;
+        z-index: 9999;
+        box-shadow: 0 0 10px ${isError ? '#101010' : '#ffffff'}, 0 0 20px ${isError ? '#ffffff' : '#101010'};
+        transition: opacity 0.5s;
+        opacity: 1;
+    `;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = 0;
+        setTimeout(() => toast.remove(), 100);
+    }, 500);
+}
 
     //Botão Donwload
     function download(url) {
@@ -134,32 +175,33 @@
                 }
             },
             onerror: function (err) {
-                //console.error('Erro ao fazer a requisição:', err);
             }
         });
     }
 
-
+    // Download Direct
     function addLink(media) {
-    let src = media.tagName === 'IMG' ? media.src || media.getAttribute('data-src') : media.querySelector('source')?.src || media.src;
-    if (src) {
-        const button = document.createElement('button');
-        button.className = 'btn-download';
-        button.style.cssText = `
-            position: absolute; /* Posiciona o botão de forma absoluta */
-            top: 10px; /* Distância do topo do contêiner pai */
-            left: 10px; /* Distância da esquerda do contêiner pai */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #ffffff;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            z-index: 9999; /* Garante que o botão fique acima da mídia */
-        `;
+        let src = media.tagName === 'IMG' ? media.src || media.getAttribute('data-src') : media.querySelector('source')?.src || media.src;
+        if (src) {
+            const button = document.createElement('button');
+            button.className = 'btn-download';
+            button.style.cssText = `
+    border: none; /* Corrigido de 'border = 'none';' para 'border: none;' */
+    outline: none; /* Adicionando isso para garantir que não haja contorno */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 9999;
+    transition: background-color 0.3s ease, border-color 0.3s ease, fill 0.3s ease;
+`;
             button.innerHTML = `
     <svg
         fill="#161616"
@@ -183,7 +225,20 @@
     </svg>
 `;
 
-
+            button.addEventListener('mouseenter', () => {
+            button.style.border = 'none';
+            button.style.outline = 'none';
+            button.style.backgroundColor = '#101010';
+            button.style.boxShadow = '0 0 10px 3px #101010';
+            button.querySelector('svg').setAttribute('fill', '#ffffff');
+            });
+            button.addEventListener('mouseleave', () => {
+            button.style.border = 'none';
+            button.style.outline = 'none';
+            button.style.backgroundColor = '#ffffff';
+            button.style.boxShadow = 'none';
+            button.querySelector('svg').setAttribute('fill', '#161616');
+                });
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -194,182 +249,140 @@
         }
     }
 
-function NewBntAndHide() {
-    const buttonsToToggle = document.querySelectorAll('.btn-download'); // Correção aqui: verifique se a classe está correta.
+    // Ocultar Donwload
+    function OcultarDownload() {
+        const buttonsToToggle = document.querySelectorAll('.btn-download');
+        const newButton = document.createElement('button');
+        newButton.className = 'btn btn-pink';
+        newButton.style.marginLeft = '4px';
+        newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads';
 
-    // Cria o novo botão
-    const newButton = document.createElement('button');
-    newButton.className = 'btn btn-pink'; // Mantém o mesmo estilo
-    newButton.style.marginLeft = '7px'; // Adiciona margem esquerda
-    newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads'; // Texto inicial igual ao do botão de ocultar fotos
-
-    newButton.addEventListener('click', () => {
-        buttonsToToggle.forEach(button => {
-            button.style.display = button.style.display === 'none' ? 'inline-block' : 'none'; // Alterna a visibilidade
-        });
-
-        // Altera o texto e ícone do botão para refletir o estado
-        if (buttonsToToggle[0].style.display === 'none') {
-            newButton.innerHTML = '<i class="fas fa-eye"></i> Downloads'; // Mostrar downloads
-            showToast('Você ocultou os botões de Download!');
-        } else {
-            newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads'; // Ocultar downloads
-            showToast('Você restaurou os botões de Download!');
-        }
-    });
-
-    // Seleciona o elemento userInfo de forma mais universal
-    const userInfo = document.querySelector('.user-info'); // Use uma classe comum
-    if (userInfo) userInfo.appendChild(newButton); // Adiciona o botão à interface
-}
-    // Removendo Botão Follow
-    function removerBotoes() {
-    const botaoFollow = document.querySelector('button.btn.btn-pink[data-toggle="modal"][data-target="#needAccount"]');
-    if (botaoFollow) {
-        botaoFollow.remove(); // Remove o botão do DOM
-    }
-    const botaoOlho = document.querySelector('button.btn.btn-pink[data-toggle="modal"][data-target="#needAccount"] i.fas.fa-eye-slash');
-    if (botaoOlho) {
-        botaoOlho.closest('button').remove(); // Remove o botão do DOM
-    }
-}
-
-
-//Ocultar Fotos e Deixar Videos
-    function ocultarFotosEBotoes() {
-    const fotos = document.querySelectorAll('.media-group img');
-    const botoesDownload = document.querySelectorAll('.btn-download'); // Corrigir classe se necessário
-    const userInfo = document.querySelector('.user-info'); // Use uma classe comum
-
-    if (userInfo) {
-        const toggleButton = document.createElement('button');
-        toggleButton.className = 'btn btn-pink';
-        toggleButton.style.marginLeft = '8px'; // Adiciona margem esquerda
-        toggleButton.style.padding = '5px 10px'; // Aumenta área clicável
-        toggleButton.innerHTML = '<i class="fas fa-eye"></i> Fotos'; // Texto inicial
-        toggleButton.style.position = 'relative'; // Garante que o pseudo-elemento posicione corretamente
-
-        toggleButton.addEventListener('click', () => {
-            const isHidden = fotos[0].style.display === 'none';
-
-            fotos.forEach(foto => {
-                foto.style.display = isHidden ? 'block' : 'none';
+        newButton.addEventListener('click', () => {
+            buttonsToToggle.forEach(button => {
+                button.style.display = button.style.display === 'none' ? 'inline-block' : 'none';
             });
 
-            botoesDownload.forEach(botao => {
-                const parentImage = botao.closest('.media-group').querySelector('img');
-                if (parentImage) {
-                    botao.style.display = isHidden ? 'inline-block' : 'none'; // Oculte o botão de download
-                }
-            });
-
-            toggleButton.innerHTML = isHidden
-                ? '<i class="fas fa-eye-slash"></i> Fotos' // Texto para ocultar fotos
-                : '<i class="fas fa-eye"></i> Fotos'; // Texto para mostrar fotos
-        });
-
-        userInfo.appendChild(toggleButton); // Adiciona o botão à interface
-    }
-}
-
-
-    function init() {
-        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
-        mediaElements.forEach(media => addLink(media));
-        NewBntAndHide();
-        ocultarFotosEBotoes();
-    }
-
-     // Função para baixar vídeo usando GM.xmlHttpRequest
-    function downloadD(videoUrl) {
-        GM.xmlHttpRequest({
-            method: 'GET',
-            url: videoUrl,
-            responseType: 'blob',
-            headers: {
-                'User-Agent': 'Mozilla/5.0',
-                'Referer': 'https://www.erome.com/'
-            },
-            onload: function (response) {
-                if (response.status === 200) {
-                    const videoBlob = new Blob([response.response], { type: 'video/mp4' });
-                    const downloadUrl = URL.createObjectURL(videoBlob);
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = downloadUrl;
-                    downloadLink.download = videoUrl.split('/').pop().split('?')[0];
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    URL.revokeObjectURL(downloadUrl);
-                    downloadLink.remove();
-                    showToast('Download iniciado!');
-                } else {
-                    showToast('Erro ao baixar o vídeo.', true);
-                }
-            },
-            onerror: function () {
-                showToast('Erro ao conectar com o servidor.', true);
-            }
-        });
-    }
-
-    // Adiciona botão de controle de velocidade no player
-    function addSpeedButton(playerInstance) {
-        const controlBar = playerInstance.getChild('controlBar');
-        const speedButton = document.createElement('button');
-        speedButton.className = 'vjs-button vjs-speed-button';
-        speedButton.innerText = 'Vel: 1x';
-        speedButton.style.marginLeft = '10px';
-
-        speedButton.onclick = function () {
-            currentSpeedIndex = (currentSpeedIndex + 1) % speeds.length;
-            const newSpeed = speeds[currentSpeedIndex];
-            playerInstance.playbackRate(newSpeed);
-            speedButton.innerText = `Vel: ${newSpeed}x`;
-        };
-
-        controlBar.el().appendChild(speedButton);
-    }
-
-    // Adiciona botão de download no player
-    function addDownloadButton(playerInstance) {
-        const controlBar = playerInstance.getChild('controlBar');
-        const videoElement = playerInstance.el().querySelector('video');
-
-        const downloadButton = document.createElement('button');
-        downloadButton.className = 'vjs-button vjs-download-button';
-        downloadButton.innerText = 'Baixar';
-        downloadButton.style.marginLeft = '10px';
-
-        downloadButton.onclick = function () {
-            const videoSrc = videoElement?.currentSrc || videoElement?.src;
-            if (videoSrc) {
-                downloadD(videoSrc);
+            if (buttonsToToggle[0].style.display === 'none') {
+                newButton.innerHTML = '<i class="fas fa-eye"></i> Downloads';
+                showToast('Você ocultou os botões de Download!');
             } else {
-                showToast('Vídeo não encontrado!', true);
+                newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads';
+                showToast('Você restaurou os botões de Download!');
             }
-        };
-        controlBar.el().appendChild(downloadButton);
-    }
-
-    // Modifica cada player para adicionar as funcionalidades
-    function modifyVideoPlayer(player) {
-        const instance = videojs(player);
-
-        instance.ready(function () {
-            addSpeedButton(this);
-            addDownloadButton(this);
-            this.controls(true);
-            this.userActive(true);
         });
+
+        const userInfo = document.querySelector('.user-info');
+        if (userInfo) userInfo.appendChild(newButton);
     }
-    // Modo Noite
+
+    // Ocultar Fotos
+    function ocultarFotos() {
+        const fotos = document.querySelectorAll('.media-group img');
+        const botoesDownload = document.querySelectorAll('.btn-download');
+        const userInfo = document.querySelector('.user-info');
+        const albumImages = document.querySelector('.album-images'); // Seleciona o elemento
+        // Oculta todas as fotos ao carregar o site
+
+        if (userInfo) {
+            const toggleButton = document.createElement('button');
+            toggleButton.className = 'btn btn-pink';
+            toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i> Fotos';
+            toggleButton.style.position = 'relative';
+            toggleButton.style.marginLeft = '4px';
+            toggleButton.addEventListener('click', () => {
+                const isHidden = fotos[0].style.display === 'none';
+
+                fotos.forEach(foto => {
+                    foto.style.display = isHidden ? 'block' : 'none';
+                });
+
+                botoesDownload.forEach(botao => {
+                    const parentImage = botao.closest('.media-group').querySelector('img');
+                    if (parentImage) {
+                        botao.style.display = isHidden ? 'inline-block' : 'none';
+                    }
+                });
+
+                // Oculta ou mostra o elemento span baseado na visibilidade das fotos
+                if (isHidden) {
+                    showToast('Você restaurou as fotos!');
+                    if (albumImages) {
+                        albumImages.style.display = 'none'; // Oculta o elemento
+                        albumImages.style.display = 'inline'; // Mostra o elemento
+                    }
+                } else {
+                    showToast('Você ocultou as fotos!');
+                    if (albumImages) {
+                        albumImages.style.display = 'none'; // Oculta o elemento
+                    }
+                }
+
+                // Alterna o ícone conforme o estado das fotos
+                toggleButton.innerHTML = isHidden
+                    ? '<i class="fas fa-eye-slash"></i> Fotos'
+                : '<i class="fas fa-eye"></i> Fotos';
+            });
+
+            userInfo.appendChild(toggleButton);
+        }
+    }
+
+    // Ocultar Videos
+    function ocultarVideos() {
+        const videos = document.querySelectorAll('.video-js'); // Seleciona vídeos
+        const userInfo = document.querySelector('.user-info');
+        const albumVideos = document.querySelector('.album-videos'); // Seleciona o elemento
+
+        // Oculta todos os vídeos ao carregar o site
+        if (userInfo) {
+            const toggleButton = document.createElement('button');
+            toggleButton.className = 'btn btn-pink';
+            toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i> Vídeos';
+            toggleButton.style.position = 'relative';
+            toggleButton.style.marginLeft = '4px';
+            toggleButton.addEventListener('click', () => {
+                const isHidden = videos[0].style.display === 'none';
+
+                // Oculta ou mostra vídeos
+                videos.forEach(video => {
+                    video.style.display = isHidden ? 'block' : 'none'; // Altera aqui para 'block' ou 'none'
+                });
+
+                            // Oculta ou mostra o elemento span baseado na visibilidade das fotos
+                if (isHidden) {
+                    showToast('Você restaurou os videos!');
+                    if (albumVideos) {
+                        albumVideos.style.display = 'none'; // Oculta o elemento
+                        albumVideos.style.display = 'inline'; // Mostra o elemento
+                    }
+                } else {
+                    showToast('Você ocultou os videos!');
+                    if (albumVideos) {
+                        albumVideos.style.display = 'none'; // Oculta o elemento
+                    }
+                }
+
+                // Alterna o ícone conforme o estado dos vídeos
+                toggleButton.innerHTML = isHidden
+                    ? '<i class="fas fa-eye-slash"></i> Vídeos'
+                : '<i class="fas fa-eye"></i> Vídeos';
+
+                // Exibe uma mensagem de toast
+                //showToast(isHidden ? 'Você restaurou os vídeos!' : 'Você ocultou os vídeos!');
+            });
+
+            userInfo.appendChild(toggleButton);
+        }
+    }
+
+    // Modo Noite/Cinema Start
     let overlay;
 
-    function NewBntAndToggleNight() {
+    function CinemaMode() {
         const nightButton = document.createElement('button');
         nightButton.className = 'btn btn-pink';
-        nightButton.style.marginLeft = '1px';
-        nightButton.innerHTML = '<i class="fas fa-moon"></i> Modo Noite';
+        nightButton.style.marginLeft = '4px';
+        nightButton.innerHTML = '<i class="fas fa-moon"></i> Cinema';
 
         let nightMode = false;
 
@@ -377,13 +390,13 @@ function NewBntAndHide() {
             nightMode = !nightMode;
 
             if (nightMode) {
-                activateNightMode();
-                nightButton.innerHTML = '<i class="fas fa-sun"></i> Modo Dia';
-                showToast('Modo Noite Ativado!');
+                AtivarCinemaMode();
+                nightButton.innerHTML = '<i class="fas fa-sun"></i> Cinema';
+                showToast('Modo Cinema Ativado!');
             } else {
-                deactivateNightMode();
-                nightButton.innerHTML = '<i class="fas fa-moon"></i> Modo Noite';
-                showToast('Modo Noite Desativado!');
+                DesativarCinemaMode();
+                nightButton.innerHTML = '<i class="fas fa-moon"></i> Cinema';
+                showToast('Modo Cinema Desativado!');
             }
         });
 
@@ -391,7 +404,7 @@ function NewBntAndHide() {
         if (userInfo) userInfo.appendChild(nightButton);
     }
 
-    function activateNightMode() {
+    function AtivarCinemaMode() {
         document.body.style.backgroundColor = '#111';
         document.body.style.color = '#fff';
 
@@ -401,7 +414,7 @@ function NewBntAndHide() {
         overlay.style.left = '0';
         overlay.style.width = '100%';
         overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
         overlay.style.zIndex = '998';
         overlay.style.pointerEvents = 'none';
         document.body.appendChild(overlay);
@@ -409,7 +422,7 @@ function NewBntAndHide() {
         highlightMedia();
     }
 
-    function deactivateNightMode() {
+    function DesativarCinemaMode() {
         document.body.style.backgroundColor = '';
         document.body.style.color = '';
 
@@ -425,16 +438,14 @@ function NewBntAndHide() {
         const videos = document.querySelectorAll('.media-group video');
 
         videos.forEach(video => {
-            video.style.filter = 'brightness(1)'; // Mantém brilho
-            video.parentElement.style.backgroundColor = 'transparent'; // Remove fundo preto
-
-            // Remover controles nativos e garantir o uso do Video.js
+            video.style.filter = 'brightness(1)';
+            video.parentElement.style.backgroundColor = 'transparent';
             video.removeAttribute('controls');
 
             const wrapper = video.closest('.video-js');
             if (wrapper) {
                 wrapper.style.backgroundColor = 'transparent';
-                wrapper.style.zIndex = '9999'; // Garante que o player fique visível
+                wrapper.style.zIndex = '9999';
             }
         });
 
@@ -453,13 +464,92 @@ function NewBntAndHide() {
             media.style.backgroundColor = '';
 
             if (media.tagName === 'VIDEO') {
-                media.removeAttribute('controls'); // Mantém controle apenas via Video.js
+                media.removeAttribute('controls');
                 media.style.backgroundColor = '#000000';
             }
         });
     }
+     // Modo Noite/Cinema End
 
-    // Encontra todos os players de vídeo e os modifica
+    // View Grid Start
+    function isAlbumPage() {
+        const path = window.location.pathname;
+        return path.startsWith('/a/') || path.includes('/a/');
+    }
+
+    let ascendingOrder = true;
+    let toggleButton;
+
+    const toggleGridOrder = (ev) => {
+        if (ev) ev.preventDefault();
+        ascendingOrder = !ascendingOrder;
+        const newOrder = ascendingOrder ? 'asc' : 'desc';
+        document.location.hash = `#order=${newOrder}`;
+        updateButtonText();
+        sortAlbums();
+    };
+
+    function sortAlbums() {
+        const albums = Array.from(document.querySelectorAll('#albums .album'));
+        albums.sort((a, b) => {
+            const viewsA = parseViews(a.querySelector('.album-bottom-views').textContent);
+            const viewsB = parseViews(b.querySelector('.album-bottom-views').textContent);
+            return ascendingOrder ? viewsA - viewsB : viewsB - viewsA;
+        });
+
+        const albumsContainer = document.querySelector('#albums');
+        albums.forEach(album => albumsContainer.appendChild(album));
+    }
+
+    function parseViews(text) {
+        return parseFloat(text.replace(/[^\d,]/g, '').replace(',', '.')) *
+            (text.includes('K') ? 1000 : 1);
+    }
+
+    function updateButtonText() {
+        toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i> View: ${ascendingOrder ? 'Menos' : 'Mais'}`;
+    }
+
+    function addButtonToNav() {
+        if (isAlbumPage()) {
+
+            return;
+        }
+
+        const navRight = document.querySelector('.nav.navbar-nav.navbar-right');
+        if (navRight) {
+            const li = document.createElement('li');
+            toggleButton = document.createElement('a');
+            toggleButton.href = '#';
+            updateButtonText();
+            toggleButton.addEventListener('click', toggleGridOrder);
+            li.appendChild(toggleButton);
+            navRight.appendChild(li);
+        } else {
+
+        }
+    }
+
+    function waitForNav() {
+        const interval = setInterval(() => {
+            const navRight = document.querySelector('.nav.navbar-nav.navbar-right');
+            if (navRight) {
+                clearInterval(interval);
+                addButtonToNav();
+            }
+        }, 500);
+    }
+
+    window.addEventListener('load', () => {
+        waitForNav();
+        if (document.location.hash.includes('order=desc')) {
+            ascendingOrder = false;
+        }
+        sortAlbums();
+    });
+    // View Grid End
+
+    // Player Detected Modification
     function initializePlayers() {
         const players = document.querySelectorAll('video.vjs-tech');
         if (players.length > 0) {
@@ -469,8 +559,20 @@ function NewBntAndHide() {
         }
     }
 
-    removerBotoes();
-    NewBntAndToggleNight();
+    function init() {
+        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
+        mediaElements.forEach(media => addLink(media));
+        OcultarDownload();
+        removerBotoes();
+        ocultarFotos();
+        ocultarVideos();
+        CinemaMode();
+        BypassAccount();
+        ChangeTitle();
+        Disclaimer();
+        setTimeout(Disclaimer, 500);
+    }
+
     window.addEventListener('load', init);
     window.addEventListener('load', initializePlayers);
     document.addEventListener('DOMContentLoaded', init);
