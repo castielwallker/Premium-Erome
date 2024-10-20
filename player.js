@@ -51,17 +51,17 @@
         button {
             cursor: pointer;
             color: #fff;
-            background: #eb6395; /* Cor dos botıes */
+            background: #eb6395; /* Cor dos bot√µes */
             border: none;
             border-radius: 5px;
             padding: 5px 10px;
             margin: 0 5px;
             display: flex; /* Para centralizar o SVG */
-            align-items: center; /* Centraliza o conte˙do */
+            align-items: center; /* Centraliza o conte√∫do */
             justify-content: center; /* Centraliza horizontalmente */
         }
         button:hover {
-            background: #d45379; /* Cor dos botıes ao passar o mouse */
+            background: #d45379; /* Cor dos bot√µes ao passar o mouse */
         }
         .overlay {
             position: fixed;
@@ -70,18 +70,18 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            z-index: 998; /* Z-index da sobreposiÁ„o */
+            z-index: 998; /* Z-index da sobreposi√ß√£o */
             display: none; /* Inicialmente escondida */
-            pointer-events: auto; /* Permite interaÁ„o */
+            pointer-events: auto; /* Permite intera√ß√£o */
         }
         .svg-icon {
             width: 25px; /* Define uma largura fixa para o SVG */
             height: 25px; /* Define uma altura fixa para o SVG */
-            margin-right: 5px; /* EspaÁo entre o SVG e o texto */
+            margin-right: 5px; /* Espa√ßo entre o SVG e o texto */
         }
     `);
 
-    // FunÁ„o para download do vÌdeo
+    // Fun√ß√£o para download do v√≠deo
     function downloadD(videoUrl) {
         GM.xmlHttpRequest({
             method: 'GET',
@@ -104,7 +104,7 @@
                     downloadLink.remove();
                     showToast('Download iniciado!');
                 } else {
-                    showToast('Erro ao baixar o vÌdeo.', true);
+                    showToast('Erro ao baixar o v√≠deo.', true);
                 }
             },
             onerror: function () {
@@ -113,21 +113,33 @@
         });
     }
 
-    // FunÁ„o para adicionar controles personalizados
+    // Fun√ß√£o para adicionar controles personalizados
     function addCustomControls(player) {
-        // Controle de velocidade
-        const speedButton = document.createElement('button');
-        speedButton.innerText = '1x'; // ComeÁa com 1x
-        let speeds = [0.5, 1, 2, 3, 4, 5];
-        let currentSpeedIndex = 1; // Õndice inicial para 1x
 
-        speedButton.onclick = function() {
-            currentSpeedIndex = (currentSpeedIndex + 1) % speeds.length; // Alterna o Ìndice
-            player.playbackRate(speeds[currentSpeedIndex]);
-            speedButton.innerText = `${speeds[currentSpeedIndex]}x`; // Atualiza o texto do bot„o
+    // Bot√£o de inverter o v√≠deo
+        const flipButton = document.createElement('button');
+        flipButton.innerText = 'Inverter';
+        let isFlipped = false; // Estado inicial do v√≠deo
+
+        flipButton.onclick = function () {
+            const videoElement = player.el().querySelector('video');
+            isFlipped = !isFlipped; // Alterna o estado
+            videoElement.style.transform = isFlipped ? 'scaleX(-1)' : 'scaleX(1)';
         };
 
-        // Adiciona bot„o de download
+        // Controle de velocidade
+        const speedButton = document.createElement('button');
+        speedButton.innerText = '1x'; // Come√ßa com 1x
+        let speeds = [0.5, 1, 2, 3, 4, 5];
+        let currentSpeedIndex = 1; // √çndice inicial para 1x
+
+        speedButton.onclick = function() {
+            currentSpeedIndex = (currentSpeedIndex + 1) % speeds.length; // Alterna o √≠ndice
+            player.playbackRate(speeds[currentSpeedIndex]);
+            speedButton.innerText = `${speeds[currentSpeedIndex]}x`; // Atualiza o texto do bot√£o
+        };
+
+        // Adiciona bot√£o de download
         const downloadButton = document.createElement('button');
         //downloadButton.innerText = 'Baixar';
         downloadButton.innerHTML = `
@@ -142,10 +154,10 @@
 `;
         downloadButton.onclick = function() {
             const videoSrc = player.currentSrc();
-            downloadD(videoSrc); // Chama a nova funÁ„o de download
+            downloadD(videoSrc); // Chama a nova fun√ß√£o de download
         };
 
-        // Adiciona bot„o de miniatura (Picture-in-Picture)
+        // Adiciona bot√£o de miniatura (Picture-in-Picture)
         const pipButton = document.createElement('button');
         pipButton.innerHTML = `
      <svg fill="#ffffff" width="23px" height="23px" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
@@ -165,7 +177,7 @@
             }
         };
 
-        // Adiciona bot„o Cinema
+        // Adiciona bot√£o Cinema
         const overlay = document.createElement('div');
         overlay.className = 'overlay';
         document.body.appendChild(overlay);
@@ -191,7 +203,7 @@
 `;
         cinemaButton.onclick = function() {
             const isActive = overlay.style.display === 'block';
-            overlay.style.display = isActive ? 'none' : 'block'; // Alterna a visibilidade da sobreposiÁ„o
+            overlay.style.display = isActive ? 'none' : 'block'; // Alterna a visibilidade da sobreposi√ß√£o
             document.body.style.backgroundColor = isActive ? '' : '#111';
             document.body.style.color = isActive ? '' : '#fff';
             if (!isActive) {
@@ -208,13 +220,14 @@
 
         // Adiciona os controles ao player
         const controlBar = player.controlBar.el();
+        controlBar.appendChild(flipButton); // Adiciona o bot√£o de inverter
         controlBar.appendChild(speedButton);
         controlBar.appendChild(downloadButton);
         controlBar.appendChild(cinemaButton);
-         controlBar.appendChild(pipButton); // Adiciona o bot„o de PiP
+        controlBar.appendChild(pipButton); // Adiciona o bot√£o de PiP
     }
 
-    // Resetar MÌdia (se necess·rio)
+    // Resetar M√≠dia (se necess√°rio)
     function resetMedia() {
         const medias = document.querySelectorAll('.media-group video, .media-group img');
         medias.forEach(media => {
