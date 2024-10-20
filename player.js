@@ -6,6 +6,7 @@
 // @author       Maad
 // @icon         https://www.erome.com/favicon-32x32.png
 // @match        https://www.erome.com/a/*
+// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/nsfw.js
 // @require      https://vjs.zencdn.net/7.10.2/video.min.js
 // @resource     videojs https://vjs.zencdn.net/7.10.2/video-js.css
 // @grant        GM_addStyle
