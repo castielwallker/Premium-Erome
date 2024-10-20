@@ -28,7 +28,7 @@
             nsfwButton.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
                   const albumContainers = document.querySelectorAll(
-                      '.album-thumbnail-container, .media-group img, .media-group video');
+                      '.album-thumbnail-container, .media-group img, .media-group video, vjs-poster');
                 const isBlurred = albumContainers[0].classList.toggle('blur'); 
                 albumContainers.forEach(albumContainer => {
                     if (isBlurred) {
