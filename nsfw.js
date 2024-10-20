@@ -43,7 +43,7 @@
                 e.preventDefault();
                 // Seleciona os elementos que precisam de blur
                 const albumContainers = document.querySelectorAll(
-                    '.album-thumbnail-container, .media-group img, .media-group video, .vjs-poster'
+                    '.album-thumbnail-container, .media-group img, .media-group video, .videojs, .media-group,'
                 );
                 const isBlurred = albumContainers[0]?.classList.contains('blur');
                 albumContainers.forEach(albumContainer => {
