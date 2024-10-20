@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Erome NSFW Premium
 // @namespace    https://github.com/castielwallker/
-// @version      1.1
+// @version      1.2
 // @description  Aplica efeito de desfoque nas imagens de álbuns NSFW
 // @author       Maad
 // @match        https://www.erome.com/explore*
@@ -11,11 +11,24 @@
 
 (function () {
     'use strict';
-    // Adicionando estilo para o desfoque
+
+    // Adiciona estilo para o efeito de blur e o pseudo-elemento
     const style = document.createElement('style');
     style.textContent = `
-        .blur {
-            filter: blur(15px) !important; 
+        .blur::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            filter: blur(15px);
+            z-index: 1;
+        }
+        .vjs-poster {
+            position: relative;
+            overflow: hidden; /* Garante que o pseudo-elemento não vaze */
         }
     `;
     document.head.appendChild(style);
