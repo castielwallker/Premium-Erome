@@ -113,19 +113,31 @@
         });
     }
 
-    // Função para adicionar controles personalizados
+
     function addCustomControls(player) {
 
-    // Botão de inverter o vídeo
+        // Botão de inverter o vídeo
         const flipButton = document.createElement('button');
-        flipButton.innerText = 'Inverter';
-        let isFlipped = false; // Estado inicial do vídeo
+        flipButton.innerHTML = `
+  <svg width="17px" height="17px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+      <path d="M7 16V0H9V16H7Z" fill="#ffffff"></path>
+      <path d="M15 12H14L10 8L14 4H15L15 12Z" fill="#ffffff"></path>
+      <path d="M2 12H1L1 4H2L6 8L2 12Z" fill="#ffffff"></path>
+    </g>
+  </svg>
+`;
+
+        let isFlipped = false;
 
         flipButton.onclick = function () {
             const videoElement = player.el().querySelector('video');
-            isFlipped = !isFlipped; // Alterna o estado
+            isFlipped = !isFlipped;
             videoElement.style.transform = isFlipped ? 'scaleX(-1)' : 'scaleX(1)';
         };
+
 
         // Controle de velocidade
         const speedButton = document.createElement('button');
@@ -139,9 +151,8 @@
             speedButton.innerText = `${speeds[currentSpeedIndex]}x`; // Atualiza o texto do botão
         };
 
-        // Adiciona botão de download
+        //Botão de download
         const downloadButton = document.createElement('button');
-        //downloadButton.innerText = 'Baixar';
         downloadButton.innerHTML = `
     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -154,10 +165,10 @@
 `;
         downloadButton.onclick = function() {
             const videoSrc = player.currentSrc();
-            downloadD(videoSrc); // Chama a nova função de download
+            downloadD(videoSrc);
         };
 
-        // Adiciona botão de miniatura (Picture-in-Picture)
+        //Botão de miniatura (Picture-in-Picture)
         const pipButton = document.createElement('button');
         pipButton.innerHTML = `
      <svg fill="#ffffff" width="23px" height="23px" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
@@ -177,11 +188,10 @@
             }
         };
 
-        // Adiciona botão Cinema
+        // Botão Cinema
         const overlay = document.createElement('div');
         overlay.className = 'overlay';
         document.body.appendChild(overlay);
-
         const cinemaButton = document.createElement('button');
         //cinemaButton.innerText = 'Modo Cinema';
         cinemaButton.innerHTML = `
@@ -220,11 +230,11 @@
 
         // Adiciona os controles ao player
         const controlBar = player.controlBar.el();
-        controlBar.appendChild(flipButton); // Adiciona o botão de inverter
         controlBar.appendChild(speedButton);
         controlBar.appendChild(downloadButton);
+        controlBar.appendChild(flipButton);
         controlBar.appendChild(cinemaButton);
-        controlBar.appendChild(pipButton); // Adiciona o botão de PiP
+        controlBar.appendChild(pipButton);
     }
 
     // Resetar Mídia (se necessário)
@@ -242,7 +252,7 @@
 
     // Inicializa todos os players Video.js e adiciona os controles
     const videojsPlayers = document.querySelectorAll('.video-js');
-    videojsPlayers.forEach(playerElement => {
+     videojsPlayers.forEach(playerElement => {
         const videojsPlayer = videojs(playerElement);
         videojsPlayer.ready(function() {
             addCustomControls(videojsPlayer);
