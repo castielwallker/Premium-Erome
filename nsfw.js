@@ -4,9 +4,7 @@
 // @version      1.0
 // @description  Aplica efeito de desfoque nas imagens de álbuns NSFW
 // @author       Maad
-// @match        https://www.erome.com/explore*
 // @match        https://www.erome.com/*
-// @match        https://www.erome.com/search?q=*
 // ==/UserScript==
 
 (function () {
