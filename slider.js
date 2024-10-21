@@ -2,7 +2,7 @@
 // @name         Erome Slider Premium
 // @namespace    https://github.com/maadvfx/
 // @icon         https://www.erome.com/favicon.ico
-// @version      1.0
+// @version      1.1
 // @description  Download videos e images de erome com controle de botões.
 // @author       Maad
 // @match        https://www.erome.com/a/*
@@ -108,7 +108,7 @@
     };
 
     const videoLength = function (url, video) {
-        const xmlHttpRequest = GM.xmlHttpRequest({
+        GM.xmlHttpRequest({
             url,
             method: 'GET',
             headers: {
@@ -133,6 +133,12 @@
     };
 
     const showSlider = function () {
+        const sliderContainer = document.getElementById('slider-container');
+        if (sliderContainer) {
+            sliderContainer.style.display = 'block';
+            return;
+        }
+
         const div = document.createElement('div');
         div.setAttribute('id', 'slider-container');
         div.style.color = '#FFFFFF';
@@ -170,41 +176,40 @@
             });
         });
 
-        div.appendChild(slider);
         document.body.appendChild(div);
+    };
+
+    const toggleSliderVisibility = function () {
+        const sliderContainer = document.getElementById('slider-container');
+        if (sliderContainer) {
+            sliderContainer.style.display =
+                sliderContainer.style.display === 'none' ? 'block' : 'none';
+        } else {
+            showSlider();
+        }
     };
 
     const addButtonToNavbar = function () {
         const navbarRight = document.querySelector('.navbar-nav.navbar-right');
 
-        // Botão Mostrar Slider
         const sliderButton = document.createElement('li');
-        sliderButton.innerHTML = '<a href="#" id="show-slider-btn">Slider</a>';
+        sliderButton.innerHTML = '<a href="#" id="show-slider-btn">SLIDER</a>';
         sliderButton.querySelector('a').addEventListener('click', (e) => {
             e.preventDefault();
-            const sliderContainer = document.getElementById('slider-container');
-            // Sempre exibe o slider na primeira vez
-            if (!sliderContainer) {
-                showSlider();
-            } else {
-                sliderContainer.style.display = sliderContainer.style.display === 'none' ? 'block' : 'none';
-            }
+            toggleSliderVisibility();
         });
+
         navbarRight.appendChild(sliderButton);
     };
 
-    // Verifica se a URL corresponde às regras para esconder o slider
-    if (window.location.href.match(/https:\/\/www\.erome\.com\/(explore.*|search\?q=.*|$)/)) {
-        // Se estiver nas URLs bloqueadas, não faz nada.
-        return;
-    } else if (window.location.href.match(/https:\/\/www\.erome\.com\/a\//)) {
-        // Se estiver nas URLs permitidas, mostra o slider.
+    if (window.location.href.match(/https:\/\/www\.erome\.com\/a\//)) {
         showSlider();
         addButtonToNavbar();
+
         const videoSources = document.querySelectorAll('.video-js video source');
         videoSources.forEach(source => {
             const url = source.src;
             videoLength(url, source.parentNode);
         });
     }
-}());
+})();
