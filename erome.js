@@ -1,31 +1,57 @@
 // ==UserScript==
 // @name         Erome Downloader - By Maad
-// @namespace    https://github.com/maadvfx/
-// @icon         https://www.erome.com/favicon.ico
-// @version      1.5
-// @description  Download videos e images de erome com controle de botões.
 // @author       Maad
+// @version      1.5
+// @namespace    https://github.com/maadvfx/
+// @description  Download videos e images de erome com controle de botões.
 // @match        https://www.erome.com/*
+// @icon         https://www.erome.com/favicon.ico
 // @grant        GM.xmlHttpRequest
 // @grant        GM_addStyle
+//
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/player.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/slider.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/nsfw.js
-// @updateURL    https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
-// @downloadURL  https://raw.githubusercontent.com/castielwallker/Premium-Erome/refs/heads/main/erome.js
+// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/download.js
+//
+// @updateURL    https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
+// @downloadURL  https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
 // ==/UserScript==
+// ================================================================================================================================================================
+//                                          PLEASE READ SCRIPT INFO BEFORE USE
+//                                      PLEASE RESPECT IF MY SCRIPTS USEFUL FOR YOU
+//                      DON'T TRY TO COPY PASTE MY SCRIPTS THEN SHARE TO OTHERS LIKE YOU ARE THE CREATOR
+//                                  M A A D          M A A D        M A A D       M A A D
+//                                  M A A D          M A A D        M A A D       M A A D
+//                                  M A A D          M A A D        M A A D       M A A D
+//                                  M A A D          M A A D        M A A D       M A A D
+//                                  M A A D          M A A D        M A A D       M A A D
+//                                  M A A D          M A A D        M A A D       M A A D
+//                                  M A A D          M A A D        M A A D       M A A D
+// =================================================================================================================================================================
+// NOTES
+// To perform the complete download, it is advisable to load the entire page (scroll to the end of the page) and then the download will load completely.
+// Some downloads will probably be blocked due to CORS. Just reload the page or clear the site's cookies.
+// To use the slider, you need to double-click on the slider button and then you can release the slider and use it as standard.
+// nsfw system puts a blur on all albums, images and videos. function is not saved after loading the page it will return to the default.
+// Any error or detail, tip or feedback, contact us via telegram or instagram.
+//
+// Instagram : https://t.me/maadvfx
+// Telegram : @maad.vfx
+//
+//
 /* globals $ Maad */
 
 (function () {
     'use strict';
 
-    // Adiciona CSS customizado
+    // CSS PLAYER
     GM_addStyle(`
     .vjs-control:hover {
-        background: rgba(211, 69, 121, 0.5); /* Cor ao passar o mouse */
+        background: rgba(255, 255, 255, 0.2); /* Cor ao passar o mouse */
     }
     button:hover {
-        background: rgba(211, 69, 121, 0.5); /* Cor ao passar o mouse */
+        background: rgba(255, 255, 255, 0.2); /* Cor ao passar o mouse */
     }
    .media-group .img-back { /* Corrigido com ponto antes de media-group */
     width: 100%;
@@ -34,38 +60,57 @@
     border-radius: 15px;
     opacity: 1;
     }
-`);
+    `);
     const speeds = [0.5, 1, 1.5,2,4];
     let currentSpeedIndex = 2;
 
     // Index Ajuste
     const observer = new MutationObserver(ajustarZIndex);
     observer.observe(document.body, { childList: true, subtree: true });
+
     function ajustarZIndex() {
         const downloadButtons = document.querySelectorAll('.btn-download');
         const lgImgWraps = document.querySelectorAll('.lg-img-wrap');
 
-        // Verifica se há alguma lg-img-wrap visível
         let hasVisibleLgImgWrap = Array.from(lgImgWraps).some(wrap => {
             return window.getComputedStyle(wrap).display !== 'none' &&
                 window.getComputedStyle(wrap).visibility !== 'hidden';
         });
 
-        // Se houver lg-img-wrap visível, ajusta o z-index dos botões de download
         if (hasVisibleLgImgWrap) {
             downloadButtons.forEach(button => {
-                button.style.zIndex = -1; // Define z-index menor que lg-img-wrap
+                button.style.zIndex = -1; 
             });
         } else {
             downloadButtons.forEach(button => {
-                button.style.zIndex = '9999'; // Restaura o z-index padrão
+                button.style.zIndex = '9999'; 
             });
         }
     }
 
-
     // Remover Botões Padrão
     function removerBotoes() {
+        //Botão Donwload All
+        const allButtons = document.querySelectorAll('.col-sm-7.user-info button');
+        allButtons.forEach(button => {
+            const isDownloadButton = button.querySelector('i.fas.fa-download');
+            if (!isDownloadButton) {
+                button.style.display = 'none'; // Oculta botões não relacionados ao download
+            }
+        });
+
+        // Botão Pagina User
+        const targetIds = ['user', 'tabs'];
+        const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
+
+        // Verifica se algum dos IDs está presente
+        const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
+
+        if (isTargetPage) {
+            buttonsToHide.forEach(button => {
+                button.style.display = 'none'; // Esconde os botões
+            });
+        }
 
         //Com Login
         const botoesFollowAc = document.querySelectorAll('button.btn.btn-pink.user-follow');
@@ -87,6 +132,7 @@
 
     // Mudar Titulo
     function ChangeTitle() {
+
         const h1Element = document.querySelector('.col-sm-12.page-content h1');
         if (h1Element) {
             h1Element.textContent = "By Maad - Premium Erome";
@@ -212,7 +258,6 @@
                 ></path>
             </svg>
         `;
-
             button.style.cssText = `
             position: absolute;
             top: 10px;
@@ -233,14 +278,14 @@
         `;
 
             const svgIcon = button.querySelector('.svgIcon');
-            svgIcon.style.width = '15px'; // Largura do ícone SVG inicial
+            svgIcon.style.width = '15px'; 
 
             button.addEventListener('mouseenter', () => {
                 button.style.width = '100px';
                 button.style.borderRadius = '40px';
                 button.style.backgroundColor = 'rgb(235, 99, 149)';
                 svgIcon.querySelector('path').setAttribute('fill', '#ffffff');
-                button.textContent = button.getAttribute('data-label'); // Usar o atributo para definir o texto
+                button.textContent = button.getAttribute('data-label'); 
             });
 
             button.addEventListener('mouseleave', () => {
@@ -257,51 +302,47 @@
                 </svg>
             `;
             });
-
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 download(src);
             });
-
             media.parentElement.parentElement?.appendChild(button);
         }
     }
 
     // Ocultar Download
     function OcultarDownload() {
-        const buttonsToToggle = document.querySelectorAll('.btn-download'); // Seleciona todos os botões de download
-        const newButton = document.createElement('button'); // Cria um novo botão
+        const buttonsToToggle = document.querySelectorAll('.btn-download'); 
+        const newButton = document.createElement('button'); 
         newButton.className = 'btn btn-pink';
         newButton.style.marginLeft = '4px';
         newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads';
 
         newButton.addEventListener('click', () => {
             buttonsToToggle.forEach(button => {
-                // Alterna a visibilidade dos botões
                 button.style.visibility = button.style.visibility === 'hidden' ? 'visible' : 'hidden';
             });
 
-            // Atualiza o texto do botão com base no estado de visibilidade do primeiro botão
             if (buttonsToToggle[0].style.visibility === 'hidden') {
-                newButton.innerHTML = '<i class="fas fa-eye"></i> Downloads'; // Ícone de olho aberto
-                showToast('Você ocultou os botões de Download!'); // Mensagem informativa
+                newButton.innerHTML = '<i class="fas fa-eye"></i> Downloads';
+                showToast('Você ocultou os botões de Download!'); 
             } else {
-                newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads'; // Ícone de olho fechado
-                showToast('Você restaurou os botões de Download!'); // Mensagem informativa
+                newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads'; 
+                showToast('Você restaurou os botões de Download!'); 
             }
         });
 
-        const userInfo = document.querySelector('.user-info'); // Seleciona a área do usuário
-        if (userInfo) userInfo.appendChild(newButton); // Adiciona o novo botão à interface
+        const userInfo = document.querySelector('.user-info'); 
+        if (userInfo) userInfo.appendChild(newButton);
     }
 
     // Ocultar Fotos
     function ocultarFotos() {
-        const fotos = document.querySelectorAll('.media-group img'); // Seleciona as imagens
-        const botoesDownload = document.querySelectorAll('.btn-download'); // Seleciona botões de download
+        const fotos = document.querySelectorAll('.media-group img');
+        const botoesDownload = document.querySelectorAll('.btn-download');
         const userInfo = document.querySelector('.user-info');
-        const albumImages = document.querySelector('.album-images'); // Seleciona o elemento
+        const albumImages = document.querySelector('.album-images'); 
 
         if (userInfo) {
             const toggleButton = document.createElement('button');
@@ -312,13 +353,10 @@
 
             toggleButton.addEventListener('click', () => {
                 const isHidden = fotos[0].style.display === 'none';
-
-                // Oculta ou mostra fotos
                 fotos.forEach(foto => {
                     foto.style.display = isHidden ? 'block' : 'none';
                 });
 
-                // Oculta ou mostra os botões de download correspondentes
                 botoesDownload.forEach(botao => {
                     const parentImage = botao.closest('.media-group').querySelector('img');
                     if (parentImage) {
@@ -326,23 +364,20 @@
                     }
                 });
 
-                // Exibe mensagens baseadas na visibilidade das fotos
                 if (isHidden) {
                     showToast('Você restaurou as fotos!');
                     if (albumImages) {
-                        albumImages.style.display = 'inline'; // Mostra o elemento
+                        albumImages.style.display = 'inline'; 
                     }
                 } else {
                     showToast('Você ocultou as fotos!');
                     if (albumImages) {
-                        albumImages.style.display = 'none'; // Oculta o elemento
+                        albumImages.style.display = 'none'; 
                     }
                 }
-
-                // Alterna o ícone conforme o estado das fotos
                 toggleButton.innerHTML = isHidden
-                    ? '<i class="fas fa-eye"></i> Fotos' // Ícone de olhos abertos
-                : '<i class="fas fa-eye-slash"></i> Fotos'; // Ícone de olhos fechados
+                    ? '<i class="fas fa-eye"></i> Fotos' 
+                : '<i class="fas fa-eye-slash"></i> Fotos';
             });
 
             userInfo.appendChild(toggleButton);
@@ -351,12 +386,11 @@
 
     // Ocultar Videos
     function ocultarVideos() {
-        const videos = document.querySelectorAll('.video-js'); // Seleciona vídeos
-        const botoesDownload = document.querySelectorAll('.btn-download'); // Seleciona botões de download
+        const videos = document.querySelectorAll('.video-js'); 
+        const botoesDownload = document.querySelectorAll('.btn-download'); 
         const userInfo = document.querySelector('.user-info');
-        const albumVideos = document.querySelector('.album-videos'); // Seleciona o elemento
+        const albumVideos = document.querySelector('.album-videos');
 
-        // Oculta todos os vídeos ao carregar o site
         if (userInfo) {
             const toggleButton = document.createElement('button');
             toggleButton.className = 'btn btn-pink';
@@ -367,12 +401,10 @@
             toggleButton.addEventListener('click', () => {
                 const isHidden = videos[0].style.display === 'none';
 
-                // Oculta ou mostra vídeos
                 videos.forEach(video => {
-                    video.style.display = isHidden ? 'block' : 'none'; // Altera aqui para 'block' ou 'none'
+                    video.style.display = isHidden ? 'block' : 'none'; 
                 });
 
-                // Oculta ou mostra os botões de download correspondentes
                 botoesDownload.forEach(botao => {
                     const parentVideo = botao.closest('.media-group').querySelector('.video-js');
                     if (parentVideo) {
@@ -380,23 +412,21 @@
                     }
                 });
 
-                // Exibe mensagens baseadas na visibilidade dos vídeos
                 if (isHidden) {
                     showToast('Você restaurou os vídeos!');
                     if (albumVideos) {
-                        albumVideos.style.display = 'inline'; // Mostra o elemento
+                        albumVideos.style.display = 'inline'; 
                     }
                 } else {
                     showToast('Você ocultou os vídeos!');
                     if (albumVideos) {
-                        albumVideos.style.display = 'none'; // Oculta o elemento
+                        albumVideos.style.display = 'none'; 
                     }
                 }
 
-                // Alterna o ícone conforme o estado dos vídeos
                 toggleButton.innerHTML = isHidden
-                    ? '<i class="fas fa-eye"></i> Vídeos' // Ícone de olhos abertos
-                : '<i class="fas fa-eye-slash"></i> Vídeos'; // Ícone de olhos fechados
+                    ? '<i class="fas fa-eye"></i> Vídeos' 
+                : '<i class="fas fa-eye-slash"></i> Vídeos'; 
             });
 
             userInfo.appendChild(toggleButton);
@@ -428,7 +458,6 @@
             }
         });
 
-        // Verifica se estamos na página de perfil
         const userInfo = document.querySelector('.user-info');
         if (userInfo) {
             userInfo.appendChild(nightButton);
@@ -592,7 +621,7 @@
         BypassAccount();
         ChangeTitle();
         Disclaimer();
-        setTimeout(Disclaimer, 1000);
+        setTimeout(Disclaimer, 1300);
     }
 
     window.addEventListener('load', init);
