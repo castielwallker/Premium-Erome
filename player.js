@@ -137,6 +137,7 @@
             const videoElement = player.el().querySelector('video');
             isFlipped = !isFlipped;
             videoElement.style.transform = isFlipped ? 'scaleX(-1)' : 'scaleX(1)';
+            showToast('O video foi invertido.');
         };
 
         // Toast Mensagem
@@ -179,6 +180,7 @@
             currentSpeedIndex = (currentSpeedIndex + 1) % speeds.length; // Alterna o índice
             player.playbackRate(speeds[currentSpeedIndex]);
             speedButton.innerText = `${speeds[currentSpeedIndex]}x`; // Atualiza o texto do botão
+            showToast('Velocidade do video foi alterada.');
         };
 
         //Botão de download
@@ -213,9 +215,10 @@
             const videoElement = player.el().querySelector('video');
             if (document.pictureInPictureElement) {
                 await document.exitPictureInPicture();
-                showToast('TESTE1');
+                showToast('PiP Desativado.');
             } else {
                 await videoElement.requestPictureInPicture();
+                showToast('PiP Ativado.');
             }
         };
 
@@ -224,7 +227,6 @@
         overlay.className = 'overlay';
         document.body.appendChild(overlay);
         const cinemaButton = document.createElement('button');
-        //cinemaButton.innerText = 'Modo Cinema';
         cinemaButton.innerHTML = `
     <svg fill="#ffffff" height="17px" width="17px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#ffffff">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -253,9 +255,11 @@
                     video.style.filter = 'brightness(1)';
                     video.parentElement.style.backgroundColor = 'transparent';
                     video.removeAttribute('controls');
+                    showToast('Modo Cinema ativado.');
                 });
             } else {
                 resetMedia();
+                showToast('Modo Cinema desativado.');
             }
         };
 
