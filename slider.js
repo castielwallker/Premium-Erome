@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Erome Slider Premium
+// @name         Erome Video Hidden
 // @namespace    https://github.com/maadvfx/
 // @icon         https://www.erome.com/favicon.ico
-// @version      1.1
-// @description  Download videos e images de erome com controle de botões.
+// @version      1.3
+// @description  Slider Button Video Hidden.
 // @author       Maad
 // @match        https://www.erome.com/a/*
 // @grant        GM.xmlHttpRequest
@@ -15,64 +15,37 @@
     style.textContent = `
         body {
             font-family: 'Arial', sans-serif;
+            position: relative;
         }
 
-        #slider-container {
-            position: fixed;
-            right: 20px;
-            top: 150px;
-            background: linear-gradient(145deg, #db467e, #ff98be);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), 0px -2px 50px rgba(255, 255, 255, 0.8);
-            z-index: 1000;
-            animation: slideIn 0.5s ease;
-            width: 200px;
-            display: none; /* Começa escondido */
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        #slider_min_length {
-            width: 100%;
-            margin-top: 10px;
-            border-radius: 5px;
-            background: #fff;
-            height: 6px;
-            -webkit-appearance: none;
-            outline: none;
-        }
-
-        #slider_min_length::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
+        .btn-sec {
+            position: fixed; /* Muda para fixed */
+            bottom: 20px; /* Posiciona mais para baixo */
+            left: 20px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #ececec;
+            background-color: rgb(20, 20, 20);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 0px 0px 4px rgba(235, 99, 149, 0.255);
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s;
+            transition-duration: 0.3s;
+            overflow: hidden;
+            z-index: 9999;
+            color: #FFF; /* Define a cor do texto como branco */
         }
 
-        #slider_min_length::-webkit-slider-thumb:hover {
-            background: #db467e;
+        .btn-sec:hover {
+            width: 100px;
+            border-radius: 40px;
+            background-color: rgb(235, 99, 149);
         }
 
-        #slider_min_length_output {
-            display: block;
-            font-size: 12px;
-            color: #FFF;
-            transition: color 0.3s;
+        .btn-sec svg {
+            width: 25px;
         }
 
         .video {
@@ -90,82 +63,57 @@
     `;
     document.head.appendChild(style);
 
-    const onLength = function (milliseconds, video) {
-        let s = milliseconds / 1000;
-        const h = Math.floor(s / 3600);
-        s -= h * 3600;
-        const m = Math.floor(s / 60);
-        s = Math.floor(s - m * 60);
+    const createButton = function () {
+        const button = document.createElement('button');
+        button.className = 'btn-sec';
+        button.setAttribute('data-count', '0'); // Atributo para o contador começando em 0
 
-        if (video && video.dataset) {
-            s = parseInt(milliseconds / 1000);
-            video.dataset.length = s;
-            const slider = document.getElementById('slider_min_length');
-            if (slider) {
-                slider.max = Math.max(slider.max, s);
-            }
-        }
-    };
+        button.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_iconCarrier">
+                    <g id="Interface / Slider_01">
+                        <path id="Vector" d="M14 15H21M3 15H5M5 15C5 16.3807 6.11929 17.5 7.5 17.5C8.88071 17.5 10 16.3807 10 15C10 13.6193 8.88071 12.5 7.5 12.5C6.11929 12.5 5 13.6193 5 15ZM20 9H21M3 9H10M16.5 11.5C15.1193 11.5 14 10.3807 14 9C14 7.61929 15.1193 6.5 16.5 6.5C17.8807 6.5 19 7.61929 19 9C19 10.3807 17.8807 11.5 16.5 11.5Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </svg>
+        `;
 
-    const videoLength = function (url, video) {
-        GM.xmlHttpRequest({
-            url,
-            method: 'GET',
-            headers: {
-                Accept: 'video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5',
-                Referer: 'https://www.erome.com/',
-                Range: 'bytes=0-140',
-            },
-            responseType: 'blob',
-            onload(response) {
-                const m = response.responseText.match(/\x03.*\xe8/);
-                if (m) {
-                    const i = response.responseText.indexOf(m[0]) + m[0].length;
-                    const s = response.responseText.substring(i, i + 4);
-                    const ms = Array.from(s)
-                        .map((c) => c.charCodeAt(0))
-                        .map((value, index, values) => value * Math.pow(256, values.length - index - 1))
-                        .reduce((a, b) => a + b);
-                    onLength(ms, video);
-                }
-            },
+        button.addEventListener('mouseenter', () => {
+            let count = parseInt(button.getAttribute('data-count'));
+            button.textContent = count < 100 ? (count > 0 ? `${count} Seg` : 'OFF') : 'OFF';
         });
-    };
 
-    const showSlider = function () {
-        const sliderContainer = document.getElementById('slider-container');
-        if (sliderContainer) {
-            sliderContainer.style.display = 'block';
-            return;
-        }
+        button.addEventListener('mouseleave', () => {
+            button.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_iconCarrier">
+                        <g id="Interface / Slider_01">
+                            <path id="Vector" d="M14 15H21M3 15H5M5 15C5 16.3807 6.11929 17.5 7.5 17.5C8.88071 17.5 10 16.3807 10 15C10 13.6193 8.88071 12.5 7.5 12.5C6.11929 12.5 5 13.6193 5 15ZM20 9H21M3 9H10M16.5 11.5C15.1193 11.5 14 10.3807 14 9C14 7.61929 15.1193 6.5 16.5 6.5C17.8807 6.5 19 7.61929 19 9C19 10.3807 17.8807 11.5 16.5 11.5Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                    </g>
+                </svg>
+            `;
+        });
 
-        const div = document.createElement('div');
-        div.setAttribute('id', 'slider-container');
-        div.style.color = '#FFFFFF';
+        button.addEventListener('click', () => {
+            let count = parseInt(button.getAttribute('data-count'));
+            if (count < 100) {
+                count += 5; // Incrementa o contador
+                button.setAttribute('data-count', count);
+                button.textContent = count > 0 ? `${count} Seg` : 'OFF';
+            }
+            if (count >= 100) {
+                count = 0; // Reseta para 0 ao atingir 100
+                button.setAttribute('data-count', count);
+                button.textContent = 'OFF'; // Exibe OFF
+            }
 
-        const output = div.appendChild(document.createElement('output'));
-        output.setAttribute('id', 'slider_min_length_output');
-        output.textContent = 'SEG: OFF';
-        output.style.marginTop = '0px';
-        output.style.transform = 'translateY(-4px)';
-
-        const slider = div.appendChild(document.createElement('input'));
-        slider.setAttribute('id', 'slider_min_length');
-        slider.setAttribute('type', 'range');
-        slider.setAttribute('min', '0');
-        slider.setAttribute('max', '60');
-        slider.setAttribute('step', '5');
-        slider.setAttribute('value', '0');
-
-        slider.addEventListener('input', () => {
-            const minS = parseInt(slider.value);
-            output.textContent = minS === 0 ? 'SEG: OFF' : `SEG: ${minS} Seg`;
-
+            // Ocultar vídeos baseados no contador
             document.querySelectorAll('.video').forEach((vc) => {
                 const video = vc.querySelector('.video-js video');
                 if (video && 'length' in video.dataset) {
                     const videoLength = parseInt(video.dataset.length);
-                    if (videoLength < minS) {
+                    if (videoLength < count) {
                         vc.classList.add('hidden');
                     } else {
                         vc.classList.remove('hidden');
@@ -176,40 +124,39 @@
             });
         });
 
-        document.body.appendChild(div);
-    };
-
-    const toggleSliderVisibility = function () {
-        const sliderContainer = document.getElementById('slider-container');
-        if (sliderContainer) {
-            sliderContainer.style.display =
-                sliderContainer.style.display === 'none' ? 'block' : 'none';
-        } else {
-            showSlider();
-        }
-    };
-
-    const addButtonToNavbar = function () {
-        const navbarRight = document.querySelector('.navbar-nav.navbar-right');
-
-        const sliderButton = document.createElement('li');
-        sliderButton.innerHTML = '<a href="#" id="show-slider-btn">SLIDER</a>';
-        sliderButton.querySelector('a').addEventListener('click', (e) => {
-            e.preventDefault();
-            toggleSliderVisibility();
-        });
-
-        navbarRight.appendChild(sliderButton);
+        document.body.appendChild(button);
     };
 
     if (window.location.href.match(/https:\/\/www\.erome\.com\/a\//)) {
-        showSlider();
-        addButtonToNavbar();
+        createButton();
 
+        // Carrega a duração dos vídeos
         const videoSources = document.querySelectorAll('.video-js video source');
         videoSources.forEach(source => {
             const url = source.src;
-            videoLength(url, source.parentNode);
+            GM.xmlHttpRequest({
+                url,
+                method: 'GET',
+                headers: {
+                    Accept: 'video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5',
+                    Referer: 'https://www.erome.com/',
+                    Range: 'bytes=0-140',
+                },
+                responseType: 'blob',
+                onload(response) {
+                    const m = response.responseText.match(/\x03.*\xe8/);
+                    if (m) {
+                        const i = response.responseText.indexOf(m[0]) + m[0].length;
+                        const s = response.responseText.substring(i, i + 4);
+                        const ms = Array.from(s)
+                            .map((c) => c.charCodeAt(0))
+                            .map((value, index, values) => value * Math.pow(256, values.length - index - 1))
+                            .reduce((a, b) => a + b);
+                        const video = source.parentNode;
+                        video.dataset.length = Math.floor(ms / 1000); // Armazena a duração em segundos
+                    }
+                },
+            });
         });
     }
 })();
