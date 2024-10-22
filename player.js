@@ -139,6 +139,35 @@
             videoElement.style.transform = isFlipped ? 'scaleX(-1)' : 'scaleX(1)';
         };
 
+        // Toast Mensagem
+        function showToast(message, isError = false) {
+        const existingToasts = document.querySelectorAll('.toast');
+    
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        toast.style.cssText = `
+            position: fixed;
+            bottom: ${existingToasts.length > 0 ? (existingToasts.length * 60 + 20) + 'px' : '20px'};
+            right: 20px;
+            background-color: ${isError ? '#101010' : '#ffffff'};
+            color: ${isError ? '#ffffff' : '#101010'};
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 9999;
+            box-shadow: 0 0 10px ${isError ? '#101010' : '#ffffff'}, 0 0 20px ${isError ? '#ffffff' : '#101010'};
+            transition: opacity 0.5s;
+            opacity: 1;
+        `;
+    
+        document.body.appendChild(toast);
+    
+        setTimeout(() => {
+            toast.style.opacity = 0;
+            setTimeout(() => toast.remove(), 100);
+        }, 500);
+    }
 
         // Controle de velocidade
         const speedButton = document.createElement('button');
@@ -184,6 +213,7 @@
             const videoElement = player.el().querySelector('video');
             if (document.pictureInPictureElement) {
                 await document.exitPictureInPicture();
+                showToast('TESTE1');
             } else {
                 await videoElement.requestPictureInPicture();
             }
