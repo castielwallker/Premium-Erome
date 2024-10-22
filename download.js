@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Erome Album Downloader
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Baixa imagens e vídeos do Erome, ignorando o logo.
+// @version      1.2
+// @description  Baixa imagens e vídeos do Erome, ignorando o logo, com notificações de download.
 // @author       Maad
 // @match        https://www.erome.com/a/*
 // @grant        GM_xmlhttpRequest
@@ -11,25 +11,39 @@
 (function () {
     'use strict';
 
-    // Lista de URLs de logotipos a serem ignoradas
     const LOGOS_TO_IGNORE = [
         'logo-erome-horizontal.png',
-        'logo-erome.png' // Caso existam outras variantes.
+        'logo-erome.png'
     ];
 
-    // Função para obter o nome do arquivo sem parâmetros de URL
     function getFileName(url) {
         const urlParts = url.split('/');
-        const filename = urlParts[urlParts.length - 1].split('?')[0].split('_v=')[0];
-        return filename;
+        return urlParts[urlParts.length - 1].split('?')[0].split('_v=')[0];
     }
 
-    // Função de download
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.padding = '10px 20px';
+        toast.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        toast.style.color = '#fff';
+        toast.style.borderRadius = '5px';
+        toast.style.fontSize = '14px';
+        toast.style.zIndex = '9999';
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.remove();
+        }, 3000); // Remove o toast após 3 segundos
+    }
+
     function download(url) {
-        // Verifica se a URL contém alguma das logos a serem ignoradas
         if (LOGOS_TO_IGNORE.some(logo => url.includes(logo))) {
             console.warn(`Ignorando logo: ${url}`);
-            return; // Não faz download se for logo
+            return;
         }
 
         GM.xmlHttpRequest({
@@ -51,17 +65,19 @@
                     aTag.click();
                     URL.revokeObjectURL(tempUrl);
                     aTag.remove();
+                    showToast(`Download concluído: ${getFileName(url)}`);
                 } else {
                     console.error(`Erro ao baixar: ${url} (Status: ${response.status})`);
+                    showToast(`Erro ao baixar: ${getFileName(url)}`);
                 }
             },
             onerror: function (err) {
                 console.error(`Erro de rede: ${url}`, err);
+                showToast(`Erro de rede: ${getFileName(url)}`);
             }
         });
     }
 
-    // Função para capturar links de mídia (imagens e vídeos)
     const getMediaLinks = () => {
         const mediaElements = document.querySelectorAll('video, img');
         const mediaLinks = new Set();
@@ -81,11 +97,11 @@
         return Array.from(mediaLinks);
     };
 
-    // Função para baixar todas as mídias encontradas
     const downloadAllMedia = () => {
         const mediaLinks = getMediaLinks();
         if (mediaLinks.length === 0) {
             console.error('Nenhuma mídia encontrada para download.');
+            showToast('Nenhuma mídia encontrada.');
             return;
         }
 
@@ -94,20 +110,17 @@
         });
     };
 
-    // Remove botão duplicado, se existir
     const existingButton = document.querySelector('.album-flag');
     if (existingButton) {
         existingButton.remove();
     }
 
-    // Cria o botão de download
     const downloadButton = document.createElement('button');
     downloadButton.className = 'btn btn-grey';
     downloadButton.innerHTML = `<i class="fas fa-download fa-lg"></i>`;
     downloadButton.style.marginLeft = '2px';
     downloadButton.onclick = downloadAllMedia;
 
-    // Adiciona o botão na interface
     const userInfoDiv = document.querySelector('.user-info.text-right');
     if (userInfoDiv) {
         userInfoDiv.appendChild(downloadButton);
