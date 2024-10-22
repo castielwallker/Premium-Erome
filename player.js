@@ -250,12 +250,12 @@
             document.body.style.backgroundColor = isActive ? '' : '#111';
             document.body.style.color = isActive ? '' : '#fff';
             if (!isActive) {
+                showToast('Modo Cinema ativado.');
                 const videos = document.querySelectorAll('.media-group video');
                 videos.forEach(video => {
                     video.style.filter = 'brightness(1)';
                     video.parentElement.style.backgroundColor = 'transparent';
                     video.removeAttribute('controls');
-                    showToast('Modo Cinema ativado.');
                 });
             } else {
                 resetMedia();
