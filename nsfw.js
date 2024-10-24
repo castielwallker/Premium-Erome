@@ -69,37 +69,50 @@
         }, 2000);
     }
 
-    const addButtonToNavbar = function () {
-        const navbarRight = document.querySelector('.navbar-nav.navbar-right');
-        if (!document.getElementById('nsfw-toggle-btn')) {
-            const nsfwButton = document.createElement('li');
-            nsfwButton.innerHTML = `
-                <a href="#" id="nsfw-toggle-btn" style="display: flex; align-items: center;">
-                    <i class="fas fa-eye"></i> NSFW
-                </a>
-            `;
-            //nsfwButton.style.marginLeft = '10px'; // Aplicando margin-right corretamente
-            nsfwButton.querySelector('a').addEventListener('click', (e) => {
-                e.preventDefault();
+const addButtonToNavbar = function () {
+    const navbarRight = document.querySelector('.navbar-nav.navbar-right');
+    if (!document.getElementById('nsfw-toggle-btn')) {
+        const nsfwButton = document.createElement('li');
+        nsfwButton.innerHTML = `
+            <a href="#" id="nsfw-toggle-btn" style="display: flex; align-items: center;">
+                <i class="fas fa-eye"></i> NSFW
+            </a>
+        `;
 
-                const albumContainers = document.querySelectorAll(
-                    '.album-thumbnail-container, .media-group img, .media-group video, .vjs-poster'
-                );
+        nsfwButton.querySelector('a').addEventListener('click', (e) => {
+            e.preventDefault();
 
-                const isBlurred = albumContainers[0]?.classList.toggle('blur');
-                albumContainers.forEach(albumContainer => {
-                    albumContainer.classList.toggle('blur', isBlurred);
-                });
+            const albumContainers = document.querySelectorAll(
+                '.album-thumbnail-container, .media-group img, .media-group video, .vjs-poster'
+            );
 
-                const message = isBlurred
-                    ? 'O blur foi ativado. Foi detectado ambiente adulto.'
-                    : 'O blur foi desativado.';
-                showToast(message);
+            const isBlurred = albumContainers[0]?.classList.toggle('blur');
+            albumContainers.forEach(albumContainer => {
+                albumContainer.classList.toggle('blur', isBlurred);
             });
 
-            navbarRight.appendChild(nsfwButton);
-        }
-    };
+            // Alterar o ícone e o texto baseado no estado do blur
+            const toggleIcon = nsfwButton.querySelector('i');
+            if (isBlurred) {
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+                nsfwButton.querySelector('a').textContent = ' NSFW'; // Atualiza texto para NSFW
+            } else {
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+                nsfwButton.querySelector('a').textContent = ' NSFW'; // Atualiza texto para NSFW
+            }
 
-    addButtonToNavbar();
+            const message = isBlurred
+                ? 'O blur foi ativado. Foi detectado ambiente adulto.'
+                : 'O blur foi desativado.';
+            showToast(message);
+        });
+
+        navbarRight.appendChild(nsfwButton);
+    }
+};
+
+addButtonToNavbar();
+
 })();
