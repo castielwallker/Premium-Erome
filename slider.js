@@ -102,6 +102,7 @@
                 count = 0; // Reseta para 0 ao atingir 100
                 button.setAttribute('data-count', count);
                 button.textContent = 'OFF'; // Exibe OFF
+                button.style.marginLeft = '10px'; // Aplicando margin-right corretamente
             }
 
             // Ocultar vídeos baseados no contador
