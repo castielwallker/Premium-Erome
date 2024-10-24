@@ -44,10 +44,6 @@
             background-color: rgb(235, 99, 149);
         }
 
-        .btn-sec svg {
-            width: 25px;
-        }
-
         .video {
             transition: transform 0.3s, opacity 0.3s;
         }
@@ -63,12 +59,12 @@
     `;
     document.head.appendChild(style);
 
-    const createButton = function () {
+    const createSliderButton = function () {
         const button = document.createElement('button');
         button.className = 'btn-sec';
         button.setAttribute('data-count', '0'); // Atributo para o contador começando em 0
 
-        button.innerHTML = `
+        button.innerHTML = ` 
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_iconCarrier">
                     <g id="Interface / Slider_01">
@@ -84,7 +80,7 @@
         });
 
         button.addEventListener('mouseleave', () => {
-            button.innerHTML = `
+            button.innerHTML = ` 
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_iconCarrier">
                         <g id="Interface / Slider_01">
@@ -127,8 +123,32 @@
         document.body.appendChild(button);
     };
 
+    const createToggleSliderButton = function () {
+        const navRight = document.querySelector('.navbar-nav.navbar-right');
+        const li = document.createElement('li');
+        const toggleButton = document.createElement('a');
+        toggleButton.href = '#';
+        toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> Ocultar Slider';
+
+        toggleButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const sliderButton = document.querySelector('.btn-sec');
+            if (sliderButton.style.display === 'none') {
+                sliderButton.style.display = 'flex'; // Mostra o botão do slider
+                toggleButton.innerHTML = '<i class="fa fa-eye"></i> Mostrar Slider'; // Troca o texto
+            } else {
+                sliderButton.style.display = 'none'; // Oculta o botão do slider
+                toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> Ocultar Slider'; // Troca o texto
+            }
+        });
+
+        li.appendChild(toggleButton);
+        navRight.appendChild(li);
+    };
+
     if (window.location.href.match(/https:\/\/www\.erome\.com\/a\//)) {
-        createButton();
+        createSliderButton();
+        createToggleSliderButton(); // Adiciona o botão de ocultar/exibir o slider
 
         // Carrega a duração dos vídeos
         const videoSources = document.querySelectorAll('.video-js video source');
