@@ -19,7 +19,7 @@
     const style = document.createElement('style');
     style.textContent = `
         .blur {
-            filter: grayscale(100%) blur(10px);
+            filter: grayscale(100%) blur(5px);
         }
         .fa-eye {
             margin-right: 8px;
