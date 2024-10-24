@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Erome NSFW Premium
 // @namespace    https://github.com/castielwallker/
-// @version      1.1
+// @version      1.2
 // @description  Aplica efeito de desfoque nas imagens de álbuns NSFW
 // @author       Maad
 // @match        https://www.erome.com/*
@@ -40,13 +40,17 @@
     `;
     document.head.appendChild(style);
 
-    // Função para mostrar mensagem (Toast)
+    // Função para mostrar mensagem (Toast) com controle para evitar múltiplas exibições
+    let toastTimeout; // Armazena o timeout para evitar múltiplas toasts
+
     function showToast(message, isError = false) {
-        const existingToasts = document.querySelectorAll('.toast');
+        // Remover qualquer toast existente antes de criar uma nova
+        const existingToast = document.querySelector('.toast');
+        if (existingToast) existingToast.remove();
+
         const toast = document.createElement('div');
         toast.className = 'toast';
         toast.textContent = message;
-        toast.style.bottom = `${existingToasts.length * 60 + 20}px`;
 
         if (isError) {
             toast.style.backgroundColor = '#101010';
@@ -54,7 +58,10 @@
         }
 
         document.body.appendChild(toast);
-        setTimeout(() => {
+
+        // Limpar o timeout anterior se houver
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
             toast.style.opacity = 0;
             setTimeout(() => toast.remove(), 100);
         }, 2000);
@@ -75,16 +82,16 @@
                 const albumContainers = document.querySelectorAll(
                     '.album-thumbnail-container, .media-group img, .media-group video, .vjs-poster'
                 );
+
                 const isBlurred = albumContainers[0]?.classList.toggle('blur');
                 albumContainers.forEach(albumContainer => {
-                    if (isBlurred) {
-                        albumContainer.classList.add('blur');
-                        showToast('O blur foi ativado. Foi detectado ambiente adulto.');
-                    } else {
-                        albumContainer.classList.remove('blur');
-                        showToast('O blur foi desativado.');
-                    }
+                    albumContainer.classList.toggle('blur', isBlurred);
                 });
+
+                const message = isBlurred
+                    ? 'O blur foi ativado. Foi detectado ambiente adulto.'
+                    : 'O blur foi desativado.';
+                showToast(message);
             });
             navbarRight.appendChild(nsfwButton);
         }
