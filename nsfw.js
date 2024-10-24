@@ -24,7 +24,6 @@
         .fa-eye {
             margin-right: 8px;
         }
-
     ;
     document.head.appendChild(style);
 
@@ -48,8 +47,6 @@
                 albumContainers.forEach(albumContainer => {
                     albumContainer.classList.toggle('blur', isBlurred);
                 });
-                
-            });
 
             navbarRight.appendChild(nsfwButton);
         }
