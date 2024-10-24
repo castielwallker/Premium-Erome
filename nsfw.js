@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Erome NSFW Premium
 // @namespace    https://github.com/castielwallker/
-// @version      1.0
+// @version      1.1
 // @description  Aplica efeito de desfoque nas imagens de álbuns NSFW
 // @author       Maad
 // @match        https://www.erome.com/*
@@ -10,13 +10,19 @@
 (function () {
     'use strict';
 
+    // Carregar Font Awesome dinamicamente
+    const fontAwesome = document.createElement('link');
+    fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+    fontAwesome.rel = 'stylesheet';
+    document.head.appendChild(fontAwesome);
+
     const style = document.createElement('style');
     style.textContent = `
         .blur {
             filter: blur(15px);
         }
         .fa-eye {
-            margin-right: 5px;
+            margin-right: 8px;
         }
         .toast {
             position: fixed;
@@ -34,7 +40,7 @@
     `;
     document.head.appendChild(style);
 
-    // Função para mostrar uma mensagem (Toast)
+    // Função para mostrar mensagem (Toast)
     function showToast(message, isError = false) {
         const existingToasts = document.querySelectorAll('.toast');
         const toast = document.createElement('div');
@@ -60,8 +66,8 @@
         if (!document.getElementById('nsfw-toggle-btn')) {
             const nsfwButton = document.createElement('li');
             nsfwButton.innerHTML = `
-                <a href="#" id="nsfw-toggle-btn">
-                    <i class="fa fa-eye"></i> NSFW
+                <a href="#" id="nsfw-toggle-btn" style="display: flex; align-items: center;">
+                    <i class="fas fa-eye"></i> NSFW
                 </a>
             `;
             nsfwButton.querySelector('a').addEventListener('click', (e) => {
@@ -84,5 +90,6 @@
         }
     };
 
+    // Adicionar o botão ao carregar a página
     addButtonToNavbar();
 })();
