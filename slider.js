@@ -2,7 +2,7 @@
 // @name         Erome Video Hidden
 // @namespace    https://github.com/maadvfx/
 // @icon         https://www.erome.com/favicon.ico
-// @version      1.3
+// @version      1.4
 // @description  Slider Button Video Hidden.
 // @author       Maad
 // @match        https://www.erome.com/a/*
@@ -120,6 +120,9 @@
             });
         });
 
+        // Oculta o botão do slider inicialmente
+        button.style.display = 'none'; 
+
         document.body.appendChild(button);
     };
 
@@ -128,17 +131,17 @@
         const li = document.createElement('li');
         const toggleButton = document.createElement('a');
         toggleButton.href = '#';
-        toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> Ocultar Slider';
+        toggleButton.innerHTML = '<i class="fa fa-eye"></i>HIDDEN';
 
         toggleButton.addEventListener('click', (e) => {
             e.preventDefault();
             const sliderButton = document.querySelector('.btn-sec');
             if (sliderButton.style.display === 'none') {
                 sliderButton.style.display = 'flex'; // Mostra o botão do slider
-                toggleButton.innerHTML = '<i class="fa fa-eye"></i> Mostrar Slider'; // Troca o texto
+                toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> HIDDEN'; // Troca o texto
             } else {
                 sliderButton.style.display = 'none'; // Oculta o botão do slider
-                toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> Ocultar Slider'; // Troca o texto
+                toggleButton.innerHTML = '<i class="fa fa-eye"></i> HIDDEN'; // Troca o texto
             }
         });
 
