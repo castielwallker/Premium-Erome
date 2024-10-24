@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Erome NSFW Premium
 // @namespace    https://github.com/castielwallker/
-// @version      1.2
-// @description  Aplica efeito de desfoque nas imagens de álbuns NSFW
+// @version      1.3
+// @description  Aplica efeito de desfoque nas imagens de álbuns NSFW com controle adequado de mensagens Toast.
 // @author       Maad
 // @match        https://www.erome.com/*
 // ==/UserScript==
@@ -40,13 +40,14 @@
     `;
     document.head.appendChild(style);
 
-    // Função para mostrar mensagem (Toast) com controle para evitar múltiplas exibições
-    let toastTimeout; // Armazena o timeout para evitar múltiplas toasts
+    // Variável global para armazenar referência ao Toast
+    let toastTimeout;
+    let isToastVisible = false;
 
     function showToast(message, isError = false) {
-        // Remover qualquer toast existente antes de criar uma nova
-        const existingToast = document.querySelector('.toast');
-        if (existingToast) existingToast.remove();
+        if (isToastVisible) return;  // Impedir exibição de múltiplas toasts simultâneas
+
+        isToastVisible = true;  // Marcar Toast como visível
 
         const toast = document.createElement('div');
         toast.className = 'toast';
@@ -59,15 +60,15 @@
 
         document.body.appendChild(toast);
 
-        // Limpar o timeout anterior se houver
-        clearTimeout(toastTimeout);
         toastTimeout = setTimeout(() => {
             toast.style.opacity = 0;
-            setTimeout(() => toast.remove(), 100);
+            setTimeout(() => {
+                toast.remove();
+                isToastVisible = false;  // Marcar Toast como não visível
+            }, 500);
         }, 2000);
     }
 
-    // Função para adicionar o botão NSFW à navbar
     const addButtonToNavbar = function () {
         const navbarRight = document.querySelector('.navbar-nav.navbar-right');
         if (!document.getElementById('nsfw-toggle-btn')) {
@@ -77,8 +78,10 @@
                     <i class="fas fa-eye"></i> NSFW
                 </a>
             `;
+
             nsfwButton.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
+
                 const albumContainers = document.querySelectorAll(
                     '.album-thumbnail-container, .media-group img, .media-group video, .vjs-poster'
                 );
@@ -93,10 +96,10 @@
                     : 'O blur foi desativado.';
                 showToast(message);
             });
+
             navbarRight.appendChild(nsfwButton);
         }
     };
 
-    // Adicionar o botão ao carregar a página
     addButtonToNavbar();
 })();
