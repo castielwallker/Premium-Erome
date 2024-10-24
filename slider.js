@@ -131,14 +131,14 @@
         const li = document.createElement('li');
         const toggleButton = document.createElement('a');
         toggleButton.href = '#';
-        toggleButton.innerHTML = '<i class="fa fa-eye"></i>HIDDEN';
+        toggleButton.innerHTML = '<i class="fa fa-eye"></i> HIDDEN';
 
         toggleButton.addEventListener('click', (e) => {
             e.preventDefault();
             const sliderButton = document.querySelector('.btn-sec');
             if (sliderButton.style.display === 'none') {
                 sliderButton.style.display = 'flex'; // Mostra o botão do slider
-                toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> HIDDEN'; // Troca o texto
+                toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> HIDDEN '; // Troca o texto
             } else {
                 sliderButton.style.display = 'none'; // Oculta o botão do slider
                 toggleButton.innerHTML = '<i class="fa fa-eye"></i> HIDDEN'; // Troca o texto
