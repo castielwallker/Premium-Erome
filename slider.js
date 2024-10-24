@@ -3,7 +3,7 @@
 // @namespace    https://github.com/maadvfx/
 // @icon         https://www.erome.com/favicon.ico
 // @version      1.3
-// @description  Slider Button Video Hidden.
+// @description  Button Video Hidden.
 // @author       Maad
 // @match        https://www.erome.com/a/*
 // @grant        GM.xmlHttpRequest
@@ -44,6 +44,10 @@
             background-color: rgb(235, 99, 149);
         }
 
+        .btn-sec svg {
+            width: 25px;
+        }
+
         .video {
             transition: transform 0.3s, opacity 0.3s;
         }
@@ -59,12 +63,12 @@
     `;
     document.head.appendChild(style);
 
-    const createSliderButton = function () {
+    const createButton = function () {
         const button = document.createElement('button');
         button.className = 'btn-sec';
-        button.setAttribute('data-count', '0'); // Atributo para o contador começando em 0
+        button.setAttribute('data-count', '0'); 
 
-        button.innerHTML = ` 
+        button.innerHTML = `
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_iconCarrier">
                     <g id="Interface / Slider_01">
@@ -80,7 +84,7 @@
         });
 
         button.addEventListener('mouseleave', () => {
-            button.innerHTML = ` 
+            button.innerHTML = `
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_iconCarrier">
                         <g id="Interface / Slider_01">
@@ -99,12 +103,11 @@
                 button.textContent = count > 0 ? `${count} Seg` : 'OFF';
             }
             if (count >= 100) {
-                count = 0; // Reseta para 0 ao atingir 100
+                count = 0; 
                 button.setAttribute('data-count', count);
-                button.textContent = 'OFF'; // Exibe OFF
+                button.textContent = 'OFF'; 
             }
 
-            // Ocultar vídeos baseados no contador
             document.querySelectorAll('.video').forEach((vc) => {
                 const video = vc.querySelector('.video-js video');
                 if (video && 'length' in video.dataset) {
@@ -123,34 +126,9 @@
         document.body.appendChild(button);
     };
 
-    const createToggleSliderButton = function () {
-        const navRight = document.querySelector('.navbar-nav.navbar-right');
-        const li = document.createElement('li');
-        const toggleButton = document.createElement('a');
-        toggleButton.href = '#';
-        toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> Ocultar Slider';
-
-        toggleButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            const sliderButton = document.querySelector('.btn-sec');
-            if (sliderButton.style.display === 'none') {
-                sliderButton.style.display = 'flex'; // Mostra o botão do slider
-                toggleButton.innerHTML = '<i class="fa fa-eye"></i> Mostrar Slider'; // Troca o texto
-            } else {
-                sliderButton.style.display = 'none'; // Oculta o botão do slider
-                toggleButton.innerHTML = '<i class="fa fa-eye-slash"></i> Ocultar Slider'; // Troca o texto
-            }
-        });
-
-        li.appendChild(toggleButton);
-        navRight.appendChild(li);
-    };
-
     if (window.location.href.match(/https:\/\/www\.erome\.com\/a\//)) {
-        createSliderButton();
-        createToggleSliderButton(); // Adiciona o botão de ocultar/exibir o slider
+        createButton();
 
-        // Carrega a duração dos vídeos
         const videoSources = document.querySelectorAll('.video-js video source');
         videoSources.forEach(source => {
             const url = source.src;
