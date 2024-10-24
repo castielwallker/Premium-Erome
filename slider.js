@@ -62,6 +62,7 @@
     const createSliderButton = function () {
         const button = document.createElement('button');
         button.className = 'btn-sec';
+        button.style.marginLeft = '-15px'; // Aplicando margin-right corretamente
         button.setAttribute('data-count', '0'); // Atributo para o contador começando em 0
 
         button.innerHTML = ` 
@@ -102,7 +103,6 @@
                 count = 0; // Reseta para 0 ao atingir 100
                 button.setAttribute('data-count', count);
                 button.textContent = 'OFF'; // Exibe OFF
-                button.style.marginLeft = '-15px'; // Aplicando margin-right corretamente
             }
 
             // Ocultar vídeos baseados no contador
