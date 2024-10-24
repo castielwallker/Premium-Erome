@@ -56,6 +56,9 @@
         .video:not(.hidden) {
             opacity: 1;
         }
+        .fa-eye {
+           margin-right: 8px;
+        }
     `;
     document.head.appendChild(style);
 
