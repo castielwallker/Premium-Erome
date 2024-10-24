@@ -17,7 +17,7 @@
     document.head.appendChild(fontAwesome);
 
     const style = document.createElement('style');
-    style.textContent = 
+    style.textContent = `
         .blur {
             filter: blur(15px);
         }
@@ -37,7 +37,7 @@
             transition: opacity 0.5s;
             opacity: 1;
         }
-    ;
+    `;
     document.head.appendChild(style);
 
     // Variável global para armazenar referência ao Toast
@@ -73,12 +73,12 @@
         const navbarRight = document.querySelector('.navbar-nav.navbar-right');
         if (!document.getElementById('nsfw-toggle-btn')) {
             const nsfwButton = document.createElement('li');
-            nsfwButton.innerHTML = 
+            nsfwButton.innerHTML = `
                 <a href="#" id="nsfw-toggle-btn" style="display: flex; align-items: center;">
                     <i class="fas fa-eye"></i> NSFW
                 </a>
-            ;
-            //nsfwButton.style.marginLeft = '10px'; // Aplicando margin-right corretamente
+            `;
+
             nsfwButton.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
 
