@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Erome Downloader - By Maad
 // @author       Maad
-// @version      1.5
+// @version      2.0
 // @namespace    https://github.com/maadvfx/
 // @description  Download videos e images de erome com controle de botões.
 // @match        https://www.erome.com/*
@@ -10,9 +10,9 @@
 // @grant        GM_addStyle
 //
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/player.js
-// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/slider.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/nsfw.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/download.js
+// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/hidden.js
 //
 // @updateURL    https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
 // @downloadURL  https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
@@ -28,16 +28,22 @@
 //                                  M A A D          M A A D        M A A D       M A A D
 //                                  M A A D          M A A D        M A A D       M A A D
 //                                  M A A D          M A A D        M A A D       M A A D
+//                                          PLEASE DO NOT REMOVE CREATOR CREDITS
+//                                          PLEASE DO NOT REMOVE CREATOR CREDITS
+//                                          PLEASE DO NOT REMOVE CREATOR CREDITS
+//                                          PLEASE DO NOT REMOVE CREATOR CREDITS
 // =================================================================================================================================================================
 // NOTES
 // To perform the complete download, it is advisable to load the entire page (scroll to the end of the page) and then the download will load completely.
 // Some downloads will probably be blocked due to CORS. Just reload the page or clear the site's cookies.
-// To use the slider, you need to double-click on the slider button and then you can release the slider and use it as standard.
+// To use the hidden video, you need to click on the button to display another button that will be in the bottom corner of the screen and select the seconds to hide the video, the value that was selected will hide if the video is shorter.
 // nsfw system puts a blur on all albums, images and videos. function is not saved after loading the page it will return to the default.
 // Any error or detail, tip or feedback, contact us via telegram or instagram.
+// Please do not remove creator credits.
 //
 // Instagram : https://t.me/maadvfx
 // Telegram : @maad.vfx
+// GitHub : https://github.com/castielwallker
 //
 //
 /* globals $ Maad */
@@ -79,11 +85,11 @@
 
         if (hasVisibleLgImgWrap) {
             downloadButtons.forEach(button => {
-                button.style.zIndex = -1; 
+                button.style.zIndex = -1;
             });
         } else {
             downloadButtons.forEach(button => {
-                button.style.zIndex = '9999'; 
+                button.style.zIndex = '9999';
             });
         }
     }
@@ -278,14 +284,14 @@
         `;
 
             const svgIcon = button.querySelector('.svgIcon');
-            svgIcon.style.width = '15px'; 
+            svgIcon.style.width = '15px';
 
             button.addEventListener('mouseenter', () => {
                 button.style.width = '100px';
                 button.style.borderRadius = '40px';
                 button.style.backgroundColor = 'rgb(235, 99, 149)';
                 svgIcon.querySelector('path').setAttribute('fill', '#ffffff');
-                button.textContent = button.getAttribute('data-label'); 
+                button.textContent = button.getAttribute('data-label');
             });
 
             button.addEventListener('mouseleave', () => {
@@ -313,8 +319,8 @@
 
     // Ocultar Download
     function OcultarDownload() {
-        const buttonsToToggle = document.querySelectorAll('.btn-download'); 
-        const newButton = document.createElement('button'); 
+        const buttonsToToggle = document.querySelectorAll('.btn-download');
+        const newButton = document.createElement('button');
         newButton.className = 'btn btn-pink';
         newButton.style.marginLeft = '4px';
         newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads';
@@ -326,14 +332,14 @@
 
             if (buttonsToToggle[0].style.visibility === 'hidden') {
                 newButton.innerHTML = '<i class="fas fa-eye"></i> Downloads';
-                showToast('Você ocultou os botões de Download!'); 
+                showToast('Você ocultou os botões de Download!');
             } else {
-                newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads'; 
-                showToast('Você restaurou os botões de Download!'); 
+                newButton.innerHTML = '<i class="fas fa-eye-slash"></i> Downloads';
+                showToast('Você restaurou os botões de Download!');
             }
         });
 
-        const userInfo = document.querySelector('.user-info'); 
+        const userInfo = document.querySelector('.user-info');
         if (userInfo) userInfo.appendChild(newButton);
     }
 
@@ -342,7 +348,7 @@
         const fotos = document.querySelectorAll('.media-group img');
         const botoesDownload = document.querySelectorAll('.btn-download');
         const userInfo = document.querySelector('.user-info');
-        const albumImages = document.querySelector('.album-images'); 
+        const albumImages = document.querySelector('.album-images');
 
         if (userInfo) {
             const toggleButton = document.createElement('button');
@@ -367,16 +373,16 @@
                 if (isHidden) {
                     showToast('Você restaurou as fotos!');
                     if (albumImages) {
-                        albumImages.style.display = 'inline'; 
+                        albumImages.style.display = 'inline';
                     }
                 } else {
                     showToast('Você ocultou as fotos!');
                     if (albumImages) {
-                        albumImages.style.display = 'none'; 
+                        albumImages.style.display = 'none';
                     }
                 }
                 toggleButton.innerHTML = isHidden
-                    ? '<i class="fas fa-eye"></i> Fotos' 
+                    ? '<i class="fas fa-eye"></i> Fotos'
                 : '<i class="fas fa-eye-slash"></i> Fotos';
             });
 
@@ -386,8 +392,8 @@
 
     // Ocultar Videos
     function ocultarVideos() {
-        const videos = document.querySelectorAll('.video-js'); 
-        const botoesDownload = document.querySelectorAll('.btn-download'); 
+        const videos = document.querySelectorAll('.video-js');
+        const botoesDownload = document.querySelectorAll('.btn-download');
         const userInfo = document.querySelector('.user-info');
         const albumVideos = document.querySelector('.album-videos');
 
@@ -402,7 +408,7 @@
                 const isHidden = videos[0].style.display === 'none';
 
                 videos.forEach(video => {
-                    video.style.display = isHidden ? 'block' : 'none'; 
+                    video.style.display = isHidden ? 'block' : 'none';
                 });
 
                 botoesDownload.forEach(botao => {
@@ -415,18 +421,18 @@
                 if (isHidden) {
                     showToast('Você restaurou os vídeos!');
                     if (albumVideos) {
-                        albumVideos.style.display = 'inline'; 
+                        albumVideos.style.display = 'inline';
                     }
                 } else {
                     showToast('Você ocultou os vídeos!');
                     if (albumVideos) {
-                        albumVideos.style.display = 'none'; 
+                        albumVideos.style.display = 'none';
                     }
                 }
 
                 toggleButton.innerHTML = isHidden
-                    ? '<i class="fas fa-eye"></i> Vídeos' 
-                : '<i class="fas fa-eye-slash"></i> Vídeos'; 
+                    ? '<i class="fas fa-eye"></i> Vídeos'
+                : '<i class="fas fa-eye-slash"></i> Vídeos';
             });
 
             userInfo.appendChild(toggleButton);
@@ -543,8 +549,8 @@
     const toggleGridOrder = (ev) => {
         if (ev) ev.preventDefault();
         ascendingOrder = !ascendingOrder;
-        const newOrder = ascendingOrder ? 'asc' : 'desc';
-        document.location.hash = `#order=${newOrder}`;
+        const newOrder = ascendingOrder ? 'a' : 'd';
+        document.location.hash = `#view=${newOrder}`;
         updateButtonText();
         sortAlbums();
     };
@@ -567,7 +573,11 @@
     }
 
     function updateButtonText() {
-        toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i> View: ${ascendingOrder ? 'Menos' : 'Mais'}`;
+       //toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i>View: ${ascendingOrder ? 'Menos' : 'Mais'}`;
+        toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i>VIEWS`;
+        toggleButton.style.display = 'flex';
+        toggleButton.style.alignItems = 'center';
+        toggleButton.style.marginLeft = '-15px'; // Aplicando margin-right corretamente
     }
 
     function addButtonToNav() {
@@ -623,7 +633,7 @@
         Disclaimer();
         setTimeout(Disclaimer, 1300);
     }
-
+    // By Maad
     window.addEventListener('load', init);
     document.addEventListener('DOMContentLoaded', init);
 })();
