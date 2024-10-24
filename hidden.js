@@ -142,10 +142,11 @@
             const sliderButton = document.querySelector('.btn-sec');
             if (sliderButton.style.display === 'none') {
                 sliderButton.style.display = 'flex'; // Mostra o botão do slider
-                toggleButton.innerHTML = '<i class="fa fa-eye"></i>HIDDEN'; // Troca o texto
+                toggleButton.innerHTML = '<i class="fa fa-eye"></i>HIDDEN';
             } else {
                 sliderButton.style.display = 'none'; // Oculta o botão do slider
-                toggleButton.innerHTML = '<i class="fa fa-eye"></i>HIDDEN'; // Troca o texto
+                 sliderButton.style.display = 'flex'; // Mostra o botão do slider
+                toggleButton.innerHTML = '<i class="fa fa-eye"></i>HIDDEN';
             }
         });
 
