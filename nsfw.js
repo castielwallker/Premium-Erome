@@ -52,8 +52,7 @@
         if (!document.getElementById('nsfw-toggle-btn')) {
             // Botão NSFW
             const nsfwButton = document.createElement('li');
-            //nsfwButton.innerHTML = '<a href="#" id="nsfw-toggle-btn">NSFW</a>';
-            nsfwButton.innerHTML = `<i class="fa fa-eye mr-2"></i> NSFW`; 
+            nsfwButton.innerHTML = '<a href="#" id="nsfw-toggle-btn">NSFW</a>';
             nsfwButton.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
                   const albumContainers = document.querySelectorAll(
