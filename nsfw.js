@@ -78,7 +78,7 @@
                     <i class="fas fa-eye"></i> NSFW
                 </a>
             `;
-            nsfwButton.style.marginLeft = '10px'; // Aplicando margin-right corretamente
+            //nsfwButton.style.marginLeft = '10px'; // Aplicando margin-right corretamente
             nsfwButton.querySelector('a').addEventListener('click', (e) => {
                 e.preventDefault();
 
