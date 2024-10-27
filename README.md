@@ -4,6 +4,11 @@
 Este script facilita o download de vídeos e imagens diretamente do site **Erome.com**, com controle aprimorado através de botões. Ele também realiza ajustes na interface e contorna restrições do site para uma navegação mais fluida.  
 
 ### Funcionalidades  
+- **Views** albuns separados por views.
+- **Theme** novo desing melhorado do site.
+- **NSFW** blur ocultando fotos e videos.
+- **Hidden** ocultar videos por segundos.
+- **Download All** baixar todas as fotos e video em um clique.
 - **Download direto** de vídeos e imagens com um clique.
 - **Modo Cinema**: Função modo cinema com foco em Imagens e Vídeos.  
 - **Controle de velocidade** de reprodução para vídeos (0.5x a 5x).  
@@ -37,6 +42,15 @@ Este script facilita o download de vídeos e imagens diretamente do site **Erome
 ## Notas
 - **Disclaimer:** Ao acessar a página, o script remove o disclaimer e permite o fluxo normal de uso.
 - **Modo Cinema:** Permite uma visualização mais imersiva dos conteúdos, alterando a cor de fundo e ocultando elementos não essenciais.
+
+## Updates
+- **Download:** Novo desing de botão de download videos e fotos. [Preview](https://i.imgur.com/A1vMa50.png)
+- **NSFW:** Blur NSFW foi melhorado e agora funciona em albuns, fotos e videos. [Preview](https://i.imgur.com/T5d9JsX.png)
+- **Theme:** Foi adicionado um novo tema visual melhorado com remoção de alguns componentes. [Preview](https://i.imgur.com/VHmCjZ0.png)
+- **Hidden:** Implementado um novo sistema de ocultar videos por segundos. ( De 5 segundos a 100.) [Preview](https://i.imgur.com/0cmHMes.png)
+- **Views:** Implementado um novo sistema de separa albuns por view alternavel entre decrescente e crescente. [Preview](https://i.imgur.com/PKqgoTu.png)
+- **Player:** Ajustado e foi adicionado mais recursos como Modo Cinema One, Flip Video, Picture In Picture, Velocidade e Download. [Preview](https://i.imgur.com/4fREFLl.png)
+- **Download All:** Acrescentado tambem Download All Beta, Atualmente esta em fase beta faltando alguns ajuste de pré-carregamente da pagina. [Preview](https://i.imgur.com/kNzR1Qd.png)
 
 ## Autor  
 **Maad** - [GitHub](https://github.com/castielwallker/) 
