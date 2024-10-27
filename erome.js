@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Erome Downloader - By Maad
+// @name         Erome Premium - By Maad
 // @author       Maad
 // @version      2.0
 // @namespace    https://github.com/maadvfx/
-// @description  Download videos e images de erome com controle de botões.
+// @description  Premium Addons For Erome.
 // @match        https://www.erome.com/*
 // @icon         https://www.erome.com/favicon.ico
 // @grant        GM.xmlHttpRequest
@@ -13,6 +13,7 @@
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/nsfw.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/download.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/hidden.js
+// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/theme.js
 //
 // @updateURL    https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
 // @downloadURL  https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
@@ -101,20 +102,18 @@
         allButtons.forEach(button => {
             const isDownloadButton = button.querySelector('i.fas.fa-download');
             if (!isDownloadButton) {
-                button.style.display = 'none'; // Oculta botões não relacionados ao download
+                button.style.display = 'none'; 
             }
         });
 
-        // Botão Pagina User
         const targetIds = ['user', 'tabs'];
         const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
 
-        // Verifica se algum dos IDs está presente
         const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
 
         if (isTargetPage) {
             buttonsToHide.forEach(button => {
-                button.style.display = 'none'; // Esconde os botões
+                button.style.display = 'none'; 
             });
         }
 
@@ -573,11 +572,10 @@
     }
 
     function updateButtonText() {
-       //toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i>View: ${ascendingOrder ? 'Menos' : 'Mais'}`;
         toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i>VIEWS`;
         toggleButton.style.display = 'flex';
         toggleButton.style.alignItems = 'center';
-        toggleButton.style.marginLeft = '-15px'; // Aplicando margin-right corretamente
+        toggleButton.style.marginLeft = '-10px'; // Aplicando margin-right corretamente
     }
 
     function addButtonToNav() {
