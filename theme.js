@@ -199,6 +199,84 @@
             cursor: pointer;
             animation: pulse 2s infinite;
         }
+        .fa-lg{
+           color: #eb6395;
+           filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+        }
+        .fa-eye{
+           color: #eb6395;
+           filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+        }
+        .fa-video {
+           color: #eb6395;
+           filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+    
+        .fa-camera {
+            color: #eb6395;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         #user .bio {
+         color: #ffffff;
+         }
+         #user .user-info {
+           color: #eb6395;
+           filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         .username {
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         #user .website {
+           color: #ffffff;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         album-website{
+            color: #ffffff;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         .btn-grey{
+            color: #ffffff;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+        .fa-lg{
+             color: #eb6395;
+             filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+        }
+        .fa-eye{
+             color: #eb6395;
+             filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+        }
+        .fa-video {
+             color: #eb6395;
+             filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+    
+        .fa-camera {
+            color: #eb6395;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         #user .bio {
+             color: #ffffff;
+         }
+         #user .user-info {
+            color: #eb6395;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         .username {
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         #user .website {
+            color: #ffffff;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         album-website{
+            color: #ffffff;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
+         .btn-grey{
+            color: #ffffff;
+            filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px)
+         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
