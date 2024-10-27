@@ -49,26 +49,72 @@
 //
 /* globals $ Maad */
 
+
 (function () {
     'use strict';
 
     // CSS PLAYER
     GM_addStyle(`
     .vjs-control:hover {
-        background: rgba(255, 255, 255, 0.2); /* Cor ao passar o mouse */
+        background: rgba(255, 255, 255, 0.2); 
     }
     button:hover {
-        background: rgba(255, 255, 255, 0.2); /* Cor ao passar o mouse */
+        background: rgba(255, 255, 255, 0.2); 
     }
-   .media-group .img-back { /* Corrigido com ponto antes de media-group */
-    width: 100%;
-    height: auto;
-    filter: brightness(40%) blur(10px); /* Combine os filtros em uma única declaração */
-    border-radius: 15px;
-    opacity: 1;
+   .media-group .img-back {
+        width: 100%;
+        height: auto;
+        filter: brightness(40%) blur(10px);
+        border-radius: 15px;
+        opacity: 1;
     }
+    @keyframes ToastAnim {
+	0% {
+		animation-timing-function: ease-in;
+		opacity: 1;
+		transform: translateY(-45px);
+	}
+
+	24% {
+		opacity: 1;
+	}
+
+	40% {
+		animation-timing-function: ease-in;
+		transform: translateY(-24px);
+	}
+
+	65% {
+		animation-timing-function: ease-in;
+		transform: translateY(-12px);
+	}
+
+	82% {
+		animation-timing-function: ease-in;
+		transform: translateY(-6px);
+	}
+
+	93% {
+		animation-timing-function: ease-in;
+		transform: translateY(-4px);
+	}
+
+	25%,
+	55%,
+	75%,
+	87% {
+		animation-timing-function: ease-out;
+		transform: translateY(0px);
+	}
+
+	100% {
+		animation-timing-function: ease-out;
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
     `);
-    const speeds = [0.5, 1, 1.5,2,4];
+    const speeds = [0.5, 1, 1.5,2,4,5];
     let currentSpeedIndex = 2;
 
     // Index Ajuste
@@ -102,18 +148,20 @@
         allButtons.forEach(button => {
             const isDownloadButton = button.querySelector('i.fas.fa-download');
             if (!isDownloadButton) {
-                button.style.display = 'none'; 
+                button.style.display = 'none'; // Oculta botões não relacionados ao download
             }
         });
 
+        // Botão Pagina User
         const targetIds = ['user', 'tabs'];
         const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
 
+        // Verifica se algum dos IDs está presente
         const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
 
         if (isTargetPage) {
             buttonsToHide.forEach(button => {
-                button.style.display = 'none'; 
+                button.style.display = 'none'; // Esconde os botões
             });
         }
 
@@ -147,12 +195,12 @@
         let originalTitle = document.title;
         let blinkInterval = setInterval(() => {
             document.title = document.title === originalTitle ? "By Maad" : originalTitle;
-        }, 200000);
+        }, 1);
 
         setTimeout(() => {
             clearInterval(blinkInterval);
             document.title = originalTitle;
-        }, 200000);
+        }, 1);
     }
 
     // Disclaimer
@@ -192,6 +240,7 @@
 
     const toast = document.createElement('div');
     toast.className = 'toast';
+
     toast.textContent = message;
     toast.style.cssText = `
         position: fixed;
@@ -206,14 +255,14 @@
         box-shadow: 0 0 10px ${isError ? '#101010' : '#ffffff'}, 0 0 20px ${isError ? '#ffffff' : '#101010'};
         transition: opacity 0.5s;
         opacity: 1;
+        animation: ToastAnim 2s ease 0s 1 normal forwards;
     `;
-
     document.body.appendChild(toast);
 
     setTimeout(() => {
         toast.style.opacity = 0;
-        setTimeout(() => toast.remove(), 100);
-    }, 500);
+        setTimeout(() => toast.remove(), 500);
+    }, 2000);
 }
 
     //Botão Donwload
@@ -617,9 +666,43 @@
     });
 
     // View Grid End
+
+    // Albun Liked
+    async function LikeAlbun() {
+        const albums = Array.from(document.getElementsByClassName('album-link'));
+        const albumPromises = albums.map(async (album) => {
+            const hr = album.href;
+            const hdr = await fetch(hr);
+            const data = await hdr.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data, 'text/html');
+
+            let countArea = doc.querySelector('#like_count') || doc.querySelector('.far.fa-heart.fa-lg');
+            let count = countArea ? countArea.nextElementSibling.firstChild.textContent.trim() : 0;
+
+            if (+count < 1) {
+                return;
+            }
+
+            const viewSec = album.parentElement.querySelector('.album-bottom-right .album-images');
+
+            const likeCountHTML = `
+    <span style="position: relative; bottom: 0px; filter: drop-shadow(rgba(255, 20, 147, 0.8) 0px 0px 5px); margin-left: 5px; color: white;">
+        <i class="ml-5 mr-1 fas pink fa-heart fa-lg" aria-hidden="true" style="position: relative; bottom: 0;"></i> ${count}
+    </span>
+     `;
+
+
+            viewSec.insertAdjacentHTML("afterbegin", likeCountHTML);
+        });
+
+        await Promise.all(albumPromises);
+    }
+
     function init() {
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
+        Disclaimer();
         OcultarDownload();
         ocultarFotos();
         ocultarVideos();
@@ -629,9 +712,11 @@
         BypassAccount();
         ChangeTitle();
         Disclaimer();
-        setTimeout(Disclaimer, 1300);
+        LikeAlbun();
+        setTimeout(Disclaimer, 2000);
     }
     // By Maad
     window.addEventListener('load', init);
     document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener("contextmenu", (e) => {e.stopPropagation()}, true);
 })();
