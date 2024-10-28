@@ -350,7 +350,9 @@
         color: #ffffff !important;
         background-color: color: #8a5acc;
        }
-
+       .btn:focus, .btn:hover {
+        color: #fff;
+       }
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.1); }
@@ -359,7 +361,7 @@
     document.head.appendChild(style);
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
     if (logo) {
-        logo.style.filter = 'hue-rotate(290deg)';
+        logo.style.filter = 'hue-rotate(295deg)';
         logo.style.transition = 'filter 0.5s ease';
     }
 
