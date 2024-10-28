@@ -687,7 +687,7 @@
             const viewSec = album.parentElement.querySelector('.album-bottom-right .album-images');
 
             const likeCountHTML = `
-    <span style="position: relative; bottom: 0px; filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px); margin-left: 5px; color: white;">
+    <span style="position: relative; bottom: 0px; filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 0px); margin-left: 5px; color: white;">
         <i class="ml-5 mr-1 fas pink fa-heart fa-lg" aria-hidden="true" style="position: relative; bottom: 0;"></i> ${count}
     </span>
      `;
