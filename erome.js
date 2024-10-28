@@ -319,12 +319,12 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: rgb(20, 20, 20);
+            background-color: rgb(20, 21, 31);
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0px 0px 0px 4px rgba(235, 99, 149, 0.255);
+            box-shadow: 0px 0px 0px 4px rgba(138, 90, 204, 0.255);
             cursor: pointer;
             transition-duration: 0.3s;
             overflow: hidden;
@@ -337,7 +337,7 @@
             button.addEventListener('mouseenter', () => {
                 button.style.width = '100px';
                 button.style.borderRadius = '40px';
-                button.style.backgroundColor = 'rgb(235, 99, 149)';
+                button.style.backgroundColor = 'rgb(138, 90, 204)';
                 svgIcon.querySelector('path').setAttribute('fill', '#ffffff');
                 button.textContent = button.getAttribute('data-label');
             });
@@ -345,7 +345,7 @@
             button.addEventListener('mouseleave', () => {
                 button.style.width = '40px';
                 button.style.borderRadius = '50%';
-                button.style.backgroundColor = 'rgb(20, 20, 20)';
+                button.style.backgroundColor = 'rgb(20, 21, 31)';
                 svgIcon.querySelector('path').setAttribute('fill', 'white');
                 button.textContent = ''; // Limpar o texto
                 button.innerHTML = `
