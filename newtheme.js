@@ -5,13 +5,34 @@
 // @description  Theme UI Clean Erome
 // @author       Maad
 // @match        https://www.erome.com/*
-// @grant        none
+// @grant        GM.xmlHttpRequest
+// @grant        GM_addStyle
 // ==/UserScript==
 
 (function() {
     'use strict';
     const style = document.createElement('style');
       style.innerHTML = `
+     .vjs-control:hover {
+       background: rgba(255, 255, 255, 0.2);
+      }
+       button:hover {
+       background: rgba(255, 255, 255, 0.2);
+       }
+       .media-group .img-back {
+        width: 100%;
+        height: auto;
+        filter: brightness(40%) blur(10px);
+        border-radius: 15px;
+        opacity: 1;
+       }
+       .video-js .vjs-play-progress {
+        background: #8a5acc !important;
+        box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
+       }
+       .video-js .vjs-play-progress:before{
+        box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.1);
+       }
        body {
         background-color: #1d1e2a;
         color: #ffffff;
@@ -30,7 +51,7 @@
       }
       .btn-pink{
   		color: #fff;
-  		background-color: #8a5acc;
+  		background-color: #8a5acc59;
         border-radius: 5px;
   	  }
   	  .btn-pink:hover{
@@ -248,6 +269,7 @@
       }
       .fa-lg{
         color: #8a5acc;
+        font-size: 1.1999em;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
       }
       .fa-eye{
@@ -279,7 +301,6 @@
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
       .fa-lg{
-        color: #fff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
       }
       .fa-eye{
@@ -319,11 +340,15 @@
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
        .btn-grey:hover{
-        color: #8a5acc !important;
+        color: #ffffff !important;
         background-color: transparent !important;
         border: 1px solid #8a5acc !important;
         box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+       }
+       .btn-download{
+        color: #ffffff !important;
+        background-color: color: #8a5acc;
        }
 
       @keyframes pulse {
@@ -335,15 +360,14 @@
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
     if (logo) {
         logo.style.filter = 'hue-rotate(290deg)';
-        logo.style.transition = 'filter 0.5s ease'; 
+        logo.style.transition = 'filter 0.5s ease';
     }
-	
+
     function ocultarSuggestedUsers() {
         const suggestedUsers = document.querySelector('.col-sm-12 h2 i.fas.fa-user')?.closest('.col-sm-12');
         if (suggestedUsers) {
             suggestedUsers.style.display = 'none';
         }
     }
-	
     window.addEventListener('load', ocultarSuggestedUsers);
 })();
