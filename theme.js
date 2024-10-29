@@ -375,26 +375,30 @@
     const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
 
     document.querySelectorAll('.default-avatar').forEach(avatar => {
-        const parent = avatar.closest('.album-infos');
-        if (parent) {
-            const albumTitle = parent.querySelector('.album-title').outerHTML;
-            const albumUser = parent.querySelector('.album-user').outerHTML;
-            parent.innerHTML = `
-                <img src="${defaultAvatarUrl}" class="avatar initial loading" data-was-processed="true" alt="Default avatar">
+        const pai = avatar.closest('.album-infos');
+        if (pai) {
+            const albumTitle = pai.querySelector('.album-title')?.outerHTML || '';
+            const albumUser = pai.querySelector('.album-user')?.outerHTML || '';
+            pai.innerHTML = `
+                <img src="${defaultAvatarUrl}" class="avatar initial loading" data-was-processed="true" alt="Avatar padrão">
                 <div>
                     ${albumTitle}
                     ${albumUser}
-                </div>
-            `;
+                </div>`;
+        }
+    });
+    
+    document.querySelectorAll('.col-sm-5.usuário-informações.nome\\ de\\ usuário.mb-5 .default-avatar').forEach(avatar => {
+        const pai = avatar.closest('.col-sm-5.usuário-informações.nome\\ de\\ usuário.mb-5');
+        if (pai) {
+            const userLink = pai.querySelector('#user_icon a')?.href || '#';
+            pai.innerHTML = `
+                <a href="${userLink}" id="user_icon">
+                    <img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" data-was-processed="true">
+                </a>`;
         }
     });
 
-    document.querySelectorAll('.col-sm-5.user-info.username.mb-5 .default-avatar').forEach(avatar => {
-        const parent = avatar.closest('.col-sm-5.user-info.username.mb-5');
-        if (parent) {
-            parent.innerHTML = `<a href="${parent.querySelector('a').href}" id="user_icon"><img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" data-was-processed="true"></a>`;
-        }
-    });
 
     function updateFavicon() {
         const link = document.createElement('link');
