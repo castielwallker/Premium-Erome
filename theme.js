@@ -427,6 +427,45 @@
         index = (index + 1) % texts.length;
     }, 500); 
     
+    function isImageBlack(img) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        
+        for (let i = 0; i < imgData.length; i += 4) {
+            if (imgData[i] !== 0 || imgData[i + 1] !== 0 || imgData[i + 2] !== 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function refreshImage(img) {
+        const src = img.src;
+        img.src = ''; 
+        img.src = src; 
+    }
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1 && node.classList.contains('album-link')) {
+                    const img = node.querySelector('img');
+                    if (img && isImageBlack(img)) {
+                        refreshImage(img);
+                    }
+
+                    img.addEventListener('mouseover', () => refreshImage(img));
+                }
+            });
+        });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
 })();
