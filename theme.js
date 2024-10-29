@@ -372,7 +372,7 @@
         }
     }
 
-     const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
+    const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
 
     document.querySelectorAll('.default-avatar').forEach(avatar => {
         const pai = avatar.closest('.album-infos');
@@ -387,12 +387,12 @@
                 </div>`;
         }
     });
-    
+
     document.querySelectorAll('.col-sm-5.user-info.username.mb-5').forEach(userInfo => {
         const avatarSpan = userInfo.querySelector('.default-avatar');
         if (avatarSpan) {
             const userLink = userInfo.querySelector('#user_icon')?.href || '#';
-
+    
             userInfo.querySelector('#user_icon').innerHTML = `
                 <a href="${userLink}" id="user_icon">
                     <img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" width="36" height="36" data-was-processed="true">
@@ -400,7 +400,14 @@
         }
     });
 
-
+    document.querySelectorAll('.col-xs-12.text-center.relative').forEach(container => {
+        const avatarSpan = container.querySelector('.default-avatar');
+        if (avatarSpan) {
+            container.innerHTML = `
+                <img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" data-was-processed="true">
+            `;
+        }
+    });
 
     function updateFavicon() {
         const link = document.createElement('link');
