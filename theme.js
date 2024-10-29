@@ -371,5 +371,62 @@
             suggestedUsers.style.display = 'none';
         }
     }
+
+    const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
+
+    document.querySelectorAll('.default-avatar').forEach(avatar => {
+        const parent = avatar.closest('.album-infos');
+        if (parent) {
+            const albumTitle = parent.querySelector('.album-title').outerHTML;
+            const albumUser = parent.querySelector('.album-user').outerHTML;
+            parent.innerHTML = `
+                <img src="${defaultAvatarUrl}" class="avatar initial loading" data-was-processed="true" alt="Default avatar">
+                <div>
+                    ${albumTitle}
+                    ${albumUser}
+                </div>
+            `;
+        }
+    });
+
+    document.querySelectorAll('.col-sm-5.user-info.username.mb-5 .default-avatar').forEach(avatar => {
+        const parent = avatar.closest('.col-sm-5.user-info.username.mb-5');
+        if (parent) {
+            parent.innerHTML = `<a href="${parent.querySelector('a').href}" id="user_icon"><img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" data-was-processed="true"></a>`;
+        }
+    });
+
+    function updateFavicon() {
+        const link = document.createElement('link');
+        link.type = 'image/png';
+        link.rel = 'icon';
+        link.href = 'https://www.erome.com/favicon-32x32.png';
+        document.head.appendChild(link);
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = link.href;
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.filter = 'hue-rotate(290deg)';
+            ctx.drawImage(img, 0, 0);
+            link.href = canvas.toDataURL(); 
+        };
+    }
+
+    updateFavicon();
+
+    const realTitle = document.title; 
+    const texts = [' By Maad', ' Erome Premium', realTitle];
+    let index = 0;
+
+    setInterval(() => {
+        document.title = texts[index];
+        index = (index + 1) % texts.length;
+    }, 500); 
+    
+    window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
 })();
