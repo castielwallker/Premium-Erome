@@ -109,7 +109,7 @@
         display: none !important;
        }
        .album-thumbnail-container:hover {
-        margin: 10px;
+        //margin: 10px;
         overflow: visible;
         transform: scale(0.9);
         box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
