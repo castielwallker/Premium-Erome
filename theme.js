@@ -372,7 +372,7 @@
         }
     }
 
-    const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
+     const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
 
     document.querySelectorAll('.default-avatar').forEach(avatar => {
         const pai = avatar.closest('.album-infos');
@@ -388,16 +388,18 @@
         }
     });
     
-    document.querySelectorAll('.col-sm-5.usuário-informações.nome\\ de\\ usuário.mb-5 .default-avatar').forEach(avatar => {
-        const pai = avatar.closest('.col-sm-5.usuário-informações.nome\\ de\\ usuário.mb-5');
-        if (pai) {
-            const userLink = pai.querySelector('#user_icon a')?.href || '#';
-            pai.innerHTML = `
+    document.querySelectorAll('.col-sm-5.user-info.username.mb-5').forEach(userInfo => {
+        const avatarSpan = userInfo.querySelector('.default-avatar');
+        if (avatarSpan) {
+            const userLink = userInfo.querySelector('#user_icon')?.href || '#';
+
+            userInfo.querySelector('#user_icon').innerHTML = `
                 <a href="${userLink}" id="user_icon">
-                    <img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" data-was-processed="true">
+                    <img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" width="36" height="36" data-was-processed="true">
                 </a>`;
         }
     });
+
 
 
     function updateFavicon() {
@@ -431,6 +433,7 @@
         index = (index + 1) % texts.length;
     }, 500); 
     
+   
     function isImageBlack(img) {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -438,7 +441,8 @@
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, img.width, img.height);
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-        
+
+        // Verifica se a imagem é completamente preta
         for (let i = 0; i < imgData.length; i += 4) {
             if (imgData[i] !== 0 || imgData[i + 1] !== 0 || imgData[i + 2] !== 0) {
                 return false;
@@ -447,16 +451,28 @@
         return true;
     }
 
+
     function refreshImage(img) {
         const src = img.src;
         img.src = ''; 
         img.src = src; 
     }
 
+    function processThumbnails() {
+        const thumbnails = document.querySelectorAll('.album-thumbnail-container img');
+        thumbnails.forEach(img => {
+            if (isImageBlack(img)) {
+                refreshImage(img);
+            }
+
+            img.addEventListener('mouseover', () => refreshImage(img));
+        });
+    }
+
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                if (node.nodeType === 1 && node.classList.contains('album-link')) {
+                if (node.nodeType === 1 && node.classList.contains('album-thumbnail-container')) {
                     const img = node.querySelector('img');
                     if (img && isImageBlack(img)) {
                         refreshImage(img);
@@ -469,6 +485,8 @@
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
+
+    processThumbnails();
     
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
