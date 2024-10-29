@@ -109,10 +109,10 @@
         display: none !important;
        }
        .album-thumbnail-container:hover {
+        transform: scale(1.05);
         overflow: visible;
-        transform: scale(0.9);
-        box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
         transition: all 0.2s ease-in-out;
+        box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);  
        }
        .page-content h1 {
         text-align: center;
