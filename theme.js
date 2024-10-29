@@ -102,7 +102,7 @@
         height: 100%;
        }
        .album-thumbnail-container {
-        transition: all 0.2s ease-in-out;
+        transition: all 0.3s ease-in-out;
         position: relative;
        }
        .album-title {
@@ -113,6 +113,7 @@
         overflow: visible;
         transform: scale(0.9);
         box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
+        transition: all 0.3s ease-in-out;
        }
        .page-content h1 {
         text-align: center;
