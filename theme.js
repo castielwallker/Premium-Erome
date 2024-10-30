@@ -359,6 +359,13 @@
       }
     `;
     document.head.appendChild(style);
+    
+    function removerDivSp() {
+        const elementosSp = document.querySelectorAll('.sp');
+        elementosSp.forEach(el => el.remove());
+    }
+    window.addEventListener('load', removerDivSp);
+    
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
     if (logo) {
         logo.style.filter = 'hue-rotate(295deg)';
@@ -492,13 +499,7 @@
 
     observer.observe(document.body, { childList: true, subtree: true });
     processThumbnails();
-    
-    function removerDivSp() {
-        const elementosSp = document.querySelectorAll('.sp');
-        elementosSp.forEach(el => el.remove());
-    }
 
-    
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
     window.addEventListener('load', () => {
