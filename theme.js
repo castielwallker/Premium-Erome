@@ -363,7 +363,13 @@
     function removerDivSp() {
         const elementosSp = document.querySelectorAll('.sp');
         elementosSp.forEach(el => el.remove());
+        
+        const bubbleLink = document.getElementById('bubble');
+        if (bubbleLink) {
+            bubbleLink.remove();
+        }
     }
+    
     window.addEventListener('load', removerDivSp);
     
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
@@ -377,6 +383,7 @@
         if (suggestedUsers) {
             suggestedUsers.style.display = 'none';
         }
+        
     }
 
     const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
