@@ -449,7 +449,6 @@
         ctx.drawImage(img, 0, 0, img.width, img.height);
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 
-        // Verifica se a imagem é completamente preta
         for (let i = 0; i < imgData.length; i += 4) {
             if (imgData[i] !== 0 || imgData[i + 1] !== 0 || imgData[i + 2] !== 0) {
                 return false;
@@ -495,17 +494,15 @@
     processThumbnails();
     
     function ocultarElementos() {
-
-        const elementosParaOcultar = document.querySelectorAll(
-            '.col-sm-12 .sp.hidden-xs.hidden-xxs.hidden-tn, ' +
-            '.col-sm-12 .sp-mob.hidden-sm.hidden-md.hidden-lg'
-        );
-
-        elementosParaOcultar.forEach(el => el.style.display = 'none');
-
-        const bubbleLink = document.getElementById('bubble');
-        if (bubbleLink) bubbleLink.style.display = 'none';
-    }
+            const elementosParaOcultar = document.querySelectorAll(
+                '.sp, .sp.hidden-xs.hidden-xxs.hidden-tn, .sp-mob.hidden-sm.hidden-md.hidden-lg'
+            );
+    
+            elementosParaOcultar.forEach(el => el.style.display = 'none');
+    
+            const bubbleLink = document.getElementById('bubble');
+            if (bubbleLink) bubbleLink.style.display = 'none';
+        }
 
     window.addEventListener('load', ocultarElementos);
     window.addEventListener('load', updateFavicon);
