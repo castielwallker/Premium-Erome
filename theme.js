@@ -363,12 +363,8 @@
     function removerElementos() {
         const elementosParaRemover = document.querySelectorAll('.sp, .sp-mob.hidden-sm.hidden-md.hidden-lg, .bubble-mobile');
         elementosParaRemover.forEach(el => el.remove());
-
-        const bubbleLink = document.getElementById('bubble');
-        if (bubbleLink) {
-            bubbleLink.remove();
-        }
     }
+
     
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
     if (logo) {
