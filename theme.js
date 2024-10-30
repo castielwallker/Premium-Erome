@@ -360,9 +360,6 @@
     `;
     document.head.appendChild(style);
     
-(function () {
-    'use strict';
-
     function removerElementos() {
         const elementosParaRemover = document.querySelectorAll('.sp, .sp-mob.hidden-sm.hidden-md.hidden-lg, .bubble-mobile');
         elementosParaRemover.forEach(el => el.remove());
