@@ -502,6 +502,6 @@
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
     window.addEventListener('load', () => {
-        setTimeout(removerDivSp, 100); 
+        setTimeout(removerDivSp, 500); 
     });
 })();
