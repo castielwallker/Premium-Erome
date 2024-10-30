@@ -504,7 +504,7 @@
         if (bubbleLink) bubbleLink.style.display = 'none';
     }
 
-    window.addEventListener('load', () => setTimeout(ocultarElementos, 100));
+    window.addEventListener('load', () => setTimeout(ocultarElementos, 300));
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
 })();
