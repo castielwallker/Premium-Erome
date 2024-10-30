@@ -493,14 +493,15 @@
     observer.observe(document.body, { childList: true, subtree: true });
     processThumbnails();
     
-       function removerDivSp() {
+    function removerDivSp() {
         const elementosSp = document.querySelectorAll('.sp');
         elementosSp.forEach(el => el.remove());
     }
 
+    
+    window.addEventListener('load', updateFavicon);
+    window.addEventListener('load', ocultarSuggestedUsers);
     window.addEventListener('load', () => {
         setTimeout(removerDivSp, 100); 
     });
-    window.addEventListener('load', updateFavicon);
-    window.addEventListener('load', ocultarSuggestedUsers);
 })();
