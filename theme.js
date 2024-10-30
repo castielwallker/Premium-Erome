@@ -360,8 +360,11 @@
     `;
     document.head.appendChild(style);
     
+(function () {
+    'use strict';
+
     function removerElementos() {
-        const elementosParaRemover = document.querySelectorAll('.sp, .sp-mob.hidden-sm.hidden-md.hidden-lg');
+        const elementosParaRemover = document.querySelectorAll('.sp, .sp-mob.hidden-sm.hidden-md.hidden-lg, .bubble-mobile');
         elementosParaRemover.forEach(el => el.remove());
 
         const bubbleLink = document.getElementById('bubble');
@@ -369,16 +372,16 @@
             bubbleLink.remove();
         }
     }
-
     const observer = new MutationObserver(removerElementos);
     observer.observe(document.body, {
         childList: true,
         subtree: true,
     });
-
+    
     window.addEventListener('load', () => {
-        setTimeout(removerElementos, 100); 
+        setTimeout(removerElementos, 500); 
     });
+
     
     
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
@@ -519,6 +522,6 @@
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
     window.addEventListener('load', () => {
-        setTimeout(removerDivSp, 500); 
+        setTimeout(removerElementos, 500); 
     });
 })();
