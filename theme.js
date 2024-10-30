@@ -493,18 +493,14 @@
     observer.observe(document.body, { childList: true, subtree: true });
     processThumbnails();
     
-    function ocultarElementos() {
-        const elementosParaOcultar = document.querySelectorAll(
-            '.sp, .sp.hidden-xs.hidden-xxs.hidden-tn, .sp-mob.hidden-sm.hidden-md.hidden-lg'
-        );
-
-        elementosParaOcultar.forEach(el => el.style.display = 'none');
-
-        const bubbleLink = document.getElementById('bubble');
-        if (bubbleLink) bubbleLink.style.display = 'none';
+       function removerDivSp() {
+        const elementosSp = document.querySelectorAll('.sp');
+        elementosSp.forEach(el => el.remove());
     }
 
-    window.addEventListener('load', () => setTimeout(ocultarElementos, 300));
+    window.addEventListener('load', () => {
+        setTimeout(removerDivSp, 100); 
+    });
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
 })();
