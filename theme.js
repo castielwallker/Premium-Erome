@@ -372,17 +372,6 @@
             bubbleLink.remove();
         }
     }
-    const observer = new MutationObserver(removerElementos);
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-    });
-    
-    window.addEventListener('load', () => {
-        setTimeout(removerElementos, 500); 
-    });
-
-    
     
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
     if (logo) {
@@ -518,10 +507,8 @@
 
     observer.observe(document.body, { childList: true, subtree: true });
     processThumbnails();
-
+    
+    window.addEventListener('load', removerElementos);
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
-    window.addEventListener('load', () => {
-        setTimeout(removerElementos, 500); 
-    });
 })();
