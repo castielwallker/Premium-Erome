@@ -494,17 +494,17 @@
     processThumbnails();
     
     function ocultarElementos() {
-            const elementosParaOcultar = document.querySelectorAll(
-                '.sp, .sp.hidden-xs.hidden-xxs.hidden-tn, .sp-mob.hidden-sm.hidden-md.hidden-lg'
-            );
-    
-            elementosParaOcultar.forEach(el => el.style.display = 'none');
-    
-            const bubbleLink = document.getElementById('bubble');
-            if (bubbleLink) bubbleLink.style.display = 'none';
-        }
+        const elementosParaOcultar = document.querySelectorAll(
+            '.sp, .sp.hidden-xs.hidden-xxs.hidden-tn, .sp-mob.hidden-sm.hidden-md.hidden-lg'
+        );
 
-    window.addEventListener('load', ocultarElementos);
+        elementosParaOcultar.forEach(el => el.style.display = 'none');
+
+        const bubbleLink = document.getElementById('bubble');
+        if (bubbleLink) bubbleLink.style.display = 'none';
+    }
+
+    window.addEventListener('load', () => setTimeout(ocultarElementos, 100));
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
 })();
