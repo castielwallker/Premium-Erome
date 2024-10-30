@@ -494,7 +494,18 @@
     observer.observe(document.body, { childList: true, subtree: true });
 
     processThumbnails();
-    
+        function ocultarElementos() {
+        const elementosParaOcultar = document.querySelectorAll(
+            '.col-sm-12 .sp.hidden-xs.hidden-xxs.hidden-tn'
+        );
+            
+        elementosParaOcultar.forEach(el => el.style.display = 'none');
+            
+        const bubbleLink = document.getElementById('bubble');
+        if (bubbleLink) bubbleLink.style.display = 'none';
+    }
+
+    window.addEventListener('load', ocultarElementos);
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
 })();
