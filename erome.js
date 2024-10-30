@@ -708,7 +708,7 @@
      `;
 
 
-            //viewSec.insertAdjacentHTML("afterbegin", likeCountHTML);
+            viewSec.insertAdjacentHTML("afterbegin", likeCountHTML);
         });
 
         await Promise.all(albumPromises);
