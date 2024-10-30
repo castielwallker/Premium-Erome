@@ -492,15 +492,17 @@
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-
     processThumbnails();
-        function ocultarElementos() {
+    
+    function ocultarElementos() {
+
         const elementosParaOcultar = document.querySelectorAll(
-            '.col-sm-12 .sp.hidden-xs.hidden-xxs.hidden-tn'
+            '.col-sm-12 .sp.hidden-xs.hidden-xxs.hidden-tn, ' +
+            '.col-sm-12 .sp-mob.hidden-sm.hidden-md.hidden-lg'
         );
-            
+
         elementosParaOcultar.forEach(el => el.style.display = 'none');
-            
+
         const bubbleLink = document.getElementById('bubble');
         if (bubbleLink) bubbleLink.style.display = 'none';
     }
