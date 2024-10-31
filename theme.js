@@ -315,6 +315,24 @@
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
+       
+       .fa-lg:hover{
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+      }
+      .fa-eye:hover{
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+      }
+      .fa-video:hover {
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+       }
+      .fa-camera:hover{
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+       }
+       
        #user .bio {
         color: #ffffff;
        }
@@ -370,7 +388,7 @@
         }
 
     window.addEventListener('load', () => {
-        setTimeout(removerElementos, 500); // Atraso de 100ms
+        setTimeout(removerElementos, 1000)
     });
     
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
@@ -453,61 +471,10 @@
     setInterval(() => {
         document.title = texts[index];
         index = (index + 1) % texts.length;
-    }, 500); 
+    }, 1000); 
     
    
-    function isImageBlack(img) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 
-        for (let i = 0; i < imgData.length; i += 4) {
-            if (imgData[i] !== 0 || imgData[i + 1] !== 0 || imgData[i + 2] !== 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    function refreshImage(img) {
-        const src = img.src;
-        img.src = ''; 
-        img.src = src; 
-    }
-
-    function processThumbnails() {
-        const thumbnails = document.querySelectorAll('.album-thumbnail-container img');
-        thumbnails.forEach(img => {
-            if (isImageBlack(img)) {
-                refreshImage(img);
-            }
-
-            img.addEventListener('mouseover', () => refreshImage(img));
-        });
-    }
-
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            mutation.addedNodes.forEach((node) => {
-                if (node.nodeType === 1 && node.classList.contains('album-thumbnail-container')) {
-                    const img = node.querySelector('img');
-                    if (img && isImageBlack(img)) {
-                        refreshImage(img);
-                    }
-
-                    img.addEventListener('mouseover', () => refreshImage(img));
-                }
-            });
-        });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-    processThumbnails();
-    
     window.addEventListener('load', removerElementos);
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
