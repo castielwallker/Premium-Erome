@@ -733,10 +733,13 @@
 
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
+    const PIXELSREVERSE = MILIMETROS * -3.78;
     // By Maad
     window.addEventListener('load', () => {
         window.scrollBy(0, PIXELS);
+	window.scrollBy(0, PIXELSREVERSE); 
     });
+	
     window.addEventListener('load', init);
     document.addEventListener('DOMContentLoaded', init);
     document.addEventListener("contextmenu", (e) => {e.stopPropagation()}, true);
