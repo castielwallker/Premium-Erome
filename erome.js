@@ -55,12 +55,6 @@
 
     // CSS PLAYER
     GM_addStyle(`
-    .vjs-control:hover {
-        background: rgba(255, 255, 255, 0.2); 
-    }
-    button:hover {
-        background: rgba(255, 255, 255, 0.2); 
-    }
    .media-group .img-back {
         width: 100%;
         height: auto;
@@ -68,50 +62,47 @@
         border-radius: 15px;
         opacity: 1;
     }
-    @keyframes ToastAnim {
-	0% {
-		animation-timing-function: ease-in;
-		opacity: 1;
-		transform: translateY(-45px);
-	}
+    
+// Animation
+@keyframes ToastAnim {
+0% {
+	animation-timing-function: ease-in;
+	opacity: 1;
+	transform: translateY(-45px); 
+    }
 
-	24% {
-		opacity: 1;
-	}
+24% { 
+        opacity: 1;
+    }
 
-	40% {
-		animation-timing-function: ease-in;
-		transform: translateY(-24px);
-	}
-
-	65% {
-		animation-timing-function: ease-in;
-		transform: translateY(-12px);
-	}
-
-	82% {
-		animation-timing-function: ease-in;
-		transform: translateY(-6px);
-	}
-
-	93% {
-		animation-timing-function: ease-in;
-		transform: translateY(-4px);
-	}
-
+40% {
+	animation-timing-function: ease-in;
+	transform: translateY(-24px);
+   }
+65% {
+	animation-timing-function: ease-in;
+	transform: translateY(-12px);
+    }
+82% {
+	animation-timing-function: ease-in;
+	transform: translateY(-6px);
+    }
+93% {
+	animation-timing-function: ease-in;
+  	transform: translateY(-4px);
+    }
 	25%,
 	55%,
 	75%,
-	87% {
-		animation-timing-function: ease-out;
-		transform: translateY(0px);
-	}
-
-	100% {
-		animation-timing-function: ease-out;
-		opacity: 1;
-		transform: translateY(0px);
-	}
+87% {
+	animation-timing-function: ease-out;
+	transform: translateY(0px);
+    }
+100% {
+        animation-timing-function: ease-out;
+	opacity: 1;
+	transform: translateY(0px);
+    }
 }
     `);
     const speeds = [0.5, 1, 1.5,2,4,5];
