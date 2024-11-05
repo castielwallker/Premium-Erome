@@ -272,25 +272,25 @@
 }
 
     //Botão Donwload
-	// Adicionar contêiner de downloads ao corpo
-	const downloadContainer = document.createElement('div');
+	// Cria o contêiner de downloads no canto da tela
+	const downloadContainer = document.createElement('div_g');
 	downloadContainer.style = `
 	    position: fixed;
 	    bottom: 10px;
 	    right: 10px;
 	    width: 300px;
-	    max-height: 400px;
 	    background: rgba(0, 0, 0, 0.8);
 	    color: white;
-	    overflow-y: auto;
 	    padding: 10px;
 	    border-radius: 8px;
-	    display: none; /* Inicia oculto */
+	    max-height: 300px;
+	    overflow-y: auto;
+	    display: none;
 	`;
 	document.body.appendChild(downloadContainer);
 	
 	// Botão para mostrar/ocultar a lista de downloads
-	const toggleButton = document.createElement('button');
+	const toggleButton = document.createElement('button_g');
 	toggleButton.textContent = 'Mostrar Downloads';
 	toggleButton.style = `
 	    position: fixed;
@@ -304,24 +304,31 @@
 	    cursor: pointer;
 	`;
 	toggleButton.onclick = () => {
-	    downloadContainer.style.display = downloadContainer.style.display === 'none' ? 'block' : 'none';
-	    toggleButton.textContent = downloadContainer.style.display === 'none' ? 'Mostrar Downloads' : 'Ocultar Downloads';
+	    const isHidden = downloadContainer.style.display === 'none';
+	    downloadContainer.style.display = isHidden ? 'block' : 'none';
+	    toggleButton.textContent = isHidden ? 'Ocultar Downloads' : 'Mostrar Downloads';
 	};
 	document.body.appendChild(toggleButton);
 	
-	// Função modificada de download com progressBar
+	// Função de download com barra de progresso
 	function download(url) {
-	    const downloadItem = document.createElement('div');
-	    const progressText = document.createElement('span');
+	    // Cria item de download e elementos de progresso
+	    const downloadItem = document.createElement('div_g');
+	    downloadItem.style.marginBottom = '10px';
+	
+	    const fileName = document.createElement('span');
+	    fileName.textContent = `Baixando: ${getFileName(url)} `;
+	    downloadItem.appendChild(fileName);
+	
 	    const progressBar = document.createElement('progress');
-	    downloadItem.textContent = `Baixando: ${getFileName(url)} `;
 	    progressBar.value = 0;
 	    progressBar.max = 100;
-	    downloadItem.appendChild(progressText);
 	    downloadItem.appendChild(progressBar);
 	    downloadContainer.appendChild(downloadItem);
-	    downloadContainer.style.display = 'block';
 	
+	    downloadContainer.style.display = 'block'; // Exibe o contêiner de downloads
+	
+	    // Inicia a requisição de download
 	    GM.xmlHttpRequest({
 	        method: "GET",
 	        url: url,
@@ -333,7 +340,6 @@
 	        onprogress: function(event) {
 	            if (event.lengthComputable) {
 	                const percentComplete = (event.loaded / event.total) * 100;
-	                progressText.textContent = `${Math.round(percentComplete)}% `;
 	                progressBar.value = percentComplete;
 	            }
 	        },
@@ -348,24 +354,24 @@
 	                aTag.click();
 	                URL.revokeObjectURL(tempUrl);
 	                aTag.remove();
-	                showToast('Download iniciado');
+	                showToast('Download completo');
+	                downloadItem.style.color = 'lightgreen'; // Indica conclusão
 	            } else {
 	                showToast('Erro 403: Acesso negado ao arquivo', true);
+	                downloadItem.style.color = 'red';
 	            }
-	            downloadItem.style.color = 'lightgreen'; // Indica conclusão
 	        },
-	        onerror: function (err) {
+	        onerror: function () {
 	            showToast('Erro no download', true);
 	            downloadItem.style.color = 'red';
 	        }
 	    });
 	}
 	
-	// Função auxiliar para obter o nome do arquivo
+	// Função para extrair o nome do arquivo do URL
 	function getFileName(url) {
 	    return url.split('/').pop();
 	}
-
 
     // Download Direct
     function addLink(media) {
