@@ -272,35 +272,100 @@
 }
 
     //Botão Donwload
-    function download(url) {
-        GM.xmlHttpRequest({
-            method: "GET",
-            url: url,
-            responseType: "blob",
-            headers: {
-                'User-Agent': 'Mozilla/5.0',
-                'Referer': 'https://www.erome.com/'
-            },
-            onload: function (response) {
-                if (response.status === 200) {
-                    const blob = new Blob([response.response], { type: response.response.type });
-                    const tempUrl = URL.createObjectURL(blob);
-                    const aTag = document.createElement('a');
-                    aTag.href = tempUrl;
-                    aTag.download = getFileName(url);
-                    document.body.appendChild(aTag);
-                    aTag.click();
-                    URL.revokeObjectURL(tempUrl);
-                    aTag.remove();
-                    showToast('Download iniciado');
-                } else {
-                    showToast('Erro 403: Acesso negado ao arquivo', true);
-                }
-            },
-            onerror: function (err) {
-            }
-        });
-    }
+	// Adicionar contêiner de downloads ao corpo
+	const downloadContainer = document.createElement('div');
+	downloadContainer.style = `
+	    position: fixed;
+	    bottom: 10px;
+	    right: 10px;
+	    width: 300px;
+	    max-height: 400px;
+	    background: rgba(0, 0, 0, 0.8);
+	    color: white;
+	    overflow-y: auto;
+	    padding: 10px;
+	    border-radius: 8px;
+	    display: none; /* Inicia oculto */
+	`;
+	document.body.appendChild(downloadContainer);
+	
+	// Botão para mostrar/ocultar a lista de downloads
+	const toggleButton = document.createElement('button');
+	toggleButton.textContent = 'Mostrar Downloads';
+	toggleButton.style = `
+	    position: fixed;
+	    bottom: 10px;
+	    right: 320px;
+	    padding: 5px 10px;
+	    background: #555;
+	    color: white;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	`;
+	toggleButton.onclick = () => {
+	    downloadContainer.style.display = downloadContainer.style.display === 'none' ? 'block' : 'none';
+	    toggleButton.textContent = downloadContainer.style.display === 'none' ? 'Mostrar Downloads' : 'Ocultar Downloads';
+	};
+	document.body.appendChild(toggleButton);
+	
+	// Função modificada de download com progressBar
+	function download(url) {
+	    const downloadItem = document.createElement('div');
+	    const progressText = document.createElement('span');
+	    const progressBar = document.createElement('progress');
+	    downloadItem.textContent = `Baixando: ${getFileName(url)} `;
+	    progressBar.value = 0;
+	    progressBar.max = 100;
+	    downloadItem.appendChild(progressText);
+	    downloadItem.appendChild(progressBar);
+	    downloadContainer.appendChild(downloadItem);
+	    downloadContainer.style.display = 'block';
+	
+	    GM.xmlHttpRequest({
+	        method: "GET",
+	        url: url,
+	        responseType: "blob",
+	        headers: {
+	            'User-Agent': 'Mozilla/5.0',
+	            'Referer': 'https://www.erome.com/'
+	        },
+	        onprogress: function(event) {
+	            if (event.lengthComputable) {
+	                const percentComplete = (event.loaded / event.total) * 100;
+	                progressText.textContent = `${Math.round(percentComplete)}% `;
+	                progressBar.value = percentComplete;
+	            }
+	        },
+	        onload: function (response) {
+	            if (response.status === 200) {
+	                const blob = new Blob([response.response], { type: response.response.type });
+	                const tempUrl = URL.createObjectURL(blob);
+	                const aTag = document.createElement('a');
+	                aTag.href = tempUrl;
+	                aTag.download = getFileName(url);
+	                document.body.appendChild(aTag);
+	                aTag.click();
+	                URL.revokeObjectURL(tempUrl);
+	                aTag.remove();
+	                showToast('Download iniciado');
+	            } else {
+	                showToast('Erro 403: Acesso negado ao arquivo', true);
+	            }
+	            downloadItem.style.color = 'lightgreen'; // Indica conclusão
+	        },
+	        onerror: function (err) {
+	            showToast('Erro no download', true);
+	            downloadItem.style.color = 'red';
+	        }
+	    });
+	}
+	
+	// Função auxiliar para obter o nome do arquivo
+	function getFileName(url) {
+	    return url.split('/').pop();
+	}
+
 
     // Download Direct
     function addLink(media) {
