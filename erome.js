@@ -272,7 +272,9 @@
 }
 
     //Botão Donwload
+// Função para obter o nome do arquivo sem parâmetros extras
 function getFileName(url) {
+    // Remove parâmetros adicionais (ex: ?_v=1719669065) e retorna o nome do arquivo limpo
     const cleanUrl = url.split('?')[0];
     return cleanUrl.split('/').pop();
 }
@@ -307,7 +309,7 @@ function download(url) {
                 aTag.click();
                 URL.revokeObjectURL(tempUrl);
                 aTag.remove();
-                console.clear(); 
+                console.clear();  // Limpa o console novamente ao finalizar o download
                 console.log(`Concluído > '${fileName}' % 100`);
                 showToast('Download iniciado');
             } else {
@@ -319,6 +321,7 @@ function download(url) {
         }
     });
 }
+
 
 
     // Download Direct
