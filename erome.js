@@ -272,106 +272,35 @@
 }
 
     //Botão Donwload
-	// Cria o contêiner de downloads no canto da tela
-	const downloadContainer = document.createElement('div_g');
-	downloadContainer.style = `
-	    position: fixed;
-	    bottom: 10px;
-	    right: 10px;
-	    width: 300px;
-	    background: rgba(0, 0, 0, 0.8);
-	    color: white;
-	    padding: 10px;
-	    border-radius: 8px;
-	    max-height: 300px;
-	    overflow-y: auto;
-	    display: none;
-	`;
-	document.body.appendChild(downloadContainer);
-	
-	// Botão para mostrar/ocultar a lista de downloads
-	const toggleButton = document.createElement('button_g');
-	toggleButton.textContent = 'Mostrar Downloads';
-	toggleButton.style = `
-	    position: fixed;
-	    bottom: 10px;
-	    right: 320px;
-	    padding: 5px 10px;
-	    background: #555;
-	    color: white;
-	    border: none;
-	    border-radius: 4px;
-	    cursor: pointer;
-	`;
-	toggleButton.onclick = () => {
-	    const isHidden = downloadContainer.style.display === 'none';
-	    downloadContainer.style.display = isHidden ? 'block' : 'none';
-	    toggleButton.textContent = isHidden ? 'Ocultar Downloads' : 'Mostrar Downloads';
-	};
-	document.body.appendChild(toggleButton);
-	
-	// Função de download com barra de progresso
-	function download(url) {
-	    // Cria item de download e elementos de progresso
-	    const downloadItem = document.createElement('div_g');
-	    downloadItem.style.marginBottom = '10px';
-	
-	    const fileName = document.createElement('span');
-	    fileName.textContent = `Baixando: ${getFileName(url)} `;
-	    downloadItem.appendChild(fileName);
-	
-	    const progressBar = document.createElement('progress');
-	    progressBar.value = 0;
-	    progressBar.max = 100;
-	    downloadItem.appendChild(progressBar);
-	    downloadContainer.appendChild(downloadItem);
-	
-	    downloadContainer.style.display = 'block'; // Exibe o contêiner de downloads
-	
-	    // Inicia a requisição de download
-	    GM.xmlHttpRequest({
-	        method: "GET",
-	        url: url,
-	        responseType: "blob",
-	        headers: {
-	            'User-Agent': 'Mozilla/5.0',
-	            'Referer': 'https://www.erome.com/'
-	        },
-	        onprogress: function(event) {
-	            if (event.lengthComputable) {
-	                const percentComplete = (event.loaded / event.total) * 100;
-	                progressBar.value = percentComplete;
-	            }
-	        },
-	        onload: function (response) {
-	            if (response.status === 200) {
-	                const blob = new Blob([response.response], { type: response.response.type });
-	                const tempUrl = URL.createObjectURL(blob);
-	                const aTag = document.createElement('a');
-	                aTag.href = tempUrl;
-	                aTag.download = getFileName(url);
-	                document.body.appendChild(aTag);
-	                aTag.click();
-	                URL.revokeObjectURL(tempUrl);
-	                aTag.remove();
-	                showToast('Download completo');
-	                downloadItem.style.color = 'lightgreen'; // Indica conclusão
-	            } else {
-	                showToast('Erro 403: Acesso negado ao arquivo', true);
-	                downloadItem.style.color = 'red';
-	            }
-	        },
-	        onerror: function () {
-	            showToast('Erro no download', true);
-	            downloadItem.style.color = 'red';
-	        }
-	    });
-	}
-	
-	// Função para extrair o nome do arquivo do URL
-	function getFileName(url) {
-	    return url.split('/').pop();
-	}
+    function download(url) {
+        GM.xmlHttpRequest({
+            method: "GET",
+            url: url,
+            responseType: "blob",
+            headers: {
+                'User-Agent': 'Mozilla/5.0',
+                'Referer': 'https://www.erome.com/'
+            },
+            onload: function (response) {
+                if (response.status === 200) {
+                    const blob = new Blob([response.response], { type: response.response.type });
+                    const tempUrl = URL.createObjectURL(blob);
+                    const aTag = document.createElement('a');
+                    aTag.href = tempUrl;
+                    aTag.download = getFileName(url);
+                    document.body.appendChild(aTag);
+                    aTag.click();
+                    URL.revokeObjectURL(tempUrl);
+                    aTag.remove();
+                    showToast('Download iniciado');
+                } else {
+                    showToast('Erro 403: Acesso negado ao arquivo', true);
+                }
+            },
+            onerror: function (err) {
+            }
+        });
+    }
 
     // Download Direct
     function addLink(media) {
