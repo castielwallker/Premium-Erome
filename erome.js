@@ -193,56 +193,6 @@
         }, 1);
     } 
 	
-// Criar Tooltip Flutuante Fora da Grade
-function createFloatingTooltip() {
-    const tooltip = document.createElement("div");
-    tooltip.id = "floating-tooltip";
-    tooltip.style.position = "absolute";
-    tooltip.style.padding = "8px";
-    tooltip.style.backgroundColor = "rgba(0, 0, 0, 0.95)";
-    tooltip.style.color = "white";
-    tooltip.style.borderRadius = "4px";
-    tooltip.style.fontSize = "12px";
-    tooltip.style.pointerEvents = "none";
-    tooltip.style.display = "none"; 
-    document.body.appendChild(tooltip);
-}
-
-function ApplyTooltipToAllAlbums() {
-    const albums = document.querySelectorAll('.album');
-    
-    albums.forEach(album => {
-        const albumTitle = album.querySelector('.album-title')?.textContent.trim();
-        
-        if (albumTitle) {
-            album.addEventListener("mouseenter", (e) => {
-                const tooltip = document.getElementById("floating-tooltip");
-                tooltip.textContent = albumTitle;
-                tooltip.style.display = "block";
-                tooltip.style.left = e.pageX + 20 + "px";
-                tooltip.style.top = e.pageY + 20 + "px"; 
-            });
-		
-            album.addEventListener("mousemove", (e) => {
-                const tooltip = document.getElementById("floating-tooltip");
-                tooltip.style.left = e.pageX + 20 + "px";
-                tooltip.style.top = e.pageY + 20 + "px";
-            });
-
-            album.addEventListener("mouseleave", () => {
-                const tooltip = document.getElementById("floating-tooltip");
-                tooltip.style.display = "none";
-            });
-        }
-    });
-}
-// Inicializar tooltip flutuante e aplicar nos álbuns
-document.addEventListener("DOMContentLoaded", () => {
-    createFloatingTooltip();
-    ApplyTooltipToAllAlbums();
-});
-
-
     // Disclaimer
     function Disclaimer() {
         const disclaimer = document.getElementById('disclaimer');
