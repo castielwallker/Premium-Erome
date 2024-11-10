@@ -473,59 +473,6 @@
         index = (index + 1) % texts.length;
     }, 1000); 
 
-    //
-    // Criar Tooltip Flutuante Fora da Grade
-function createFloatingTooltip() {
-    // Cria o elemento do tooltip e o adiciona ao corpo do documento
-    const tooltip = document.createElement("div");
-    tooltip.id = "floating-tooltip";
-    tooltip.style.position = "absolute";
-    tooltip.style.padding = "8px";
-    tooltip.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
-    tooltip.style.color = "white";
-    tooltip.style.borderRadius = "4px";
-    tooltip.style.fontSize = "12px";
-    tooltip.style.pointerEvents = "none";
-    tooltip.style.display = "none"; // Inicialmente oculto
-    document.body.appendChild(tooltip);
-}
-
-// Função para configurar o tooltip nos álbuns
-function ApplyTooltipToAllAlbums() {
-    const albums = document.querySelectorAll('.album');
-    
-    albums.forEach(album => {
-        const albumTitle = album.querySelector('.album-title')?.textContent.trim();
-        
-        if (albumTitle) {
-            // Eventos de mouse
-            album.addEventListener("mouseenter", (e) => {
-                const tooltip = document.getElementById("floating-tooltip");
-                tooltip.textContent = albumTitle;
-                tooltip.style.display = "block";
-            });
-
-            album.addEventListener("mousemove", (e) => {
-                const tooltip = document.getElementById("floating-tooltip");
-                tooltip.style.left = e.pageX + 10 + "px";
-                tooltip.style.top = e.pageY + 10 + "px";
-            });
-
-            album.addEventListener("mouseleave", () => {
-                const tooltip = document.getElementById("floating-tooltip");
-                tooltip.style.display = "none";
-            });
-        }
-    });
-}
-
-// Inicializar tooltip flutuante e aplicar nos álbuns
-document.addEventListener("DOMContentLoaded", () => {
-    createFloatingTooltip();
-    ApplyTooltipToAllAlbums();
-});
-
-   
     window.addEventListener('load', ChangeTitle);
     window.addEventListener('load', removerElementos);
     window.addEventListener('load', updateFavicon);
