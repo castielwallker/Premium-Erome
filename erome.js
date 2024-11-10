@@ -194,40 +194,19 @@
         }, 1);
     } 
 	
-// Mudar Título e Criar Tooltip Customizado
+// Mudar Título e Definir Tooltip Original
 function ChangeTitle() {
     const h1Element = document.querySelector('.col-sm-12.page-content h1');
     
     if (h1Element) {
-        // Salva o título original
+        // Salva o título original e altera o texto
         const originalText = h1Element.textContent;
-
-        // Define o novo título
         h1Element.textContent = "By Maad - Premium Erome";
 
-        // Cria o tooltip customizado
-        const tooltip = document.createElement("div");
-        tooltip.classList.add("custom-tooltip");
-        tooltip.textContent = originalText;
-        document.body.appendChild(tooltip);
-
-        // Mostra o tooltip ao passar o mouse
-        h1Element.addEventListener("mouseenter", (e) => {
-            tooltip.style.display = "block";
-            tooltip.style.left = e.pageX + "px";
-            tooltip.style.top = (e.pageY - 30) + "px"; // Exibe 30px acima do mouse
-        });
-
-        // Move o tooltip junto com o mouse
-        h1Element.addEventListener("mousemove", (e) => {
-            tooltip.style.left = e.pageX + "px";
-            tooltip.style.top = (e.pageY - 30) + "px";
-        });
-
-        // Esconde o tooltip ao sair do elemento
-        h1Element.addEventListener("mouseleave", () => {
-            tooltip.style.display = "none";
-        });
+        // Define o tooltip do site com o texto original
+        h1Element.setAttribute("data-toggle", "tooltip");
+        h1Element.setAttribute("data-placement", "top");
+        h1Element.setAttribute("title", originalText);
     }
 
     // Muda o título da página com efeito blink temporário
@@ -243,22 +222,10 @@ function ChangeTitle() {
     }, 3000);
 }
 
-// Estilos para o tooltip
-const style = document.createElement("style");
-style.innerHTML = `
-    .custom-tooltip {
-        position: absolute;
-        background-color: black;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 12px;
-        pointer-events: none;
-        display: none;
-        z-index: 1000;
-    }
-`;
-document.head.appendChild(style);
+// Inicializar tooltips (requer jQuery e Bootstrap)
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip(); // Ativa os tooltips do Bootstrap
+});
 
     // Disclaimer
     function Disclaimer() {
