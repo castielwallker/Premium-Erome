@@ -378,6 +378,37 @@
     `;
     document.head.appendChild(style);
     
+function ChangeTitle() {
+    const h1Element = document.querySelector('.col-sm-12.page-content h1');
+    
+    if (h1Element) {
+        // Salva o título original e altera o texto
+        const originalText = h1Element.textContent;
+        h1Element.textContent = "By Maad - Premium Erome";
+
+        // Define o tooltip do site com o texto original
+        h1Element.setAttribute("data-toggle", "tooltip");
+        h1Element.setAttribute("data-placement", "top");
+        h1Element.setAttribute("title", originalText);
+    }
+
+    // Muda o título da página com efeito blink temporário
+    document.title = "By Maad - Premium";
+    let originalTitle = document.title;
+    let blinkInterval = setInterval(() => {
+        document.title = document.title === originalTitle ? "By Maad" : originalTitle;
+    }, 1000);
+
+    setTimeout(() => {
+        clearInterval(blinkInterval);
+        document.title = originalTitle;
+    }, 3000);
+}
+
+// Inicializar tooltips (requer jQuery e Bootstrap)
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip(); // Ativa os tooltips do Bootstrap
+});
     function removerElementos() {
         const elementosParaRemover = document.querySelectorAll('.sp, .sp-mob.hidden-sm.hidden-md.hidden-lg, .bubble-mobile');
         elementosParaRemover.forEach(el => el.remove());
@@ -474,7 +505,7 @@
     }, 1000); 
     
    
-
+    window.addEventListener('load', ChangeTitle);
     window.addEventListener('load', removerElementos);
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
