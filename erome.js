@@ -193,6 +193,23 @@
         }, 1);
     } 
 	
+// Aplicar Tooltip aos Álbuns
+function ApplyTooltipToAlbums() {
+    const albumElements = document.querySelectorAll('.album-link .album-thumbnail-container');
+    
+    albumElements.forEach(album => {
+        const originalText = album.getAttribute("title") || album.textContent.trim();
+        
+        album.setAttribute("data-toggle", "tooltip");
+        album.setAttribute("data-placement", "top");
+        album.setAttribute("title", originalText);
+    });
+}
+
+$(document).ready(function () {
+    ApplyTooltipToAlbums();
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
     // Disclaimer
     function Disclaimer() {
