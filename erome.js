@@ -193,23 +193,27 @@
         }, 1);
     } 
 	
-// Aplicar Tooltip aos Álbuns
-function ApplyTooltipToAlbums() {
-    const albumElements = document.querySelectorAll('.album-link .album-thumbnail-container');
+// Aplicar Tooltip aos Títulos dos Álbuns
+function ApplyTooltipToAlbumTitles() {
+    const albumTitles = document.querySelectorAll('.album-title');
     
-    albumElements.forEach(album => {
-        const originalText = album.getAttribute("title") || album.textContent.trim();
+    albumTitles.forEach(album => {
+        // Salva o texto original do título do álbum
+        const originalText = album.textContent.trim();
         
+        // Define o tooltip nativo do site com o texto original
         album.setAttribute("data-toggle", "tooltip");
         album.setAttribute("data-placement", "top");
         album.setAttribute("title", originalText);
     });
 }
 
+// Inicializar tooltips nos títulos dos álbuns
 $(document).ready(function () {
-    ApplyTooltipToAlbums();
-    $('[data-toggle="tooltip"]').tooltip();
+    ApplyTooltipToAlbumTitles();
+    $('[data-toggle="tooltip"]').tooltip(); // Ativa os tooltips do Bootstrap
 });
+
 
     // Disclaimer
     function Disclaimer() {
