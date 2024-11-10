@@ -193,33 +193,25 @@
         }, 1);
     } 
 	
-	// Aplicar Tooltip ao Hover nos Álbuns e Títulos
-	function ApplyTooltipToAlbums() {
-	    // Seleciona os links e títulos dos álbuns
-	    const albumLinks = document.querySelectorAll('.album-link');
-	    const albumTitles = document.querySelectorAll('.album-title');
+     // Aplicar Tooltip Universal para Todos os Álbuns
+     function ApplyTooltipToAllAlbums() {
+
+	    const albums = document.querySelectorAll('.album');
 	
-	    // Configura o tooltip para os links dos álbuns (miniatura)
-	    albumLinks.forEach(link => {
-	        const originalText = link.querySelector('img').getAttribute('alt'); // Captura o texto do atributo alt da imagem
-	        link.setAttribute("data-toggle", "tooltip");
-	        link.setAttribute("data-placement", "top");
-	        link.setAttribute("title", originalText);
-	    });
+	    albums.forEach(album => {
+	        const albumTitle = album.querySelector('.album-title')?.textContent.trim();
 	
-	    // Configura o tooltip para os títulos dos álbuns
-	    albumTitles.forEach(title => {
-	        const originalText = title.textContent.trim(); // Captura o texto original do título do álbum
-	        title.setAttribute("data-toggle", "tooltip");
-	        title.setAttribute("data-placement", "top");
-	        title.setAttribute("title", originalText);
+	        if (albumTitle) {
+	            album.setAttribute("data-toggle", "tooltip");
+	            album.setAttribute("data-placement", "top");
+	            album.setAttribute("title", albumTitle);
+	        }
 	    });
 	}
-	
-	// Inicializar tooltips
+
 	$(document).ready(function () {
-	    ApplyTooltipToAlbums();
-	    $('[data-toggle="tooltip"]').tooltip(); // Ativa os tooltips do Bootstrap
+	    ApplyTooltipToAllAlbums();
+	    $('[data-toggle="tooltip"]').tooltip(); 
 	});
 
     // Disclaimer
