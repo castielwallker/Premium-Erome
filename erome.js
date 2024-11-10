@@ -193,27 +193,34 @@
         }, 1);
     } 
 	
-// Aplicar Tooltip aos Títulos dos Álbuns
-function ApplyTooltipToAlbumTitles() {
-    const albumTitles = document.querySelectorAll('.album-title');
-    
-    albumTitles.forEach(album => {
-        // Salva o texto original do título do álbum
-        const originalText = album.textContent.trim();
-        
-        // Define o tooltip nativo do site com o texto original
-        album.setAttribute("data-toggle", "tooltip");
-        album.setAttribute("data-placement", "top");
-        album.setAttribute("title", originalText);
-    });
-}
-
-// Inicializar tooltips nos títulos dos álbuns
-$(document).ready(function () {
-    ApplyTooltipToAlbumTitles();
-    $('[data-toggle="tooltip"]').tooltip(); // Ativa os tooltips do Bootstrap
-});
-
+	// Aplicar Tooltip ao Hover nos Álbuns e Títulos
+	function ApplyTooltipToAlbums() {
+	    // Seleciona os links e títulos dos álbuns
+	    const albumLinks = document.querySelectorAll('.album-link');
+	    const albumTitles = document.querySelectorAll('.album-title');
+	
+	    // Configura o tooltip para os links dos álbuns (miniatura)
+	    albumLinks.forEach(link => {
+	        const originalText = link.querySelector('img').getAttribute('alt'); // Captura o texto do atributo alt da imagem
+	        link.setAttribute("data-toggle", "tooltip");
+	        link.setAttribute("data-placement", "top");
+	        link.setAttribute("title", originalText);
+	    });
+	
+	    // Configura o tooltip para os títulos dos álbuns
+	    albumTitles.forEach(title => {
+	        const originalText = title.textContent.trim(); // Captura o texto original do título do álbum
+	        title.setAttribute("data-toggle", "tooltip");
+	        title.setAttribute("data-placement", "top");
+	        title.setAttribute("title", originalText);
+	    });
+	}
+	
+	// Inicializar tooltips
+	$(document).ready(function () {
+	    ApplyTooltipToAlbums();
+	    $('[data-toggle="tooltip"]').tooltip(); // Ativa os tooltips do Bootstrap
+	});
 
     // Disclaimer
     function Disclaimer() {
