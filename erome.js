@@ -195,7 +195,6 @@
 	
 // Criar Tooltip Flutuante Fora da Grade
 function createFloatingTooltip() {
-    // Cria o elemento do tooltip e o adiciona ao corpo do documento
     const tooltip = document.createElement("div");
     tooltip.id = "floating-tooltip";
     tooltip.style.position = "absolute";
@@ -206,6 +205,7 @@ function createFloatingTooltip() {
     tooltip.style.fontSize = "12px";
     tooltip.style.pointerEvents = "none";
     tooltip.style.display = "none"; // Inicialmente oculto
+    tooltip.style.zIndex = "999";
     document.body.appendChild(tooltip);
 }
 
