@@ -205,7 +205,6 @@ function createFloatingTooltip() {
     tooltip.style.fontSize = "14px";
     tooltip.style.pointerEvents = "none";
     tooltip.style.display = "none"; 
-    tooltip.style.zIndex = "999";
     document.body.appendChild(tooltip);
 }
 
@@ -222,15 +221,15 @@ function ApplyTooltipToAllAlbums() {
                 const tooltip = document.getElementById("floating-tooltip");
                 tooltip.textContent = albumTitle;
                 tooltip.style.display = "block";
-                tooltip.style.left = e.pageX + 20 + "px"; // Ajusta a posição horizontal
-                tooltip.style.top = e.pageY + 20 + "px"; // Ajusta a posição vertical
+                tooltip.style.left = e.pageX + 10 + "px"; // Ajusta a posição horizontal
+                tooltip.style.top = e.pageY + 10 + "px"; // Ajusta a posição vertical
             });
 
             // Evento para atualizar a posição do tooltip conforme o mouse se move
             album.addEventListener("mousemove", (e) => {
                 const tooltip = document.getElementById("floating-tooltip");
-                tooltip.style.left = e.pageX + 20 + "px";
-                tooltip.style.top = e.pageY + 20 + "px";
+                tooltip.style.left = e.pageX + 10 + "px";
+                tooltip.style.top = e.pageY + 10 + "px";
             });
 
             // Evento para esconder o tooltip quando o mouse sai do álbum
