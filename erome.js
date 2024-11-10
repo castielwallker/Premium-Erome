@@ -175,7 +175,7 @@
     }
 
     // Mudar Titulo
-    function ChangeTitle() {
+    function ChangeTitle1() {
 
         const h1Element = document.querySelector('.col-sm-12.page-content h1');
         if (h1Element) {
@@ -192,7 +192,34 @@
             clearInterval(blinkInterval);
             document.title = originalTitle;
         }, 1);
+    } 
+	
+//V2
+function ChangeTitle() {
+    const h1Element = document.querySelector('.col-sm-12.page-content h1');
+    if (h1Element) {
+        // Salva o título original
+        const originalText = h1Element.textContent;
+
+        // Define o novo título
+        h1Element.textContent = "By Maad - Premium Erome";
+
+        // Adiciona o tooltip com o título original
+        h1Element.setAttribute("title", originalText);
     }
+
+    // Muda o título da página e cria o efeito blink temporário
+    document.title = "By Maad - Premium";
+    let originalTitle = document.title;
+    let blinkInterval = setInterval(() => {
+        document.title = document.title === originalTitle ? "By Maad" : originalTitle;
+    }, 1000);
+
+    setTimeout(() => {
+        clearInterval(blinkInterval);
+        document.title = originalTitle;
+    }, 3000);
+}
 
     // Disclaimer
     function Disclaimer() {
@@ -225,6 +252,7 @@
     function getFileName(url) {
         return url.split('/').pop().split('?')[0];
     }
+
     // Toast Mensagem
     function showToast(message, isError = false) {
     const existingToasts = document.querySelectorAll('.toast');
@@ -271,15 +299,12 @@
     }, 2000);
 }
 
-    //Botão Donwload
-// Função para obter o nome do arquivo sem parâmetros extras
+//Botão Donwload
 function getFileName(url) {
-    // Remove parâmetros adicionais (ex: ?_v=1719669065) e retorna o nome do arquivo limpo
     const cleanUrl = url.split('?')[0];
     return cleanUrl.split('/').pop();
 }
-
-// Botão Download
+	
 function download(url) {
     const fileName = getFileName(url);
 
@@ -321,8 +346,6 @@ function download(url) {
         }
     });
 }
-
-
 
     // Download Direct
     function addLink(media) {
