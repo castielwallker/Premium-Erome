@@ -194,9 +194,10 @@
         }, 1);
     } 
 	
-//V2
+// Mudar Título e Criar Tooltip Customizado
 function ChangeTitle() {
     const h1Element = document.querySelector('.col-sm-12.page-content h1');
+    
     if (h1Element) {
         // Salva o título original
         const originalText = h1Element.textContent;
@@ -204,11 +205,32 @@ function ChangeTitle() {
         // Define o novo título
         h1Element.textContent = "By Maad - Premium Erome";
 
-        // Adiciona o tooltip com o título original
-        h1Element.setAttribute("title", originalText);
+        // Cria o tooltip customizado
+        const tooltip = document.createElement("div");
+        tooltip.classList.add("custom-tooltip");
+        tooltip.textContent = originalText;
+        document.body.appendChild(tooltip);
+
+        // Mostra o tooltip ao passar o mouse
+        h1Element.addEventListener("mouseenter", (e) => {
+            tooltip.style.display = "block";
+            tooltip.style.left = e.pageX + "px";
+            tooltip.style.top = (e.pageY - 30) + "px"; // Exibe 30px acima do mouse
+        });
+
+        // Move o tooltip junto com o mouse
+        h1Element.addEventListener("mousemove", (e) => {
+            tooltip.style.left = e.pageX + "px";
+            tooltip.style.top = (e.pageY - 30) + "px";
+        });
+
+        // Esconde o tooltip ao sair do elemento
+        h1Element.addEventListener("mouseleave", () => {
+            tooltip.style.display = "none";
+        });
     }
 
-    // Muda o título da página e cria o efeito blink temporário
+    // Muda o título da página com efeito blink temporário
     document.title = "By Maad - Premium";
     let originalTitle = document.title;
     let blinkInterval = setInterval(() => {
@@ -220,6 +242,23 @@ function ChangeTitle() {
         document.title = originalTitle;
     }, 3000);
 }
+
+// Estilos para o tooltip
+const style = document.createElement("style");
+style.innerHTML = `
+    .custom-tooltip {
+        position: absolute;
+        background-color: black;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        pointer-events: none;
+        display: none;
+        z-index: 1000;
+    }
+`;
+document.head.appendChild(style);
 
     // Disclaimer
     function Disclaimer() {
