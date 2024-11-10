@@ -198,17 +198,16 @@ function createFloatingTooltip() {
     const tooltip = document.createElement("div");
     tooltip.id = "floating-tooltip";
     tooltip.style.position = "absolute";
-    tooltip.style.padding = "11px";
-    tooltip.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+    tooltip.style.padding = "8px";
+    tooltip.style.backgroundColor = "rgba(0, 0, 0, 0.95)";
     tooltip.style.color = "white";
-    tooltip.style.borderRadius = "5px";
-    tooltip.style.fontSize = "14px";
+    tooltip.style.borderRadius = "4px";
+    tooltip.style.fontSize = "12px";
     tooltip.style.pointerEvents = "none";
     tooltip.style.display = "none"; 
     document.body.appendChild(tooltip);
 }
 
-// Função para configurar o tooltip nos álbuns
 function ApplyTooltipToAllAlbums() {
     const albums = document.querySelectorAll('.album');
     
@@ -216,7 +215,6 @@ function ApplyTooltipToAllAlbums() {
         const albumTitle = album.querySelector('.album-title')?.textContent.trim();
         
         if (albumTitle) {
-            // Evento para mostrar o tooltip flutuante ao passar o mouse
             album.addEventListener("mouseenter", (e) => {
                 const tooltip = document.getElementById("floating-tooltip");
                 tooltip.textContent = albumTitle;
