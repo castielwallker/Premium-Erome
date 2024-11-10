@@ -193,26 +193,61 @@
         }, 1);
     } 
 	
-     // Aplicar Tooltip Universal para Todos os Álbuns
-     function ApplyTooltipToAllAlbums() {
+// Criar Tooltip Flutuante Fora da Grade
+function createFloatingTooltip() {
+    // Cria o elemento do tooltip e o adiciona ao corpo do documento
+    const tooltip = document.createElement("div");
+    tooltip.id = "floating-tooltip";
+    tooltip.style.position = "absolute";
+    tooltip.style.padding = "8px";
+    tooltip.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+    tooltip.style.color = "white";
+    tooltip.style.borderRadius = "4px";
+    tooltip.style.fontSize = "12px";
+    tooltip.style.pointerEvents = "none";
+    tooltip.style.display = "none"; // Inicialmente oculto
+    document.body.appendChild(tooltip);
+}
 
-	    const albums = document.querySelectorAll('.album');
-	
-	    albums.forEach(album => {
-	        const albumTitle = album.querySelector('.album-title')?.textContent.trim();
-	
-	        if (albumTitle) {
-	            album.setAttribute("data-toggle", "tooltip");
-	            album.setAttribute("data-placement", "top");
-	            album.setAttribute("title", albumTitle);
-	        }
-	    });
-	}
+// Função para configurar o tooltip nos álbuns
+function ApplyTooltipToAllAlbums() {
+    const albums = document.querySelectorAll('.album');
+    
+    albums.forEach(album => {
+        const albumTitle = album.querySelector('.album-title')?.textContent.trim();
+        
+        if (albumTitle) {
+            // Evento para mostrar o tooltip flutuante ao passar o mouse
+            album.addEventListener("mouseenter", (e) => {
+                const tooltip = document.getElementById("floating-tooltip");
+                tooltip.textContent = albumTitle;
+                tooltip.style.display = "block";
+                tooltip.style.left = e.pageX + 10 + "px"; // Ajusta a posição horizontal
+                tooltip.style.top = e.pageY + 10 + "px"; // Ajusta a posição vertical
+            });
 
-	$(document).ready(function () {
-	    ApplyTooltipToAllAlbums();
-	    $('[data-toggle="tooltip"]').tooltip(); 
-	});
+            // Evento para atualizar a posição do tooltip conforme o mouse se move
+            album.addEventListener("mousemove", (e) => {
+                const tooltip = document.getElementById("floating-tooltip");
+                tooltip.style.left = e.pageX + 10 + "px";
+                tooltip.style.top = e.pageY + 10 + "px";
+            });
+
+            // Evento para esconder o tooltip quando o mouse sai do álbum
+            album.addEventListener("mouseleave", () => {
+                const tooltip = document.getElementById("floating-tooltip");
+                tooltip.style.display = "none";
+            });
+        }
+    });
+}
+
+// Inicializar tooltip flutuante e aplicar nos álbuns
+document.addEventListener("DOMContentLoaded", () => {
+    createFloatingTooltip();
+    ApplyTooltipToAllAlbums();
+});
+
 
     // Disclaimer
     function Disclaimer() {
