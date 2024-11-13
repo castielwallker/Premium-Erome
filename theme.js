@@ -13,7 +13,6 @@
     'use strict';
 const style = document.createElement('style');
 style.innerHTML = `
-      // P L A Y E R   E  H O M E //
      .vjs-control:hover {
        background: rgba(255, 255, 255, 0.2);
       }
@@ -101,8 +100,6 @@ style.innerHTML = `
         transition: all 0.2s ease-in-out;
         box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);  
        }
-       
-       // N A V B A R  P A G I N A T I O N //
       .navbar-inverse {
         background-color: #14151f;
        }
@@ -219,8 +216,6 @@ style.innerHTML = `
         text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
         animation: pulse 2s infinite;
       }
-      
-      // C O M E N T //
       .list-comment {
         display: flex;
         flex-direction: column;
@@ -261,8 +256,6 @@ style.innerHTML = `
         padding: 0 580px;
         cursor: pointer;
       }
-      
-      //  I C O N //
       .fa-lg{
         color: #8a5acc;
         font-size: 1.1999em;
@@ -276,8 +269,6 @@ style.innerHTML = `
         color: #fff;
         filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
        }
-       
-       //  U S E R //
        #user .bio {
        color: #ffffff;
        }
@@ -316,8 +307,6 @@ style.innerHTML = `
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
         }
-        
-        // B T N //
       .btn-pink{
   		color: #fff;
   		background-color: #8a5acc59;
