@@ -693,29 +693,36 @@ function download(url) {
         await Promise.all(albumPromises);
     }
 
-    function init() {
-        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
-        mediaElements.forEach(media => addLink(media));
-        OcultarDownload();
-        ocultarFotos();
-        ocultarVideos();
-        CinemaMode();
-        ajustarZIndex();
-        removerBotoes();
-        LikeAlbun();
-        setTimeout(Disclaimer,BypassAccount, 2000);
-    }
-
-    const MILIMETROS = 5;
-    const PIXELS = MILIMETROS * 3.78;
-    const PIXELSREVERSE = MILIMETROS * -3.78;
-    // By Maad
-    window.addEventListener('load', () => {
-        window.scrollBy(0, PIXELS);
-	window.scrollBy(0, PIXELSREVERSE); 
-    });
 	
-    window.addEventListener('load', init);
-    document.addEventListener('DOMContentLoaded', init);
-    document.addEventListener("contextmenu", (e) => {e.stopPropagation()}, true);
+	function init() {
+	    const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
+	    mediaElements.forEach(media => addLink(media));
+	    CinemaMode();
+	    ajustarZIndex();
+	    removerBotoes();
+	    LikeAlbun();
+	}
+	
+	document.addEventListener('DOMContentLoaded', init);
+	
+	setTimeout(() => {
+	    Disclaimer();
+	    BypassAccount();
+	    OcultarDownload();
+	    ocultarFotos();
+	    ocultarVideos();
+	}, 2500);
+	
+	const MILIMETROS = 5;
+	const PIXELS = MILIMETROS * 3.78;
+	const PIXELSREVERSE = MILIMETROS * -3.78;
+	
+	window.addEventListener('load', () => {
+	    window.scrollBy(0, PIXELS);
+	    window.scrollBy(0, PIXELSREVERSE);
+	});
+	
+	document.addEventListener("contextmenu", (e) => {
+	    e.stopPropagation();
+	}, true);
 })();
