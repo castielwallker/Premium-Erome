@@ -6,6 +6,7 @@
 // @description  Slider Button Video Hidden.
 // @author       Maad
 // @match        https://www.erome.com/a/*
+// @match        https://*.erome.com/a/*
 // @grant        GM.xmlHttpRequest
 // ==/UserScript==
 
