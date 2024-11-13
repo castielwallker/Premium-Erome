@@ -693,6 +693,16 @@ function download(url) {
         await Promise.all(albumPromises);
     }
 
+function hideButtonsIfUserPage() {
+	const userIdExists = document.getElementById('user') !== null;
+	const bioClassExists = document.querySelector('.bio') !== null;
+	if (userIdExists && bioClassExists) {
+	        const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
+	        buttonsToHide.forEach(button => {
+	            button.style.display = 'none'; 
+	        });
+	}
+}
 	
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
@@ -710,6 +720,7 @@ function download(url) {
      ocultarVideos(); 
      CinemaMode();
     }, 1900);
+
 	
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
@@ -721,6 +732,7 @@ function download(url) {
     });
 
     window.addEventListener('load', init);
+    document.addEventListener('DOMContentLoaded', hideButtonsIfUserPage);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
     }, true);
