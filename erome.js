@@ -692,15 +692,7 @@ function download(url) {
 
         await Promise.all(albumPromises);
     }
-   setTimeout(() => {
-    Disclaimer();
-    BypassAccount();
-    removerBotoes();
-    OcultarDownload();
-    ocultarFotos();
-    ocultarVideos(); 
-    CinemaMode();
-    }, 1900);
+
 	
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
@@ -709,6 +701,16 @@ function download(url) {
         LikeAlbun();
 	removerBotoes();
     }
+    setTimeout(() => {
+     Disclaimer();
+     BypassAccount();
+     removerBotoes();
+     OcultarDownload();
+     ocultarFotos();
+     ocultarVideos(); 
+     CinemaMode();
+    }, 1900);
+	
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
     const PIXELSREVERSE = MILIMETROS * -3.78;
@@ -718,18 +720,6 @@ function download(url) {
 	window.scrollBy(0, PIXELSREVERSE); 
     });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const targetIds = ['user', 'tabs'];
-    const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
-
-    const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
-
-    if (isTargetPage) {
-        buttonsToHide.forEach(button => {
-            button.style.display = 'none';
-        });
-    }
-});
     window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
