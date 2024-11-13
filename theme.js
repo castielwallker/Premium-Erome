@@ -354,6 +354,7 @@
        }
        .username h1 {
         color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
         }
         .user-info {
         color: #8a5acc;
