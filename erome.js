@@ -173,26 +173,6 @@
             botaoOlho.closest('button').remove();
         }
     }
-
-    // Mudar Titulo
-    function ChangeTitle() {
-        const h1Element = document.querySelector('.col-sm-12.page-content h1');
-        if (h1Element) {
-            h1Element.textContent = "By Maad - Premium Erome";
-        }
-
-        document.title = "By Maad - Premium";
-        let originalTitle = document.title;
-        let blinkInterval = setInterval(() => {
-            document.title = document.title === originalTitle ? "By Maad" : originalTitle;
-        }, 1);
-
-        setTimeout(() => {
-            clearInterval(blinkInterval);
-            document.title = originalTitle;
-        }, 1);
-    } 
-	
     // Disclaimer
     function Disclaimer() {
         const disclaimer = document.getElementById('disclaimer');
@@ -207,18 +187,10 @@
     function BypassAccount() {
         var modalElement = document.getElementById("needAccount");
         if (modalElement) {
-            modalElement.parentNode.removeChild(modalElement);
-         } else {
-        }
-
-        var userNameElement = document.getElementById("user_name") || document.querySelector(".username");
-        if (userNameElement) {
-             userNameElement.textContent = "By Maad";
-             userNameElement.innerHTML = "By Maad&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>"; // Atualiza o texto e adiciona o ícone
-
-        } else {
-
-        }
+            modalElement.parentNode.removeChild(modalElement); 
+	}
+	else {
+      }
     }
 
     function getFileName(url) {
@@ -733,7 +705,7 @@ function download(url) {
         ajustarZIndex();
         removerBotoes();
         BypassAccount();
-        ChangeTitle();
+        //ChangeTitle();
         Disclaimer();
         LikeAlbun();
         setTimeout(Disclaimer, 2000);
