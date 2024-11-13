@@ -11,8 +11,8 @@
 
 (function() {
     'use strict';
-const style = document.createElement('style');
-style.innerHTML = `
+    const style = document.createElement('style');
+      style.innerHTML = `
      .vjs-control:hover {
        background: rgba(255, 255, 255, 0.2);
       }
@@ -65,7 +65,6 @@ style.innerHTML = `
         border-radius: 10px;
         background-color: #1d1e2a;
       }
-
       #searchBar #q,
       #userSearchBar #q-user {
         height: 30px;
@@ -77,7 +76,6 @@ style.innerHTML = `
       #suggestions p {
         border-top: 0.9px solid #8a5acc;
         margin: 1px;
-
       }
       #suggestions {
         background-color: #14151f;
@@ -280,7 +278,6 @@ style.innerHTML = `
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-
       .fa-camera {
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
@@ -352,14 +349,6 @@ style.innerHTML = `
         color: #ffffff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-       .username h1 {
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-        }
-        .user-info {
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-        }
        .btn-grey{
         color: #ffffff;
         border-radius: 4px;
@@ -381,12 +370,11 @@ style.innerHTML = `
        }
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
-        50% { transform: scale(0.9); }
+        50% { transform: scale(1.1); }
       }
     `;
     document.head.appendChild(style);
-    
-        
+
     function removerElementos() {
         const elementosParaRemover = document.querySelectorAll('.sp, .sp-mob.hidden-sm.hidden-md.hidden-lg, .bubble-mobile');
         elementosParaRemover.forEach(el => el.remove());
@@ -399,7 +387,7 @@ style.innerHTML = `
     window.addEventListener('load', () => {
         setTimeout(removerElementos, 1000)
     });
-    
+
     const logo = document.querySelector('img[src*="logo-erome-horizontal.png"]');
     if (logo) {
         logo.style.filter = 'hue-rotate(295deg)';
@@ -411,7 +399,7 @@ style.innerHTML = `
         if (suggestedUsers) {
             suggestedUsers.style.display = 'none';
         }
-        
+
     }
 
     const defaultAvatarUrl = 'https://i.imgur.com/v1vw6WB.png';
@@ -434,7 +422,7 @@ style.innerHTML = `
         const avatarSpan = userInfo.querySelector('.default-avatar');
         if (avatarSpan) {
             const userLink = userInfo.querySelector('#user_icon')?.href || '#';
-    
+
             userInfo.querySelector('#user_icon').innerHTML = `
                 <a href="${userLink}" id="user_icon">
                     <img src="${defaultAvatarUrl}" class="avatar initial loading" alt="Default avatar" width="36" height="36" data-was-processed="true">
@@ -472,33 +460,35 @@ style.innerHTML = `
     }
 
     updateFavicon();
-
-
-  function ChangeTitleAndElements() {
-    const h1Element = document.querySelector('.col-sm-12.page-content h1');
-    const originalTitle = document.title;
     
-    const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
-    const originalUserName = userNameElement ? userNameElement.textContent : "By Maad"; // Salva o nome original
-    
-    const texts = ["By Maad", originalTitle];
-    const userNameTexts = ["By Maad", originalUserName];
-    let index = 0;
-
-    setInterval(() => {
-        document.title = texts[index];
-        if (h1Element) {
-            h1Element.textContent = texts[index];
-        }
+    function ChangeTitleAndElements() {
+        const h1Element = document.querySelector('.col-sm-12.page-content h1');
+        const originalTitle = document.title;
         
-        if (userNameElement) {
-            userNameElement.innerHTML = `${userNameTexts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
-        }
+        const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
+        const originalUserName = userNameElement ? userNameElement.textContent : "By Maad"; // Salva o nome original
+        
+        const texts = ["By Maad", originalTitle];
+        const userNameTexts = ["By Maad", originalUserName];
+        let index = 0;
+    
+        setInterval(() => {
+            // Alterna título e h1
+            document.title = texts[index];
+            if (h1Element) {
+                h1Element.textContent = texts[index];
+            }
+            
+            // Alterna o userNameElement entre o original e "By Maad"
+            if (userNameElement) {
+                userNameElement.innerHTML = `${userNameTexts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
+            }
+    
+            index = (index + 1) % texts.length;
+        }, 1500);
+    }
 
-        index = (index + 1) % texts.length;
-    }, 2500);
-}
-
+   
     window.addEventListener('load', ChangeTitleAndElements);
     window.addEventListener('load', removerElementos);
     window.addEventListener('load', updateFavicon);
