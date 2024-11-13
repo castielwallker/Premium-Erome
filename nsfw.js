@@ -5,6 +5,7 @@
 // @description  Aplica efeito de desfoque nas imagens de álbuns NSFW com controle adequado de mensagens Toast.
 // @author       Maad
 // @match        https://www.erome.com/*
+// @match        https://*.erome.com/*
 // ==/UserScript==
 
 (function () {
