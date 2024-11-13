@@ -352,6 +352,9 @@
         color: #ffffff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
+       .username h1 {
+        color: #8a5acc;
+        }
        .btn-grey{
         color: #ffffff;
         border-radius: 4px;
