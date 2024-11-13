@@ -144,7 +144,19 @@
             }
         });
 
+        
+      // Botão Pagina User
+        const targetIds = ['user', 'tabs'];
+        const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
 
+        // Verifica se algum dos IDs está presente
+        const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
+
+        if (isTargetPage) {
+            buttonsToHide.forEach(button => {
+                button.style.display = 'none'; // Esconde os botões
+            });
+        }
         //Com Login
         const botoesFollowAc = document.querySelectorAll('button.btn.btn-pink.user-follow');
         botoesFollowAc.forEach(botao => botao.remove());
