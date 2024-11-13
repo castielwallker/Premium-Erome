@@ -717,7 +717,19 @@ function download(url) {
         window.scrollBy(0, PIXELS);
 	window.scrollBy(0, PIXELSREVERSE); 
     });
-	
+
+document.addEventListener('DOMContentLoaded', () => {
+    const targetIds = ['user', 'tabs'];
+    const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
+
+    const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
+
+    if (isTargetPage) {
+        buttonsToHide.forEach(button => {
+            button.style.display = 'none';
+        });
+    }
+});
     window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
