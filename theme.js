@@ -49,6 +49,18 @@ style.innerHTML = `
         background-color: #14151f;
         border-radius: 10px;
       }
+      .btn-pink{
+  		color: #fff;
+  		background-color: #8a5acc59;
+        border-radius: 5px;
+  	  }
+  	  .btn-pink:hover{
+        color: #ffffff;
+        background-color: transparent;
+        border-color: #666666;
+        border: 1px solid #8a5acc !important;
+        box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
+  	  }
        .modal-header {
         border-radius: 10px;
         background-color: #1d1e2a;
@@ -81,7 +93,9 @@ style.innerHTML = `
        .fas.fa-user {
         display: none !important;
        }
-
+       .navbar-inverse {
+        background-color: #14151f;
+       }
        .album .album-thumbnail {
         object-fit: cover;
         width: 100%;
@@ -99,9 +113,6 @@ style.innerHTML = `
         overflow: visible;
         transition: all 0.2s ease-in-out;
         box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);  
-       }
-      .navbar-inverse {
-        background-color: #14151f;
        }
        .page-content h1 {
         text-align: center;
@@ -261,13 +272,18 @@ style.innerHTML = `
         font-size: 1.1999em;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
       }
-     .fa-video, .fa-camera, .fa-eye, {
+      .fa-eye{
+        color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+      }
+      .fa-video {
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-     .fa-camera:hover, .fa-video:hover, .fa-eye:hover, .fa-lg:hover{
-        color: #fff;
-        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+
+      .fa-camera {
+        color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
        #user .bio {
        color: #ffffff;
@@ -276,10 +292,47 @@ style.innerHTML = `
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-       #user .website, album-website {
+       #user .website {
         color: #ffffff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
+       album-website{
+        color: #ffffff;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+       }
+      .fa-lg{
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+      }
+      .fa-eye{
+        color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+      }
+      .fa-video {
+        color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+       }
+      .fa-camera {
+        color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+       }
+       
+       .fa-lg:hover{
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+      }
+      .fa-eye:hover{
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+      }
+      .fa-video:hover {
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+       }
+      .fa-camera:hover{
+        color: #fff;
+        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
+       }
+       
        #user .bio {
         color: #ffffff;
        }
@@ -307,18 +360,6 @@ style.innerHTML = `
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
         }
-      .btn-pink{
-  		color: #fff;
-  		background-color: #8a5acc59;
-        border-radius: 5px;
-  	  }
-  	  .btn-pink:hover{
-        color: #ffffff;
-        background-color: transparent;
-        border-color: #666666;
-        border: 1px solid #8a5acc !important;
-        box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
-  	  }
        .btn-grey{
         color: #ffffff;
         border-radius: 4px;
@@ -340,7 +381,7 @@ style.innerHTML = `
        }
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.1); }
+        50% { transform: scale(0.9); }
       }
     `;
     document.head.appendChild(style);
