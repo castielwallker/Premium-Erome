@@ -144,18 +144,6 @@
             }
         });
 
-        // Botão Pagina User
-        const targetIds = ['user', 'tabs'];
-        const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
-
-        // Verifica se algum dos IDs está presente
-        const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
-
-        if (isTargetPage) {
-            buttonsToHide.forEach(button => {
-                button.style.display = 'none'; // Esconde os botões
-            });
-        }
 
         //Com Login
         const botoesFollowAc = document.querySelectorAll('button.btn.btn-pink.user-follow');
@@ -693,7 +681,7 @@ function download(url) {
         await Promise.all(albumPromises);
     }
 
-function hideButtonsIfUserPage() {
+function btnverify() {
 	const userIdExists = document.getElementById('user') !== null;
 	const bioClassExists = document.querySelector('.bio') !== null;
 	if (userIdExists && bioClassExists) {
@@ -703,14 +691,14 @@ function hideButtonsIfUserPage() {
 	        });
 	}
 }
+    const MILIMETROS = 5;
+    const PIXELS = MILIMETROS * 3.78;
+    const PIXELSREVERSE = MILIMETROS * -3.78;
+    window.addEventListener('load', () => {
+        window.scrollBy(0, PIXELS);
+	window.scrollBy(0, PIXELSREVERSE); 
+    });
 	
-    function init() {    
-        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
-        mediaElements.forEach(media => addLink(media));
-        ajustarZIndex();
-        LikeAlbun();
-	removerBotoes();
-    }
     setTimeout(() => {
      Disclaimer();
      BypassAccount();
@@ -719,20 +707,17 @@ function hideButtonsIfUserPage() {
      ocultarFotos();
      ocultarVideos(); 
      CinemaMode();
-    }, 1900);
-
+    }, 1500);
 	
-    const MILIMETROS = 5;
-    const PIXELS = MILIMETROS * 3.78;
-    const PIXELSREVERSE = MILIMETROS * -3.78;
-    // By Maad
-    window.addEventListener('load', () => {
-        window.scrollBy(0, PIXELS);
-	window.scrollBy(0, PIXELSREVERSE); 
-    });
+    function init() {    
+        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
+        mediaElements.forEach(media => addLink(media));
+        ajustarZIndex();
+        LikeAlbun();
+    }
 
     window.addEventListener('load', init);
-    document.addEventListener('DOMContentLoaded', hideButtonsIfUserPage);
+    document.addEventListener('DOMContentLoaded', btnverify);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
     }, true);
