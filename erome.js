@@ -5,6 +5,7 @@
 // @namespace    https://github.com/maadvfx/
 // @description  Premium Addons For Erome.
 // @match        https://www.erome.com/*
+// @match        https://*.erome.com/*
 // @icon         https://www.erome.com/favicon.ico
 // @grant        GM.xmlHttpRequest
 // @grant        GM_addStyle
