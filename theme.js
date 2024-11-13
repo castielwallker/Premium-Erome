@@ -88,6 +88,9 @@
        .suggested-users {
         display: none !important;
        }
+       .username h1 {
+        color: #8a5acc;
+        }
        .fas.fa-user {
         display: none !important;
        }
