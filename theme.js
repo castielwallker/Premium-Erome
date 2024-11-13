@@ -485,7 +485,7 @@
             }
     
             index = (index + 1) % texts.length;
-        }, 1500);
+        }, 2500);
     }
 
    
