@@ -693,11 +693,13 @@ function download(url) {
         await Promise.all(albumPromises);
     }
    setTimeout(() => {
+    Disclaimer();
+    BypassAccount();
+    removerBotoes();
     OcultarDownload();
     ocultarFotos();
     ocultarVideos(); 
     CinemaMode();
-    removerBotoes();
     }, 1900);
 	
     function init() {    
@@ -705,13 +707,8 @@ function download(url) {
         mediaElements.forEach(media => addLink(media));
         ajustarZIndex();
         LikeAlbun();
+	removerBotoes();
     }
-	
-   setTimeout(() => {
-    Disclaimer();
-    BypassAccount();
-    }, 2500);
- 
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
     const PIXELSREVERSE = MILIMETROS * -3.78;
