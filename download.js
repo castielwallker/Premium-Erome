@@ -4,6 +4,7 @@
 // @description  Baixa imagens e vídeos do Erome.
 // @author       Maad
 // @match        https://www.erome.com/a/*
+// @match        https://*.erome.com/a/*
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
