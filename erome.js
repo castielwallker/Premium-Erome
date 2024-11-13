@@ -691,13 +691,13 @@ function btnverify() {
 	        });
 	}
 }
-    const MILIMETROS = 5;
-    const PIXELS = MILIMETROS * 3.78;
-    const PIXELSREVERSE = MILIMETROS * -3.78;
-    window.addEventListener('load', () => {
-        window.scrollBy(0, PIXELS);
-	window.scrollBy(0, PIXELSREVERSE); 
-    });
+
+    function init() {    
+        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
+        mediaElements.forEach(media => addLink(media));
+        ajustarZIndex();
+        LikeAlbun();
+    }
 	
     setTimeout(() => {
      Disclaimer();
@@ -707,17 +707,19 @@ function btnverify() {
      ocultarFotos();
      ocultarVideos(); 
      CinemaMode();
-    }, 1500);
-	
-    function init() {    
-        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
-        mediaElements.forEach(media => addLink(media));
-        ajustarZIndex();
-        LikeAlbun();
-    }
+     btnverify();
+    }, 1900);
 
+    const MILIMETROS = 5;
+    const PIXELS = MILIMETROS * 3.78;
+    const PIXELSREVERSE = MILIMETROS * -3.78;
+    window.addEventListener('load', () => {
+        window.scrollBy(0, PIXELS);
+	window.scrollBy(0, PIXELSREVERSE); 
+    });
+	
     window.addEventListener('load', init);
-    document.addEventListener('DOMContentLoaded', btnverify);
+    //document.addEventListener('DOMContentLoaded', btnverify);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
     }, true);
