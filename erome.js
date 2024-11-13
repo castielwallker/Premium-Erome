@@ -721,7 +721,7 @@ function download(url) {
 	window.scrollBy(0, PIXELSREVERSE); 
     });
 	
-    document.addEventListener('DOMContentLoaded', init);
+    window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
     }, true);
