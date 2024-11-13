@@ -5,6 +5,7 @@
 // @description  Theme UI Clean Erome
 // @author       Maad
 // @match        https://www.erome.com/*
+// @match        https://*.erome.com/*
 // @grant        GM.xmlHttpRequest
 // @grant        GM_addStyle
 // ==/UserScript==
