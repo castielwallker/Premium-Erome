@@ -686,8 +686,6 @@ function download(url) {
         <i class="ml-5 mr-1 fas pink fa-heart fa-lg" aria-hidden="true" style="position: relative; bottom: 0;"></i> ${count}
     </span>
      `;
-
-
             viewSec.insertAdjacentHTML("afterbegin", likeCountHTML);
         });
 
@@ -697,18 +695,14 @@ function download(url) {
     function init() {
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
-        Disclaimer();
         OcultarDownload();
         ocultarFotos();
         ocultarVideos();
         CinemaMode();
         ajustarZIndex();
         removerBotoes();
-        BypassAccount();
-        //ChangeTitle();
-        Disclaimer();
         LikeAlbun();
-        setTimeout(Disclaimer, 2000);
+        setTimeout(Disclaimer,BypassAccount, 2000);
     }
 
     const MILIMETROS = 5;
