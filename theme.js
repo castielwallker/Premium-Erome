@@ -486,7 +486,7 @@
         const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
         const originalTitle = document.title;
 
-        const texts = ["By Maad", "Erome Premium", originalTitle];
+        const texts = ["By Maad", originalTitle];
         let index = 0;
     
         setInterval(() => {
@@ -495,7 +495,7 @@
             if (h1Element) {
                 h1Element.textContent = texts[index];
             }
-
+            
             if (userNameElement) {
                 userNameElement.innerHTML = `${texts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
             }
