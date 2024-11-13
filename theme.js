@@ -471,16 +471,41 @@
 
     updateFavicon();
 
-    const realTitle = document.title; 
-    const texts = [' By Maad', ' Erome Premium', realTitle];
-    let index = 0;
+//    const realTitle = document.title; 
+//  const texts = [' By Maad', ' Erome Premium', realTitle];
+//   let index = 0;
+//
+//    setInterval(() => {
+//        document.title = texts[index];
+//       index = (index + 1) % texts.length;
+//    }, 1000); 
 
-    setInterval(() => {
-        document.title = texts[index];
-        index = (index + 1) % texts.length;
-    }, 1000); 
+    function ChangeTitleAndElements() {
+        const h1Element = document.querySelector('.col-sm-12.page-content h1');
+        const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
+        const originalTitle = document.title;
 
-    window.addEventListener('load', ChangeTitle);
+        const texts = ["By Maad", "Erome Premium", originalTitle];
+        let index = 0;
+    
+        setInterval(() => {
+            document.title = texts[index];
+
+            if (h1Element) {
+                h1Element.textContent = texts[index];
+            }
+
+            if (userNameElement) {
+                userNameElement.innerHTML = `${texts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
+            }
+            index = (index + 1) % texts.length;
+        }, 1000);
+    }
+    
+    // Chama a função
+    ChangeTitleAndElements();
+
+    window.addEventListener('load', ChangeTitleAndElements);
     window.addEventListener('load', removerElementos);
     window.addEventListener('load', updateFavicon);
     window.addEventListener('load', ocultarSuggestedUsers);
