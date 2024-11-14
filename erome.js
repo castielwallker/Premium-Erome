@@ -275,7 +275,6 @@
 
     setTimeout(() => {
         toast.style.opacity = 0;
-        setTimeout(() => toast.remove(), 500);
         setTimeout(() => toast.remove(), 800);
     }, 2000);
 }
@@ -316,7 +315,7 @@ function download(url) {
                 aTag.remove();
                 console.clear(); 
                 console.log(`Concluído > '${fileName}' % 100`);
-                showToast('Download iniciado');
+                showToast('Download Concluído '${fileName}' % 100');
             } else {
                 showToast('Erro 403: Acesso negado ao arquivo', true);
             }
@@ -653,12 +652,11 @@ function download(url) {
         toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i>VIEWS`;
         toggleButton.style.display = 'flex';
         toggleButton.style.alignItems = 'center';
-        toggleButton.style.marginLeft = '-10px'; // Aplicando margin-right corretamente
+        toggleButton.style.marginLeft = '-10px'; 
     }
 
     function addButtonToNav() {
         if (isAlbumPage()) {
-
             return;
         }
 
@@ -683,7 +681,7 @@ function download(url) {
                 clearInterval(interval);
                 addButtonToNav();
             }
-        }, 500);
+        }, 1000);
     }
 
     window.addEventListener('load', () => {
@@ -766,7 +764,6 @@ function btnverify() {
     });
 
     window.addEventListener('load', init);
-    //document.addEventListener('DOMContentLoaded', btnverify);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
     }, true);
