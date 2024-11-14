@@ -680,53 +680,51 @@
         await Promise.all(albumPromises);
     }
 
-function btnverify() {
-	const pageExists = document.getElementById('page') !== null;
-	const userProfileExists = document.querySelector('.user-profile.mt-20') !== null;
-	
-	if (pageExists && userProfileExists) {
-		const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
-		buttonsToHide.forEach(button => {
-			button.style.display = 'none'; 
-		});
+	function btnverify() {
+		const pageExists = document.getElementById('page') !== null;
+		const userProfileExists = document.querySelector('.user-profile.mt-20') !== null;
+		
+		if (pageExists && userProfileExists) {
+			const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
+			buttonsToHide.forEach(button => {
+				button.style.display = 'none'; 
+			});
+		}
 	}
-}
-
-function init() {    
-	const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
-	mediaElements.forEach(media => addLink(media));
-	ajustarZIndex();
-	LikeAlbun();
+    function init() {    
+        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
+        mediaElements.forEach(media => addLink(media));
+        ajustarZIndex();
+        LikeAlbun();
 	removerBotoes();
 	btnverify();
+    }
 	
-	setTimeout(() => {
-		loadInit(); 
-	}, 2000);
-}
-
-function loadInit() {    
-	Disclaimer?.(); 
-	BypassAccount?.();
-	removerBotoes?.();
-	OcultarDownload?.();
-	ocultarFotos?.();
-	ocultarVideos?.(); 
-	CinemaMode?.();
+   function loadInit() {    
+    setTimeout(() => {
+	Disclaimer();
+	BypassAccount();
+	removerBotoes();
+	OcultarDownload();
+	ocultarFotos();
+	ocultarVideos(); 
+	CinemaMode();
 	btnverify();
-}
+     }, 2000);
+    }
 
-const MILIMETROS = 5;
-const PIXELS = MILIMETROS * 3.90;
-const PIXELSREVERSE = MILIMETROS * -3.90;
 
-window.addEventListener('load', () => {
-	window.scrollBy(0, PIXELS);
-	window.scrollBy(0, PIXELSREVERSE); 
-	init(); 
-});
-
-document.addEventListener("contextmenu", (e) => {
-	e.stopPropagation();
-}, true);
+    const MILIMETROS = 5;
+    const PIXELS = MILIMETROS * 3.78;
+    const PIXELSREVERSE = MILIMETROS * -3.78;
+    window.addEventListener('load', () => {
+    window.scrollBy(0, PIXELS);
+    window.scrollBy(0, PIXELSREVERSE); 
+    });
+	
+    window.addEventListener('load', init);
+    window.addEventListener('load', loadInit);
+    document.addEventListener("contextmenu", (e) => {
+    	e.stopPropagation();
+    }, true);
 })();
