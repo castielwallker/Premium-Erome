@@ -708,15 +708,15 @@
     }
 	
     setTimeout(() => {
-     Disclaimer();
-     BypassAccount();
-     removerBotoes();
-     OcultarDownload();
-     ocultarFotos();
-     ocultarVideos(); 
-     CinemaMode();
-     btnverify();
-    }, 2000);
+	Disclaimer();
+	BypassAccount();
+	removerBotoes();
+	OcultarDownload();
+	ocultarFotos();
+	ocultarVideos(); 
+	CinemaMode();
+	btnverify();
+     }, 2000);
 
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
