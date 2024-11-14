@@ -681,20 +681,15 @@
     }
 
 function btnverify() {
-	const isPaginated = window.location.search.includes('?page=');
-	const pageExists = document.getElementById('user') !== null || document.getElementById('page') !== null;
-	const userProfileExists = document.querySelector('.bio') !== null || document.querySelector('.user-profile.mt-20') !== null; 
-
-	if ((pageExists && userProfileExists) || isPaginated) {
-		const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
-		buttonsToHide.forEach(button => {
-			button.style.display = 'none'; 
-		});
+	const userIdExists = document.getElementById('user') !== null || document.getElementById('page') !== null;
+	const bioClassExists = document.querySelector('.bio') !== null || document.querySelector('.user-profile mt-20') !== null;
+	if (userIdExists && bioClassExists) {
+			const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
+			buttonsToHide.forEach(button => {
+				button.style.display = 'none'; 
+			});
 	}
 }
-removerBotoes();
-window.addEventListener('load', btnverify);
-	
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
