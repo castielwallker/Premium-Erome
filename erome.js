@@ -683,7 +683,7 @@
 function btnverify() {
 	const isPaginated = window.location.search.includes('?page=');
 	const pageExists = document.getElementById('user') !== null || document.getElementById('page') !== null;
-	const userProfileExists = document.querySelector('.bio.user-profile.mt-20') !== null;
+	const userProfileExists = document.querySelector('.bio') !== null || document.querySelector('.user-profile.mt-20') !== null; 
 
 	if ((pageExists && userProfileExists) || isPaginated) {
 		const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
