@@ -680,17 +680,21 @@
         await Promise.all(albumPromises);
     }
 
- function btnverify() {
+function btnverify() {
+	const isPaginated = window.location.search.includes('?page=');
 	const pageExists = document.getElementById('user') !== null || document.getElementById('page') !== null;
 	const userProfileExists = document.querySelector('.bio.user-profile.mt-20') !== null;
-		
-	if (pageExists && userProfileExists) {
+
+	if ((pageExists && userProfileExists) || isPaginated) {
 		const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
 		buttonsToHide.forEach(button => {
 			button.style.display = 'none'; 
 		});
 	}
 }
+
+window.addEventListener('load', btnverify);
+
 
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
