@@ -680,17 +680,18 @@
         await Promise.all(albumPromises);
     }
 
-	function btnverify() {
-		const pageExists = document.getElementById('page') !== null;
-		const userProfileExists = document.querySelector('.user-profile.mt-20') !== null;
+ function btnverify() {
+	const pageExists = document.getElementById('user') !== null || document.getElementById('page') !== null;
+	const userProfileExists = document.querySelector('.bio.user-profile.mt-20') !== null;
 		
-		if (pageExists && userProfileExists) {
-			const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
-			buttonsToHide.forEach(button => {
-				button.style.display = 'none'; 
-			});
-		}
+	if (pageExists && userProfileExists) {
+		const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
+		buttonsToHide.forEach(button => {
+			button.style.display = 'none'; 
+		});
 	}
+}
+
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
