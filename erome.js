@@ -277,14 +277,14 @@
 					aTag.remove();
 					console.clear();
 					console.log(`Concluído > '${fileName}' % 100`);
-					//showToast('Download iniciado');
+					showToast('Download iniciado');
 				} else {
 					showToast('Erro 403: Acesso negado ao arquivo', true);
 				}
 			},
 			onerror: function (err) {
 				console.error(`Erro ao baixar o arquivo '${fileName}':`, err);
-			showToast('Erro Ao Baixar :'${fileName}'.');
+				showToast('Erro Ao Baixar :'${fileName}'.');
 			}
 		});
 	}
