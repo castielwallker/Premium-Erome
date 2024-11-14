@@ -10,14 +10,6 @@
 // @grant        GM.xmlHttpRequest
 // @grant        GM_addStyle
 //
-// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/player.js
-// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/nsfw.js
-// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/download.js
-// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/hidden.js
-// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/theme.js
-//
-// @updateURL    https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
-// @downloadURL  https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
 // ==/UserScript==
 // ================================================================================================================================================================
 //                                          PLEASE READ SCRIPT INFO BEFORE USE
