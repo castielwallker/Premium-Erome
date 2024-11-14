@@ -69,12 +69,12 @@
 		animation-timing-function: ease-in;
 		opacity: 1;
 		transform: translateY(-45px); 
-	    }
-	
+		}
+
 	24% { 
-	        opacity: 1;
-	    }
-	
+			opacity: 1;
+		}
+
 	40% {
 		animation-timing-function: ease-in;
 		transform: translateY(-24px);
@@ -82,29 +82,29 @@
 	65% {
 		animation-timing-function: ease-in;
 		transform: translateY(-12px);
-	    }
+		}
 	82% {
 		animation-timing-function: ease-in;
 		transform: translateY(-6px);
-	    }
+		}
 	93% {
 		animation-timing-function: ease-in;
-	  	transform: translateY(-4px);
-	    }
+		transform: translateY(-4px);
+		}
 		25%,
 		55%,
 		75%,
 	87% {
 		animation-timing-function: ease-out;
 		transform: translateY(0px);
-	    }
+		}
 	100% {
-	        animation-timing-function: ease-out;
+			animation-timing-function: ease-out;
 		opacity: 1;
 		transform: translateY(0px);
-	    }
+		}
 	}
-    `);
+	`);
     const speeds = [0.5, 1, 1.5,2,4,5];
     let currentSpeedIndex = 2;
 
@@ -237,57 +237,57 @@
         toast.style.opacity = 0;
         setTimeout(() => toast.remove(), 800);
     }, 2000);
-}
+	}
 
-//Botão Donwload
-function getFileName(url) {
-    const cleanUrl = url.split('?')[0];
-    return cleanUrl.split('/').pop();
-}
+	//Botão Donwload
+	function getFileName(url) {
+		const cleanUrl = url.split('?')[0];
+		return cleanUrl.split('/').pop();
+	}
 	
-function download(url) {
-    const fileName = getFileName(url);
+	function download(url) {
+		const fileName = getFileName(url);
 
-    GM.xmlHttpRequest({
-        method: "GET",
-        url: url,
-        responseType: "blob",
-        headers: {
-            'User-Agent': 'Mozilla/5.0',
-            'Referer': 'https://www.erome.com/'
-        },
-        onprogress: function (event) {
-            if (event.lengthComputable) {
-                const percentComplete = Math.round((event.loaded / event.total) * 100);
-                console.clear();
-                console.log(`Baixando > '${fileName}' % ${percentComplete}`);
-		showtoast('Baixando > '${fileName}' % '${percentComplete}'.)
-            }
-        },
-        onload: function (response) {
-            if (response.status === 200) {
-                const blob = new Blob([response.response], { type: response.response.type });
-                const tempUrl = URL.createObjectURL(blob);
-                const aTag = document.createElement('a');
-                aTag.href = tempUrl;
-                aTag.download = fileName;
-                document.body.appendChild(aTag);
-                aTag.click();
-                URL.revokeObjectURL(tempUrl);
-                aTag.remove();
-                console.clear();
-                console.log(`Concluído > '${fileName}' % 100`);
-                //showToast('Download iniciado');
-            } else {
-                showToast('Erro 403: Acesso negado ao arquivo', true);
-            }
-        },
-        onerror: function (err) {
-            console.error(`Erro ao baixar o arquivo '${fileName}':`, err);
-	    showToast('Erro Ao Baixar :'${fileName}'.');
-        }
-    });
-}
+		GM.xmlHttpRequest({
+			method: "GET",
+			url: url,
+			responseType: "blob",
+			headers: {
+				'User-Agent': 'Mozilla/5.0',
+				'Referer': 'https://www.erome.com/'
+			},
+			onprogress: function (event) {
+				if (event.lengthComputable) {
+					const percentComplete = Math.round((event.loaded / event.total) * 100);
+					console.clear();
+					console.log(`Baixando > '${fileName}' % ${percentComplete}`);
+			showtoast('Baixando > '${fileName}' % '${percentComplete}'.)
+				}
+			},
+			onload: function (response) {
+				if (response.status === 200) {
+					const blob = new Blob([response.response], { type: response.response.type });
+					const tempUrl = URL.createObjectURL(blob);
+					const aTag = document.createElement('a');
+					aTag.href = tempUrl;
+					aTag.download = fileName;
+					document.body.appendChild(aTag);
+					aTag.click();
+					URL.revokeObjectURL(tempUrl);
+					aTag.remove();
+					console.clear();
+					console.log(`Concluído > '${fileName}' % 100`);
+					//showToast('Download iniciado');
+				} else {
+					showToast('Erro 403: Acesso negado ao arquivo', true);
+				}
+			},
+			onerror: function (err) {
+				console.error(`Erro ao baixar o arquivo '${fileName}':`, err);
+			showToast('Erro Ao Baixar :'${fileName}'.');
+			}
+		});
+	}
 
     // Download Direct
     function addLink(media) {
@@ -690,21 +690,17 @@ function download(url) {
         await Promise.all(albumPromises);
     }
 
-function btnverify() {
-	const userIdExists = document.getElementById('user') !== null;
-	const bioClassExists = document.querySelector('.bio') !== null;
-	if (userIdExists && bioClassExists) {
-	        const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
-	        buttonsToHide.forEach(button => {
-	            button.style.display = 'none'; 
-	        });
+	function btnverify() {
+		const userIdExists = document.getElementById('user') !== null;
+		const bioClassExists = document.querySelector('.bio') !== null;
+		if (userIdExists && bioClassExists) {
+				const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
+				buttonsToHide.forEach(button => {
+					button.style.display = 'none'; 
+				});
+		}
 	}
-}
-    setTimeout(() => {
-     Disclaimer();
-     BypassAccount();
-     removerBotoes();
-    }, 1500);
+
 
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
@@ -715,6 +711,9 @@ function btnverify() {
     }
 	
     setTimeout(() => {
+     Disclaimer();
+     BypassAccount();
+     removerBotoes();
      OcultarDownload();
      ocultarFotos();
      ocultarVideos(); 
