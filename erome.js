@@ -694,11 +694,11 @@ function btnverify() {
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
 	setTimeout(() => {
+	Disclaimer();
+	removerBotoes();
+	BypassAccount();
         ajustarZIndex();
         LikeAlbun();
-	removerBotoes();
-	Disclaimer();
-	BypassAccount();
 	removerBotoes();
 	OcultarDownload();
 	ocultarFotos();
