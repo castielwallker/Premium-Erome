@@ -699,7 +699,7 @@ function btnverify() {
 	BypassAccount();
 	removerBotoes();
 	btnverify();
-	}, 300);
+	}, 500);
     }
     
     const MILIMETROS = 5;
@@ -711,18 +711,14 @@ function btnverify() {
     });
 	
     setTimeout(() => {
-	Disclaimer();
 	removerBotoes();
-	BypassAccount();
-        ajustarZIndex();
         LikeAlbun();
-	removerBotoes();
 	OcultarDownload();
 	ocultarFotos();
 	ocultarVideos(); 
 	CinemaMode();
 	btnverify();
-     }, 1000);
+     }, 500);
 	
     window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
