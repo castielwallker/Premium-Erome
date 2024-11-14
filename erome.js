@@ -315,7 +315,7 @@ function download(url) {
                 aTag.remove();
                 console.clear(); 
                 console.log(`Concluído > '${fileName}' % 100`);
-                showToast('Download Concluído '${fileName}' % 100');
+                showToast('Download Concluído');
             } else {
                 showToast('Erro 403: Acesso negado ao arquivo', true);
             }
