@@ -682,12 +682,12 @@
 
 	function btnverify() {
 		const userIdExists = document.getElementById('user') !== null;
-		const bioClassExists = document.querySelector('.bio','user-profile mt-20') !== null;
+		const bioClassExists = document.querySelector('.bio.user-profile.mt-20') !== null;
 		if (userIdExists && bioClassExists) {
-				const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
-				buttonsToHide.forEach(button => {
-					button.style.display = 'none'; 
-				});
+			const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
+			buttonsToHide.forEach(button => {
+				button.style.display = 'none'; 
+			});
 		}
 	}
 
@@ -697,6 +697,7 @@
         mediaElements.forEach(media => addLink(media));
         ajustarZIndex();
         LikeAlbun();
+	removerBotoes();
     }
 	
     setTimeout(() => {
