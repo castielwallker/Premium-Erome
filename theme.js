@@ -81,11 +81,15 @@
       #suggestions {
         background-color: #14151f;
         color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
       .stylish-input-group .input-group-addon {
         background: #1d1e2a !important;
         border-radius: 10px;
        }
+       .input-group-addon {
+         padding: 3px 5px;
+        }
        .suggested-users {
         display: none !important;
        }
