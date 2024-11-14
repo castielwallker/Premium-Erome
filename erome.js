@@ -137,7 +137,7 @@
 
         
       // Botão Pagina User
-        const targetIds = ['user', 'tabs'];
+        const targetIds = ['user', 'tabs','user-profile mt-20','col-sm-7 col-xs-12 user-info text-right'];
         const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
         const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
         if (isTargetPage) {
