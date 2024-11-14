@@ -607,7 +607,7 @@
         toggleButton.innerHTML = `<i class="fa fa-sort fa-lg"></i>VIEWS`;
         toggleButton.style.display = 'flex';
         toggleButton.style.alignItems = 'center';
-        toggleButton.style.marginLeft = '-10px'; // Aplicando margin-right corretamente
+        toggleButton.style.marginLeft = '-10px'; 
     }
 
     function addButtonToNav() {
@@ -680,47 +680,52 @@
         await Promise.all(albumPromises);
     }
 
-	function btnverify() {
-		const userIdExists = document.getElementById('user') !== null;
-		const bioClassExists = document.querySelector('.bio.user-profile.mt-20') !== null;
-		if (userIdExists && bioClassExists) {
-			const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
-			buttonsToHide.forEach(button => {
-				button.style.display = 'none'; 
-			});
-		}
+function btnverify() {
+	const pageExists = document.getElementById('page') !== null;
+	const userProfileExists = document.querySelector('.user-profile.mt-20') !== null;
+	
+	if (pageExists && userProfileExists) {
+		const buttonsToHide = document.querySelectorAll('.container #page .user-profile.mt-20 .btn.btn-pink');
+		buttonsToHide.forEach(button => {
+			button.style.display = 'none'; 
+		});
 	}
+}
 
-
-    function init() {    
-        const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
-        mediaElements.forEach(media => addLink(media));
-        ajustarZIndex();
-        LikeAlbun();
+function init() {    
+	const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
+	mediaElements.forEach(media => addLink(media));
+	ajustarZIndex();
+	LikeAlbun();
 	removerBotoes();
-    }
-	
-    setTimeout(() => {
-	Disclaimer();
-	BypassAccount();
-	removerBotoes();
-	OcultarDownload();
-	ocultarFotos();
-	ocultarVideos(); 
-	CinemaMode();
 	btnverify();
-     }, 2000);
-
-    const MILIMETROS = 5;
-    const PIXELS = MILIMETROS * 3.78;
-    const PIXELSREVERSE = MILIMETROS * -3.78;
-    window.addEventListener('load', () => {
-    window.scrollBy(0, PIXELS);
-    window.scrollBy(0, PIXELSREVERSE); 
-    });
 	
-    window.addEventListener('load', init);
-    document.addEventListener("contextmenu", (e) => {
-    	e.stopPropagation();
-    }, true);
-})();
+	setTimeout(() => {
+		loadInit(); 
+	}, 2000);
+}
+
+function loadInit() {    
+	Disclaimer?.(); 
+	BypassAccount?.();
+	removerBotoes?.();
+	OcultarDownload?.();
+	ocultarFotos?.();
+	ocultarVideos?.(); 
+	CinemaMode?.();
+	btnverify();
+}
+
+const MILIMETROS = 5;
+const PIXELS = MILIMETROS * 3.90;
+const PIXELSREVERSE = MILIMETROS * -3.90;
+
+window.addEventListener('load', () => {
+	window.scrollBy(0, PIXELS);
+	window.scrollBy(0, PIXELSREVERSE); 
+	init(); 
+});
+
+document.addEventListener("contextmenu", (e) => {
+	e.stopPropagation();
+}, true);
