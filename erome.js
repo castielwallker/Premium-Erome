@@ -692,10 +692,9 @@ function btnverify() {
 		});
 	}
 }
-
+removerBotoes();
 window.addEventListener('load', btnverify);
-
-
+	
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
@@ -703,7 +702,6 @@ window.addEventListener('load', btnverify);
         ajustarZIndex();
         LikeAlbun();
 	removerBotoes();
-	btnverify();
 	Disclaimer();
 	BypassAccount();
 	removerBotoes();
