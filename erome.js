@@ -694,14 +694,11 @@
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
+	setTimeout(() => {
         ajustarZIndex();
         LikeAlbun();
 	removerBotoes();
 	btnverify();
-    }
-	
-   function loadInit() {    
-    setTimeout(() => {
 	Disclaimer();
 	BypassAccount();
 	removerBotoes();
@@ -710,10 +707,9 @@
 	ocultarVideos(); 
 	CinemaMode();
 	btnverify();
-     }, 2000);
+	}, 2000);
     }
-
-
+    
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
     const PIXELSREVERSE = MILIMETROS * -3.78;
@@ -723,7 +719,6 @@
     });
 	
     window.addEventListener('load', init);
-    window.addEventListener('load', loadInit);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
     }, true);
