@@ -465,33 +465,30 @@
 
     updateFavicon();
     
-    function ChangeTitleAndElements() {
-        const h1Element = document.querySelector('.col-sm-12.page-content h1');
-        const originalTitle = document.title;
-        
-        const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
-        const originalUserName = userNameElement ? userNameElement.textContent : "By Maad"; // Salva o nome original
-        
-        const texts = ["By Maad", originalTitle];
-        const userNameTexts = ["By Maad", originalUserName];
-        let index = 0;
+function ChangeTitleAndElements() {
+    const h1Element = document.querySelector('.col-sm-12.page-content h1');
+    const originalTitle = document.title.replace(" - Porn Videos & Photos - EroMe", ""); // Remove o prefixo
     
-        setInterval(() => {
-            // Alterna título e h1
-            document.title = texts[index];
-            if (h1Element) {
-                h1Element.textContent = texts[index];
-            }
-            
-            // Alterna o userNameElement entre o original e "By Maad"
-            if (userNameElement) {
-                userNameElement.innerHTML = `${userNameTexts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
-            }
+    const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
+    const originalUserName = userNameElement ? userNameElement.textContent : "By Maad";
     
-            index = (index + 1) % texts.length;
-        }, 2500);
-    }
+    const texts = ["By Maad", originalTitle];
+    const userNameTexts = ["By Maad", originalUserName];
+    let index = 0;
 
+    setInterval(() => {
+        document.title = texts[index];
+        if (h1Element) {
+            h1Element.textContent = texts[index];
+        }
+
+        if (userNameElement) {
+            userNameElement.innerHTML = `${userNameTexts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
+        }
+
+        index = (index + 1) % texts.length;
+    }, 2500);
+}
    
     window.addEventListener('load', ChangeTitleAndElements);
     window.addEventListener('load', removerElementos);
