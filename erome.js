@@ -301,7 +301,6 @@ function download(url) {
             if (event.lengthComputable) {
                 const percentComplete = Math.round((event.loaded / event.total) * 100);
                 console.clear();  
-                console.log(`Baixando > '${fileName}' % ${percentComplete}`);
             }
         },
         onload: function (response) {
@@ -315,10 +314,9 @@ function download(url) {
                 aTag.click();
                 URL.revokeObjectURL(tempUrl);
                 aTag.remove();
-                console.clear();  // Limpa o console novamente ao finalizar o download
+                console.clear(); 
                 console.log(`Concluído > '${fileName}' % 100`);
                 showToast('Download iniciado');
-                //showToast('Download iniciado');
             } else {
                 showToast('Erro 403: Acesso negado ao arquivo', true);
             }
@@ -336,9 +334,7 @@ function download(url) {
         if (src) {
             const button = document.createElement('button');
             button.className = 'btn-download button';
-            button.setAttribute('data-label', 'Baixar'); // Atributo para o texto
             button.setAttribute('data-label', 'Baixar');
-
             button.innerHTML = `
             <svg class="svgIcon" viewBox="0 0 384 512" fill="white" style="transform: rotate(180deg);">
                 <path
@@ -367,7 +363,6 @@ function download(url) {
 
             const svgIcon = button.querySelector('.svgIcon');
             svgIcon.style.width = '15px';
-
             button.addEventListener('mouseenter', () => {
                 button.style.width = '100px';
                 button.style.borderRadius = '40px';
@@ -381,7 +376,6 @@ function download(url) {
                 button.style.borderRadius = '50%';
                 button.style.backgroundColor = 'rgb(20, 21, 31)';
                 svgIcon.querySelector('path').setAttribute('fill', 'white');
-                button.textContent = ''; // Limpar o texto
                 button.textContent = ''; 
                 button.innerHTML = `
                 <svg class="svgIcon" viewBox="0 0 384 512" fill="white" style="transform: rotate(180deg); width: 17px; height: 17px;">
@@ -742,18 +736,12 @@ function btnverify() {
 	        });
 	}
 }
-    setTimeout(() => {
-     Disclaimer();
-     BypassAccount();
-     removerBotoes();
-    }, 1500);
 
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
         ajustarZIndex();
         LikeAlbun();
-	console.clear();
     }
 
     setTimeout(() => {
@@ -765,15 +753,14 @@ function btnverify() {
      ocultarVideos(); 
      CinemaMode();
      btnverify();
-    }, 1900);
-    }, 2000);
+     }, 2000);
 
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
     const PIXELSREVERSE = MILIMETROS * -3.78;
     window.addEventListener('load', () => {
-        window.scrollBy(0, PIXELS);
-	window.scrollBy(0, PIXELSREVERSE); 
+    window.scrollBy(0, PIXELS);
+    window.scrollBy(0, PIXELSREVERSE); 
     window.scrollBy(0, PIXELS);
     window.scrollBy(0, PIXELSREVERSE); 
     });
