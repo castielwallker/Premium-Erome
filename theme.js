@@ -467,7 +467,7 @@
     
 function ChangeTitleAndElements() {
     const h1Element = document.querySelector('.col-sm-12.page-content h1');
-    const originalTitle = document.title.replace(" - Porn Videos & Photos - EroMe", ""); // Remove o prefixo
+    const originalTitle = document.title.replace(" - Porn Videos & Photos - EroMe", "");
     
     const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
     const originalUserName = userNameElement ? userNameElement.textContent : "By Maad";
@@ -483,7 +483,7 @@ function ChangeTitleAndElements() {
         }
 
         if (userNameElement) {
-            userNameElement.innerHTML = `${userNameTexts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
+            userNameElement.innerHTML = `${userNameTexts[index]}<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
         }
 
         index = (index + 1) % texts.length;
