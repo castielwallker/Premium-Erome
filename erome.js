@@ -682,7 +682,7 @@
 
 	function btnverify() {
 		const userIdExists = document.getElementById('user') !== null;
-		const bioClassExists = document.querySelector('.bio') !== null;
+		const bioClassExists = document.querySelector('.bio','user-profile mt-20') !== null;
 		if (userIdExists && bioClassExists) {
 				const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
 				buttonsToHide.forEach(button => {
