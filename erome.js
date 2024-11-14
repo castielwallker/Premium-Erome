@@ -729,3 +729,4 @@ window.addEventListener('load', () => {
 document.addEventListener("contextmenu", (e) => {
 	e.stopPropagation();
 }, true);
+})();
