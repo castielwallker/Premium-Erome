@@ -697,15 +697,9 @@ function btnverify() {
 	Disclaimer();
 	removerBotoes();
 	BypassAccount();
-        ajustarZIndex();
-        LikeAlbun();
 	removerBotoes();
-	OcultarDownload();
-	ocultarFotos();
-	ocultarVideos(); 
-	CinemaMode();
 	btnverify();
-	}, 2000);
+	}, 300);
     }
     
     const MILIMETROS = 5;
@@ -715,6 +709,20 @@ function btnverify() {
     window.scrollBy(0, PIXELS);
     window.scrollBy(0, PIXELSREVERSE); 
     });
+	
+    setTimeout(() => {
+	Disclaimer();
+	removerBotoes();
+	BypassAccount();
+        ajustarZIndex();
+        LikeAlbun();
+	removerBotoes();
+	OcultarDownload();
+	ocultarFotos();
+	ocultarVideos(); 
+	CinemaMode();
+	btnverify();
+     }, 1000);
 	
     window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
