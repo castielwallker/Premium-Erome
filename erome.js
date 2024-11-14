@@ -64,47 +64,46 @@
         opacity: 1;
     }
     
-// Animation
-@keyframes ToastAnim {
-0% {
-	animation-timing-function: ease-in;
-	opacity: 1;
-	transform: translateY(-45px); 
-    }
-
-24% { 
-        opacity: 1;
-    }
-
-40% {
-	animation-timing-function: ease-in;
-	transform: translateY(-24px);
-   }
-65% {
-	animation-timing-function: ease-in;
-	transform: translateY(-12px);
-    }
-82% {
-	animation-timing-function: ease-in;
-	transform: translateY(-6px);
-    }
-93% {
-	animation-timing-function: ease-in;
-  	transform: translateY(-4px);
-    }
-	25%,
-	55%,
-	75%,
-87% {
-	animation-timing-function: ease-out;
-	transform: translateY(0px);
-    }
-100% {
-        animation-timing-function: ease-out;
-	opacity: 1;
-	transform: translateY(0px);
-    }
-}
+	@keyframes ToastAnim {
+	0% {
+		animation-timing-function: ease-in;
+		opacity: 1;
+		transform: translateY(-45px); 
+	    }
+	
+	24% { 
+	        opacity: 1;
+	    }
+	
+	40% {
+		animation-timing-function: ease-in;
+		transform: translateY(-24px);
+	   }
+	65% {
+		animation-timing-function: ease-in;
+		transform: translateY(-12px);
+	    }
+	82% {
+		animation-timing-function: ease-in;
+		transform: translateY(-6px);
+	    }
+	93% {
+		animation-timing-function: ease-in;
+	  	transform: translateY(-4px);
+	    }
+		25%,
+		55%,
+		75%,
+	87% {
+		animation-timing-function: ease-out;
+		transform: translateY(0px);
+	    }
+	100% {
+	        animation-timing-function: ease-out;
+		opacity: 1;
+		transform: translateY(0px);
+	    }
+	}
     `);
     const speeds = [0.5, 1, 1.5,2,4,5];
     let currentSpeedIndex = 2;
@@ -140,7 +139,7 @@
         allButtons.forEach(button => {
             const isDownloadButton = button.querySelector('i.fas.fa-download');
             if (!isDownloadButton) {
-                button.style.display = 'none'; // Oculta botões não relacionados ao download
+                button.style.display = 'none'; 
             }
         });
 
@@ -148,15 +147,13 @@
       // Botão Pagina User
         const targetIds = ['user', 'tabs'];
         const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
-
-        // Verifica se algum dos IDs está presente
         const isTargetPage = targetIds.some(id => document.getElementById(id) !== null);
-
         if (isTargetPage) {
             buttonsToHide.forEach(button => {
-                button.style.display = 'none'; // Esconde os botões
+                button.style.display = 'none'; 
             });
         }
+	    
         //Com Login
         const botoesFollowAc = document.querySelectorAll('button.btn.btn-pink.user-follow');
         botoesFollowAc.forEach(botao => botao.remove());
@@ -174,6 +171,7 @@
             botaoOlho.closest('button').remove();
         }
     }
+	
     // Disclaimer
     function Disclaimer() {
         const disclaimer = document.getElementById('disclaimer');
@@ -204,8 +202,7 @@
 
     const toast = document.createElement('div');
     toast.className = 'toast';
-
-    // SVG adicionado ao Toast
+	    
     const svgIcon = `
       <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20.1892 14.0608L19.0592 12.1808C18.8092 11.7708 18.5892 10.9808 18.5892 10.5008V8.63078C18.5892 5.00078 15.6392 2.05078 12.0192 2.05078C8.38923 2.06078 5.43923 5.00078 5.43923 8.63078V10.4908C5.43923 10.9708 5.21923 11.7608 4.97923 12.1708L3.84923 14.0508C3.41923 14.7808 3.31923 15.6108 3.58923 16.3308C3.85923 17.0608 4.46923 17.6408 5.26923 17.9008C6.34923 18.2608 7.43923 18.5208 8.54923 18.7108C8.65923 18.7308 8.76923 18.7408 8.87923 18.7608C9.01923 18.7808 9.16923 18.8008 9.31923 18.8208C9.57923 18.8608 9.83923 18.8908 10.1092 18.9108C10.7392 18.9708 11.3792 19.0008 12.0192 19.0008C12.6492 19.0008 13.2792 18.9708 13.8992 18.9108C14.1292 18.8908 14.3592 18.8708 14.5792 18.8408C14.7592 18.8208 14.9392 18.8008 15.1192 18.7708C15.2292 18.7608 15.3392 18.7408 15.4492 18.7208C16.5692 18.5408 17.6792 18.2608 18.7592 17.9008C19.5292 17.6408 20.1192 17.0608 20.3992 16.3208C20.6792 15.5708 20.5992 14.7508 20.1892 14.0608ZM12.7492 10.0008C12.7492 10.4208 12.4092 10.7608 11.9892 10.7608C11.5692 10.7608 11.2292 10.4208 11.2292 10.0008V6.90078C11.2292 6.48078 11.5692 6.14078 11.9892 6.14078C12.4092 6.14078 12.7492 6.48078 12.7492 6.90078V10.0008Z" fill="#8a5acc"></path>
@@ -213,9 +210,7 @@
       </svg>
     `;
 
-    // Conteúdo do Toast
     toast.innerHTML = `${svgIcon} <span>${message}</span>`;
-
     toast.style.cssText = `
         display: flex;
         align-items: center;
@@ -240,7 +235,7 @@
 
     setTimeout(() => {
         toast.style.opacity = 0;
-        setTimeout(() => toast.remove(), 500);
+        setTimeout(() => toast.remove(), 800);
     }, 2000);
 }
 
@@ -264,8 +259,9 @@ function download(url) {
         onprogress: function (event) {
             if (event.lengthComputable) {
                 const percentComplete = Math.round((event.loaded / event.total) * 100);
-                console.clear();  // Limpa o console para mostrar apenas o progresso atual
+                console.clear();
                 console.log(`Baixando > '${fileName}' % ${percentComplete}`);
+		showtoast('Baixando > '${fileName}' % '${percentComplete}'.)
             }
         },
         onload: function (response) {
@@ -279,15 +275,16 @@ function download(url) {
                 aTag.click();
                 URL.revokeObjectURL(tempUrl);
                 aTag.remove();
-                console.clear();  // Limpa o console novamente ao finalizar o download
+                console.clear();
                 console.log(`Concluído > '${fileName}' % 100`);
-                showToast('Download iniciado');
+                //showToast('Download iniciado');
             } else {
                 showToast('Erro 403: Acesso negado ao arquivo', true);
             }
         },
         onerror: function (err) {
             console.error(`Erro ao baixar o arquivo '${fileName}':`, err);
+	    showToast('Erro Ao Baixar :'${fileName}'.');
         }
     });
 }
@@ -299,7 +296,7 @@ function download(url) {
         if (src) {
             const button = document.createElement('button');
             button.className = 'btn-download button';
-            button.setAttribute('data-label', 'Baixar'); // Atributo para o texto
+            button.setAttribute('data-label', 'Baixar');
 
             button.innerHTML = `
             <svg class="svgIcon" viewBox="0 0 384 512" fill="white" style="transform: rotate(180deg);">
@@ -343,7 +340,7 @@ function download(url) {
                 button.style.borderRadius = '50%';
                 button.style.backgroundColor = 'rgb(20, 21, 31)';
                 svgIcon.querySelector('path').setAttribute('fill', 'white');
-                button.textContent = ''; // Limpar o texto
+                button.textContent = ''; 
                 button.innerHTML = `
                 <svg class="svgIcon" viewBox="0 0 384 512" fill="white" style="transform: rotate(180deg); width: 17px; height: 17px;">
                     <path
@@ -703,35 +700,37 @@ function btnverify() {
 	        });
 	}
 }
+    setTimeout(() => {
+     Disclaimer();
+     BypassAccount();
+     removerBotoes();
+    }, 1500);
 
     function init() {    
         const mediaElements = document.querySelectorAll('.media-group video, .media-group img');
         mediaElements.forEach(media => addLink(media));
         ajustarZIndex();
         LikeAlbun();
+	console.clear();
     }
 	
     setTimeout(() => {
-     Disclaimer();
-     BypassAccount();
-     removerBotoes();
      OcultarDownload();
      ocultarFotos();
      ocultarVideos(); 
      CinemaMode();
      btnverify();
-    }, 1900);
+    }, 2000);
 
     const MILIMETROS = 5;
     const PIXELS = MILIMETROS * 3.78;
     const PIXELSREVERSE = MILIMETROS * -3.78;
     window.addEventListener('load', () => {
-        window.scrollBy(0, PIXELS);
-	window.scrollBy(0, PIXELSREVERSE); 
+    window.scrollBy(0, PIXELS);
+    window.scrollBy(0, PIXELSREVERSE); 
     });
 	
     window.addEventListener('load', init);
-    //document.addEventListener('DOMContentLoaded', btnverify);
     document.addEventListener("contextmenu", (e) => {
     	e.stopPropagation();
     }, true);
