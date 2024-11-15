@@ -637,7 +637,7 @@
                 clearInterval(interval);
                 addButtonToNav();
             }
-        }, 500);
+        }, 1000);
     }
 
     window.addEventListener('load', () => {
@@ -687,7 +687,7 @@ function btnverify() {
 			const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
 			buttonsToHide.forEach(button => {
 				button.style.display = 'none';
-			document.querySelector('.col-sm-7.col-xs-12.user-info.text-right')?.remove();
+			
 			});
 	}
 }
@@ -700,7 +700,7 @@ function btnverify() {
 	BypassAccount();
 	removerBotoes();
 	btnverify();
-	}, 500);
+	}, 1000);
     }
     
     const MILIMETROS = 5;
@@ -719,7 +719,7 @@ function btnverify() {
 	ocultarVideos(); 
 	CinemaMode();
 	btnverify();
-     }, 500);
+     }, 1000);
 	
     window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
