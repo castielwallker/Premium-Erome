@@ -686,7 +686,8 @@ function btnverify() {
 	if (userIdExists && bioClassExists) {
 			const buttonsToHide = document.querySelectorAll('.btn.btn-pink');
 			buttonsToHide.forEach(button => {
-				button.style.display = 'none'; 
+				button.style.display = 'none';
+			document.querySelector('.col-sm-7.col-xs-12.user-info.text-right')?.remove();
 			});
 	}
 }
