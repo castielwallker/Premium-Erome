@@ -95,6 +95,7 @@
        }
        .username h1 {
         color: #8a5acc;
+        animation: pulse 2s infinite;
         }
        .fas.fa-user {
         display: none !important;
