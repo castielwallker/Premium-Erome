@@ -374,52 +374,56 @@
         if (userInfo) userInfo.appendChild(newButton);
     }
 
-    // Ocultar Fotos
-    function ocultarFotos() {
-        const fotos = document.querySelectorAll('.media-group img');
-        const botoesDownload = document.querySelectorAll('.btn-download');
-        const userInfo = document.querySelector('.user-info');
-        const albumImages = document.querySelector('.album-images');
-
-        if (userInfo) {
-            const toggleButton = document.createElement('button');
-            toggleButton.className = 'btn btn-pink';
-            toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i> Fotos';
-            toggleButton.style.position = 'relative';
-            toggleButton.style.marginLeft = '4px';
-
-            toggleButton.addEventListener('click', () => {
-                const isHidden = fotos[0].style.display === 'none';
-                fotos.forEach(foto => {
-                    foto.style.display = isHidden ? 'block' : 'none';
-                });
-
-                botoesDownload.forEach(botao => {
-                    const parentImage = botao.closest('.media-group').querySelector('img');
-                    if (parentImage) {
-                        botao.style.display = isHidden ? 'inline-block' : 'none';
-                    }
-                });
-
-                if (isHidden) {
-                    showToast('Você restaurou as fotos!');
-                    if (albumImages) {
-                        albumImages.style.display = 'inline';
-                    }
-                } else {
-                    showToast('Você ocultou as fotos!');
-                    if (albumImages) {
-                        albumImages.style.display = 'none';
-                    }
-                }
-                toggleButton.innerHTML = isHidden
-                    ? '<i class="fas fa-eye"></i> Fotos'
-                : '<i class="fas fa-eye-slash"></i> Fotos';
-            });
-
-            userInfo.appendChild(toggleButton);
-        }
-    }
+	// Ocultar Fotos
+	function ocultarFotos() {
+	    const fotos = document.querySelectorAll('.media-group img');
+	    const botoesDownload = document.querySelectorAll('.btn-download');
+	    const userInfo = document.querySelector('.user-info');
+	    const albumImages = document.querySelector('.album-images');
+	
+	    if (userInfo) {
+	        const toggleButton = document.createElement('button');
+	        toggleButton.className = 'btn btn-pink';
+	        toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i> Fotos';
+	        toggleButton.style.position = 'relative';
+	        toggleButton.style.marginLeft = '4px';
+	
+	        toggleButton.addEventListener('click', () => {
+	            const isHidden = fotos[0].style.display === 'none';
+	            
+	            // Alterna a exibição das imagens
+	            fotos.forEach(foto => {
+	                foto.style.display = isHidden ? 'block' : 'none';
+	            });
+	
+	            // Alterna a exibição dos botões de download associados às imagens
+	            botoesDownload.forEach(botao => {
+	                const parentImage = botao.closest('.media-group')?.querySelector('img');
+	                if (parentImage) {
+	                    botao.style.display = isHidden ? 'inline-block' : 'none';
+	                }
+	            });
+	
+	            if (isHidden) {
+	                showToast('Você restaurou as fotos!');
+	                if (albumImages) {
+	                    albumImages.style.display = 'inline';
+	                }
+	            } else {
+	                showToast('Você ocultou as fotos!');
+	                if (albumImages) {
+	                    albumImages.style.display = 'none';
+	                }
+	            }
+	
+	            toggleButton.innerHTML = isHidden
+	                ? '<i class="fas fa-eye"></i> Fotos'
+	                : '<i class="fas fa-eye-slash"></i> Fotos';
+	        });
+	
+	        userInfo.appendChild(toggleButton);
+	    }
+	}
 
     // Ocultar Videos
     function ocultarVideos() {
