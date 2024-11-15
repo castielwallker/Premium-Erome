@@ -102,6 +102,9 @@
        .navbar-inverse {
         background-color: #14151f;
        }
+       .navbar-logo img {
+        animation: pulse 2s infinite;
+        }
        .album .album-thumbnail {
         object-fit: cover;
         width: 100%;
@@ -348,6 +351,7 @@
        .username {
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+        animation: pulse 2s infinite;
        }
        #user .website {
         color: #ffffff;
