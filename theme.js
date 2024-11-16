@@ -382,11 +382,11 @@
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
      #suggestions .fa-xmark {
-        background-color: none;
+        background-color: #ffffff00;
         padding-right: 6px;
      }
      #suggestions p {
-       /* border-top: 1px solid #8a5acc12; */
+      border-top: 1px solid #8a5acc12;
       margin: 10px;
      }
      #suggestions p:hover {
