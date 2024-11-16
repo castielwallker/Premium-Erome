@@ -494,7 +494,7 @@ function ChangeTitleAndElements() {
         }
 
         if (userNameElement) {
-            userNameElement.innerHTML = `${userNameTexts[index]}<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
+            userNameElement.innerHTML = `${userNameTexts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
         }
 
         index = (index + 1) % texts.length;
