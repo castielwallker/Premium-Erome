@@ -297,39 +297,15 @@
         color: #ffffff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-      .fa-lg{
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-      }
-      .fa-eye{
+    
+      .fa-eye, .fa-video, .fa-camera, .fa-lg{
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-      }
-      .fa-video {
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
-      .fa-camera {
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
-       
-       .fa-lg:hover{
+      }  
+      .fa-eye:hover, .fa-lg:hover, .fa-video:hover, .fa-camera:hover {
         color: #fff;
         filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
       }
-      .fa-eye:hover{
-        color: #fff;
-        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
-      }
-      .fa-video:hover {
-        color: #fff;
-        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
-       }
-      .fa-camera:hover{
-        color: #fff;
-        filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
-       }
-       
        #user .bio {
         color: #ffffff;
        }
