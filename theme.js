@@ -275,10 +275,6 @@
         margin-top: 15px;
         margin-right: -15px;
       }
-      .leave-comment {
-        padding: 0 580px;
-        cursor: pointer;
-      }
       .fa-lg{
         color: #8a5acc;
         font-size: 1.1999em;
