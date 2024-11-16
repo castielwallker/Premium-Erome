@@ -382,7 +382,7 @@
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
      #suggestions .fa-xmark {
-        background-color: #ffffff00;
+        background-color: #14151f;
         padding-right: 6px;
      }
      #suggestions p {
