@@ -481,7 +481,10 @@ function ChangeTitleAndElements() {
     const originalTitle = document.title.replace(" - Porn Videos & Photos - EroMe", "");
     
     const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
-    const originalUserName = userNameElement ? userNameElement.textContent : "By Maad";
+    // Capturar o nome original e remover &nbsp;
+    const originalUserName = userNameElement 
+        ? userNameElement.textContent.replace(/\u00A0/g, "").trim() 
+        : "By Maad";
     
     const texts = ["By Maad", originalTitle];
     const userNameTexts = ["By Maad", originalUserName];
@@ -494,12 +497,13 @@ function ChangeTitleAndElements() {
         }
 
         if (userNameElement) {
-            userNameElement.innerHTML = `${userNameTexts[index]}&nbsp;<i class='fas fa-check-circle user-verified' title='Verified'></i>`;
+            userNameElement.innerHTML = `${userNameTexts[index]} <i class='fas fa-check-circle user-verified' title='Verified'></i>`;
         }
 
         index = (index + 1) % texts.length;
     }, 2500);
 }
+
    
     window.addEventListener('load', ChangeTitleAndElements);
     window.addEventListener('load', removerElementos);
