@@ -383,6 +383,13 @@
        .btn:focus, .btn:hover {
         color: #fff;
        }
+      .leave-comment {
+        cursor: pointer;
+        margin: 0 auto; 
+        display: flex;
+        justify-content: center; /
+        align-items: center; 
+     }
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.1); }
