@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Erome NSFW Premium
 // @namespace    https://github.com/castielwallker/
-// @version      1.3
-// @description  Aplica efeito de desfoque nas imagens de álbuns NSFW com controle adequado de mensagens Toast.
+// @version      1.4
+// @description  Aplica efeito de desfoque nas imagens de álbuns NSFW com controle adequado de mensagens Toast e URL dinâmica.
 // @author       Maad
 // @match        https://www.erome.com/*
 // @match        https://*.erome.com/*
@@ -87,18 +87,42 @@
                     '.album-thumbnail-container, .media-group img, .media-group video, .vjs-poster'
                 );
 
-                const isBlurred = albumContainers[0]?.classList.toggle('blur');
+                // Verificar se o blur está ativado ou desativado
+                const isBlurred = !albumContainers[0]?.classList.contains('blur');
+
                 albumContainers.forEach(albumContainer => {
                     albumContainer.classList.toggle('blur', isBlurred);
                 });
 
-                const message = isBlurred
-                    ? 'O blur foi ativado. Foi detectado ambiente adulto.'
-                    : 'O blur foi desativado.';
-                showToast(message);
+                // Alterar o estado no localStorage
+                if (isBlurred) {
+                    localStorage.setItem('nsfw', 'true');
+                    // Modificar a URL adicionando o prefixo =nsfw
+                    if (!window.location.href.includes('=nsfw')) {
+                        window.history.replaceState(null, '', window.location.href + '=nsfw');
+                    }
+                    showToast('O blur foi ativado. Foi detectado ambiente adulto.');
+                } else {
+                    localStorage.removeItem('nsfw');
+                    // Remover o prefixo =nsfw da URL
+                    const newUrl = window.location.href.replace('=nsfw', '');
+                    window.history.replaceState(null, '', newUrl);
+                    showToast('O blur foi desativado.');
+                }
             });
 
             navbarRight.appendChild(nsfwButton);
+        }
+
+        // Verificar o estado inicial do blur
+        if (localStorage.getItem('nsfw') === 'true') {
+            const albumContainers = document.querySelectorAll(
+                '.album-thumbnail-container, .media-group img, .media-group video, .vjs-poster'
+            );
+            albumContainers.forEach(albumContainer => {
+                albumContainer.classList.add('blur');
+            });
+            showToast('O blur foi ativado anteriormente. Foi detectado ambiente adulto.');
         }
     };
 
