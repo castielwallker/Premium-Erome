@@ -381,10 +381,10 @@
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-     #suggestions .fa-xmark {
+    #suggestions .fa-xmark {
+        position: absolute;
         background-color: #14151f;
-        padding-right: 6px;
-     }
+    }
      #suggestions p {
       border-top: 1px solid #8a5acc12;
       margin: 10px;
