@@ -42,8 +42,6 @@
         color: #8a5acc;
         }
        #suggestions {
-        background-color: #161616;
-        color: #fff;
         border-radius: 10px;
        }
       .modal-content {
@@ -74,15 +72,7 @@
         border-radius: 10px;
         color: #fff;
       }
-      #suggestions p {
-        border-top: 0.9px solid #8a5acc;
-        margin: 1px;
-      }
-      #suggestions {
-        background-color: #14151f;
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
+
       .stylish-input-group .input-group-addon {
         background: #1d1e2a !important;
         border-radius: 10px;
@@ -385,6 +375,22 @@
         display: flex;
         justify-content: center; /
         align-items: center; 
+      }
+      #suggestions {
+        background-color: #14151f;
+        color: #8a5acc;
+        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
+       }
+     #suggestions .fa-xmark {
+        background-color: none;
+        padding-right: 6px;
+     }
+     #suggestions p {
+       /* border-top: 1px solid #8a5acc12; */
+      margin: 10px;
+     }
+     #suggestions p:hover {
+        background-color: #8a5acc17;
      }
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
