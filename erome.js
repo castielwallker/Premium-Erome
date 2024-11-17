@@ -253,6 +253,7 @@
 					const percentComplete = Math.round((event.loaded / event.total) * 100);
 					console.clear();
 					console.log(`Baixando > '${fileName}' % ${percentComplete}`);
+					showToast(`Baixando > '${fileName}' % ${percentComplete}`);
 				}
 			},
 			onload: function (response) {
@@ -268,7 +269,7 @@
 					aTag.remove();
 					console.clear();
 					console.log(`Concluído > '${fileName}' % 100`);
-					showToast('Download iniciado');
+					showToast('Download Concluido');
 				} else {
 					showToast('Erro 403: Acesso negado ao arquivo', true);
 				}
@@ -390,13 +391,11 @@
 	
 	        toggleButton.addEventListener('click', () => {
 	            const isHidden = fotos[0].style.display === 'none';
-	            
-	            // Alterna a exibição das imagens
+
 	            fotos.forEach(foto => {
 	                foto.style.display = isHidden ? 'block' : 'none';
 	            });
-	
-	            // Alterna a exibição dos botões de download associados às imagens
+
 	            botoesDownload.forEach(botao => {
 	                const parentImage = botao.closest('.media-group')?.querySelector('img');
 	                if (parentImage) {
@@ -654,7 +653,7 @@
 
     // View Grid End
 
-										// Album Liked
+    // Album Liked
 	async function LikeAlbun() {
 	    const albums = Array.from(document.getElementsByClassName('album-link'));
 	    const albumPromises = albums.map(async (album) => {
