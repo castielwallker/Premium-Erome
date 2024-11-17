@@ -334,6 +334,25 @@
       #suggestions p:hover {
         background-color: #8a5acc17;
       }
+      .tooltip-inner {
+            background-color: #14151f !important;
+            color: #FFF !important;
+            font-size: 14px !important;
+            border-radius: 10px !important;
+            padding: 12px !important;
+            font-weight: bold !important;
+            text-shadow: 0 0 20px rgba(138, 90, 204, 0.8) !important;
+            box-shadow: 0 0 20px 5px rgba(138, 90, 204, 0.5);
+            transition: opacity 0.3s ease-in-out !important;
+        }
+        .tooltip-arrow {
+            border-top-color: #8a5acc !important;
+            transition: opacity 0.3s ease-in-out !important;
+        }
+        .tooltip {
+            margin-top: -10px !important;
+            transition: opacity 0.3s ease-in-out !important;
+        }
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.1); }
@@ -430,9 +449,7 @@
 function ChangeTitleAndElements() {
     const h1Element = document.querySelector('.col-sm-12.page-content h1');
     const originalTitle = document.title.replace(" - Porn Videos & Photos - EroMe", "");
-    
     const userNameElement = document.getElementById("user_name") || document.querySelector(".username");
-    // Capturar o nome original e remover &nbsp;
     const originalUserName = userNameElement 
         ? userNameElement.textContent.replace(/\u00A0/g, "").trim() 
         : "By Maad";
@@ -454,6 +471,30 @@ function ChangeTitleAndElements() {
         index = (index + 1) % texts.length;
     }, 2500);
 }
+    
+  function initializeTooltips() {
+        const albumLinks = document.querySelectorAll('.album-thumbnail-container');
+
+        albumLinks.forEach((thumbnail) => {
+            const titleElement = thumbnail.closest('.album').querySelector('.album-title');
+            if (titleElement) {
+                const albumTitle = titleElement.textContent.trim();
+
+                thumbnail.setAttribute('data-toggle', 'tooltip');
+                thumbnail.setAttribute('data-placement', 'top');
+                thumbnail.setAttribute('title', albumTitle);
+            }
+        });
+
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    }
+
+    initializeTooltips();
+
+    const observer = new MutationObserver(() => initializeTooltips());
+    observer.observe(document.body, { childList: true, subtree: true });
 
    
     window.addEventListener('load', ChangeTitleAndElements);
