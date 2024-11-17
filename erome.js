@@ -269,7 +269,7 @@
 					aTag.remove();
 					console.clear();
 					console.log(`Concluído > '${fileName}' % 100`);
-					showToast('Download Concluido');
+					showToast(`Concluído > '${fileName}' % 100`);
 				} else {
 					showToast('Erro 403: Acesso negado ao arquivo', true);
 				}
