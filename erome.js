@@ -654,35 +654,38 @@
 
     // View Grid End
 
-    // Albun Liked
-    async function LikeAlbun() {
-        const albums = Array.from(document.getElementsByClassName('album-link'));
-        const albumPromises = albums.map(async (album) => {
-            const hr = album.href;
-            const hdr = await fetch(hr);
-            const data = await hdr.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(data, 'text/html');
-
-            let countArea = doc.querySelector('#like_count') || doc.querySelector('.far.fa-heart.fa-lg');
-            let count = countArea ? countArea.nextElementSibling.firstChild.textContent.trim() : 0;
-
-            if (+count < 1) {
-                return;
-            }
-
-            const viewSec = album.parentElement.querySelector('.album-bottom-right .album-images');
-
-            const likeCountHTML = `
-    <span style="position: relative; bottom: 0px; filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 0px); margin-left: 5px; color: white;">
-        <i class="ml-5 mr-1 fas pink fa-heart fa-lg" aria-hidden="true" style="position: relative; bottom: 0;"></i> ${count}
-    </span>
-     `;
-            viewSec.insertAdjacentHTML("afterbegin", likeCountHTML);
-        });
-
-        await Promise.all(albumPromises);
-    }
+										// Album Liked
+	async function LikeAlbun() {
+	    const albums = Array.from(document.getElementsByClassName('album-link'));
+	    const albumPromises = albums.map(async (album) => {
+	        const hr = album.href;
+	        const hdr = await fetch(hr);
+	        const data = await hdr.text();
+	        const parser = new DOMParser();
+	        const doc = parser.parseFromString(data, 'text/html');
+	
+	        let countArea = doc.querySelector('#like_count') || doc.querySelector('.far.fa-heart.fa-lg');
+	        let count = countArea ? countArea.nextElementSibling.firstChild.textContent.trim() : 0;
+	
+	        if (+count < 1) {
+	            return;
+	        }
+	
+	        const viewSec = album.parentElement.querySelector('.album-bottom-right .album-images');
+	
+	        if (!viewSec) {
+	            return; 
+	        }
+	        const likeCountHTML = `
+	            <span style="position: relative; bottom: 0px; filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 0px); margin-left: 5px; color: white;">
+	                <i class="ml-5 mr-1 fas pink fa-heart fa-lg" aria-hidden="true" style="position: relative; bottom: 0;"></i> ${count}
+	            </span>
+	        `;
+	        viewSec.insertAdjacentHTML("afterbegin", likeCountHTML);
+	    });
+	
+	    await Promise.all(albumPromises);
+	}			
 
 function btnverify() {
 	const userIdExists = document.getElementById('user') !== null || document.getElementById('page') !== null;
