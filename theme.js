@@ -335,7 +335,7 @@
         background-color: #8a5acc17;
       }
       .tooltip-inner {
-            background-color: #14151f !important;
+            background-color: #14151fd9 !important;
             color: #FFF !important;
             font-size: 14px !important;
             border-radius: 10px !important;
