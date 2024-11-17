@@ -276,11 +276,10 @@
         color: #ffffff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-       album-website{
+       .album-website{
         color: #ffffff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-    
       .fa-eye, .fa-video, .fa-camera, .fa-lg{
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
@@ -340,17 +339,20 @@
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-    #suggestions .fa-xmark {
-        position: absolute;
-        background-color: #14151f;
-    }
-     #suggestions p {
-      border-top: 1px solid #8a5acc12;
-      margin: 10px;
-     }
-     #suggestions p:hover {
+       #suggestions .fa-xmark {
+       position: absolute;
+       background-color: #14151f;
+      }
+      #suggestions .fa-xmark:hover{
+       background-color: #1e1b2e;
+      }
+      #suggestions p {
+       border-top: 1px solid #8a5acc12;
+       margin: 10px;
+      }
+      #suggestions p:hover {
         background-color: #8a5acc17;
-     }
+      }
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.1); }
