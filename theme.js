@@ -268,19 +268,11 @@
        #user .bio {
        color: #ffffff;
        }
-       #user .user-info {
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
-       #user .website {
+       .album-website, #user .website {
         color: #ffffff;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
-       .album-website{
-        color: #ffffff;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
-      .fa-eye, .fa-video, .fa-camera, .fa-lg{
+       #user .user-info, .fa-eye, .fa-video, .fa-camera, .fa-lg{
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
       }  
@@ -288,9 +280,6 @@
         color: #fff;
         filter: drop-shadow(rgba(255, 255, 255, 0.8) 0px 0px 5px)
       }
-       #user .bio {
-        color: #ffffff;
-       }
        #user .user-info {
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
@@ -299,14 +288,6 @@
         color: #8a5acc;
         filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
         animation: pulse 2s infinite;
-       }
-       #user .website {
-        color: #ffffff;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
-       album-website{
-        color: #ffffff;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
        }
        .btn-grey{
         color: #ffffff;
