@@ -265,23 +265,6 @@
         margin-top: 15px;
         margin-right: -15px;
       }
-      .fa-lg{
-        color: #8a5acc;
-        font-size: 1.1999em;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-      }
-      .fa-eye{
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-      }
-      .fa-video {
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
-      .fa-camera {
-        color: #8a5acc;
-        filter: drop-shadow(rgba(138, 90, 204, 0.8) 0px 0px 5px)
-       }
        #user .bio {
        color: #ffffff;
        }
