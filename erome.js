@@ -253,7 +253,6 @@
 					const percentComplete = Math.round((event.loaded / event.total) * 100);
 					console.clear();
 					console.log(`Baixando > '${fileName}' % ${percentComplete}`);
-					showToast(`Baixando > '${fileName}' % ${percentComplete}`);
 				}
 			},
 			onload: function (response) {
@@ -269,13 +268,14 @@
 					aTag.remove();
 					console.clear();
 					console.log(`Concluído > '${fileName}' % 100`);
-					showToast(`Concluído > '${fileName}' % 100`);
+					showToast('Download foi Concluído');
 				} else {
-					showToast('Erro 403: Acesso negado ao arquivo', true);
+					showToast('Erro 403: Acesso negado ao arquivo');
 				}
 			},
 			onerror: function (err) {
 				console.error(`Erro ao baixar o arquivo '${fileName}':`, err);
+				showToast('Ocorreu um erro ao baixar o arquivo.');
 			}
 		});
 	}
