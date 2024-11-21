@@ -640,7 +640,7 @@
                 clearInterval(interval);
                 addButtonToNav();
             }
-        }, 1000);
+        }, 1500);
     }
 
     window.addEventListener('load', () => {
@@ -706,7 +706,7 @@ function btnverify() {
 	BypassAccount();
 	removerBotoes();
 	btnverify();
-	}, 1000);
+	}, 1500);
     }
     
     const MILIMETROS = 5;
@@ -725,7 +725,7 @@ function btnverify() {
 	ocultarVideos(); 
 	CinemaMode();
 	btnverify();
-     }, 1000);
+     }, 2300);
 	
     window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
