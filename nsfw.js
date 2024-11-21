@@ -126,5 +126,8 @@
         }
     };
 
-    addButtonToNavbar();
+    setTimeout(() => {
+        addButtonToNavbar();
+     }, 1500);
+    
 })();
