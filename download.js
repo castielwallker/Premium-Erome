@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Erome Album Downloader
-// @version      1.6
+// @version      1.0
 // @description  Baixa imagens e vídeos do Erome.
 // @author       Maad
 // @match        https://www.erome.com/a/*
