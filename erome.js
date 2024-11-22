@@ -725,7 +725,7 @@ function btnverify() {
 	ocultarVideos(); 
 	CinemaMode();
 	btnverify();
-     }, 2300);
+     }, 1520);
 	
     window.addEventListener('load', init);
     document.addEventListener("contextmenu", (e) => {
