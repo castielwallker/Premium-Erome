@@ -210,14 +210,14 @@
         position: fixed;
         bottom: ${existingToasts.length > 0 ? (existingToasts.length * 60 + 20) + 'px' : '20px'};
         right: 20px;
-        background-color: ${isError ? '#1d1e2a' : '#14151f'};
+        background-color: ${isError ? '#1d1e2ad9' : '#14151fd9'};
         color: ${isError ? '#FFF' : '#b39ad6'};
         padding: 15px 20px;
         border-radius: 12px;
         font-size: 14px;
         font-family: Arial, sans-serif;
         z-index: 9999;
-        box-shadow: 0 0 15px ${isError ? '#8a5acc' : '#b39ad6'}, 0 0 25px ${isError ? '#b39ad6' : '#8a5acc'};
+        box-shadow: 0 0 15px ${isError ? '#8a5accd9' : '#b39ad6d9'}, 0 0 25px ${isError ? '#b39ad6d9' : '#8a5accd9'};
         transition: opacity 0.5s ease-in-out;
         opacity: 0.9;
         animation: ToastAnim 2s ease 0s 1 normal forwards;
