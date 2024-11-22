@@ -18,11 +18,6 @@
         'thumbs'
     ];
 
-    function getFileName(url) {
-        const urlParts = url.split('/');
-        return urlParts[urlParts.length - 1].split('?')[0].split('_v=')[0];
-    }
-    
     // Toast Mensagem
     function showToast(message, isError = false) {
     const existingToasts = document.querySelectorAll('.toast');
@@ -66,6 +61,11 @@
     }, 2000);
 	}
 
+    function getFileName(url) {
+        const urlParts = url.split('/');
+        return urlParts[urlParts.length - 1].split('?')[0].split('_v=')[0];
+    }
+
     function download(url) {
         const isIgnored = LOGOS_AND_THUMBS_TO_IGNORE.some(fragment => url.includes(fragment));
         if (isIgnored) {
@@ -92,17 +92,20 @@
                     aTag.click();
                     URL.revokeObjectURL(tempUrl);
                     aTag.remove();
-                     showtoast('Download Concluido.')
+		    showtoast('Download Concluido.')
                 } else {
+		    showtoast('Erro Ao Baixar')
+                    console.error(`Erro ao baixar: ${url} (Status: ${response.status})`);
                 }
             },
             onerror: function (err) {
+                console.error(`Erro de rede: ${url}`, err);
             }
         });
     }
 
     const getMediaLinks = () => {
-        const mediaElements = document.querySelectorAll('video, img');
+        const mediaElements = document.querySelectorAll('video, .media-group .img');
         const mediaLinks = new Set();
 
         mediaElements.forEach(element => {
@@ -119,35 +122,46 @@
     const downloadAllMedia = () => {
         const mediaLinks = getMediaLinks();
         if (mediaLinks.length === 0) {
+            console.error('Nenhuma mídia encontrada.');
+	    showtoast('Nenhuma mídia encontrada.')
             return;
         }
 
         mediaLinks.forEach(media => download(media));
     };
 
-    function scrollToEndPage(callback) {
-        const interval = setInterval(() => {
-            const scrollTop = window.scrollY;
-            const scrollHeight = document.body.scrollHeight;
-            const clientHeight = window.innerHeight;
+    const downloadMediaDirectly = () => {
+        const mediaLinks = getMediaLinks();
+        const downloadedUrls = new Set();
 
-            if (scrollTop + clientHeight >= scrollHeight - 10) {
-                clearInterval(interval);
-                callback();
-            } else {
-                window.scrollBy(0, 9999);
+        if (mediaLinks.length === 0) {
+            console.error('Nenhuma mídia encontrada.');
+	    showtoast('Nenhuma mídia encontrada.')
+            return;
+        }
+
+        mediaLinks.forEach(url => {
+            if (!downloadedUrls.has(url)) {
+                downloadedUrls.add(url);
+                setTimeout(() => download(url), 1000);
             }
-        }, 200); 
-    }
+        });
+    };
 
     const downloadButton = document.createElement('button');
     downloadButton.className = 'btn btn-grey';
     downloadButton.innerHTML = `<i class="fas fa-download fa-lg"></i>`;
     downloadButton.style.marginLeft = '2px';
-    downloadButton.onclick = () => {
-        scrollToEndPage(downloadAllMedia);
-    };
+    downloadButton.onclick = downloadMediaDirectly; 
+    downloadButton.setAttribute('data-toggle', 'tooltip');
+    downloadButton.setAttribute('data-placement', 'top');
+    downloadButton.setAttribute('title', 'Baixar tudo.');
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip(); 
+    });
 
     const userInfoDiv = document.querySelector('.user-info.text-right');
     if (userInfoDiv) userInfoDiv.appendChild(downloadButton);
+
 })();
