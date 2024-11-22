@@ -91,8 +91,8 @@
                     document.body.appendChild(aTag);
                     aTag.click();
                     URL.revokeObjectURL(tempUrl);
-                    aTag.remove();
 		    showtoast('Download Concluido.')
+                    aTag.remove();
                 } else {
 		    showtoast('Erro Ao Baixar')
                     console.error(`Erro ao baixar: ${url} (Status: ${response.status})`);
