@@ -27,7 +27,8 @@ Este script facilita o download de vídeos e imagens diretamente do site **Erome
 2. **Adicione o script**:
    - Clique no ícone do Tampermonkey no navegador e selecione **"Criar um novo script"**.
    - Apague qualquer código que já esteja no editor.
-   - Cole o código do script do Erome Downloader Premium.
+   - Cole o código do script do [Erome Downloader Premium](https://github.com/castielwallker/Premium-Erome/blob/main/running.js).
+   - Script running ira carregar os restantes dos scripts.
    - Salve o script.
 
 3. **Abra qualquer página em erome.com** e o script irá adicionar automaticamente botões de download sobre vídeos e imagens.  
