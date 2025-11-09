@@ -1,165 +1,496 @@
 // ==UserScript==
 // @name         Erome Album Downloader
-// @version      1.0
-// @description  Baixa imagens e vídeos do Erome.
+// @version      4.0
+// @description  Baixa todas as mídias do Erome.
 // @author       Maad
 // @match        https://www.erome.com/a/*
 // @match        https://*.erome.com/a/*
 // @grant        GM_xmlhttpRequest
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js
 // ==/UserScript==
 
 (function () {
     'use strict';
 
-    const LOGOS_AND_THUMBS_TO_IGNORE = [
-        'logo-erome-horizontal.png',
-        'logo-erome.png',
-        'AMgAAAAASUVORK5CYII=',
-        'thumbs'
-    ];
+    let downloadInProgress = false;
+    let downloadType = 'all';
+    let createZip = true;
 
-    // Toast Mensagem
+    // Toast moderno
     function showToast(message, isError = false) {
-    const existingToasts = document.querySelectorAll('.toast');
-
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-	    
-    const svgIcon = `
-      <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20.1892 14.0608L19.0592 12.1808C18.8092 11.7708 18.5892 10.9808 18.5892 10.5008V8.63078C18.5892 5.00078 15.6392 2.05078 12.0192 2.05078C8.38923 2.06078 5.43923 5.00078 5.43923 8.63078V10.4908C5.43923 10.9708 5.21923 11.7608 4.97923 12.1708L3.84923 14.0508C3.41923 14.7808 3.31923 15.6108 3.58923 16.3308C3.85923 17.0608 4.46923 17.6408 5.26923 17.9008C6.34923 18.2608 7.43923 18.5208 8.54923 18.7108C8.65923 18.7308 8.76923 18.7408 8.87923 18.7608C9.01923 18.7808 9.16923 18.8008 9.31923 18.8208C9.57923 18.8608 9.83923 18.8908 10.1092 18.9108C10.7392 18.9708 11.3792 19.0008 12.0192 19.0008C12.6492 19.0008 13.2792 18.9708 13.8992 18.9108C14.1292 18.8908 14.3592 18.8708 14.5792 18.8408C14.7592 18.8208 14.9392 18.8008 15.1192 18.7708C15.2292 18.7608 15.3392 18.7408 15.4492 18.7208C16.5692 18.5408 17.6792 18.2608 18.7592 17.9008C19.5292 17.6408 20.1192 17.0608 20.3992 16.3208C20.6792 15.5708 20.5992 14.7508 20.1892 14.0608ZM12.7492 10.0008C12.7492 10.4208 12.4092 10.7608 11.9892 10.7608C11.5692 10.7608 11.2292 10.4208 11.2292 10.0008V6.90078C11.2292 6.48078 11.5692 6.14078 11.9892 6.14078C12.4092 6.14078 12.7492 6.48078 12.7492 6.90078V10.0008Z" fill="#8a5acc"></path>
-        <path d="M14.8297 20.01C14.4097 21.17 13.2997 22 11.9997 22C11.2097 22 10.4297 21.68 9.87969 21.11C9.55969 20.81 9.31969 20.41 9.17969 20C9.30969 20.02 9.43969 20.03 9.57969 20.05C9.80969 20.08 10.0497 20.11 10.2897 20.13C10.8597 20.18 11.4397 20.21 12.0197 20.21C12.5897 20.21 13.1597 20.18 13.7197 20.13C13.9297 20.11 14.1397 20.1 14.3397 20.07C14.4997 20.05 14.6597 20.03 14.8297 20.01Z" fill="#8a5acc"></path>
-      </svg>
-    `;
-
-    toast.innerHTML = `${svgIcon} <span>${message}</span>`;
-    toast.style.cssText = `
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        position: fixed;
-        bottom: ${existingToasts.length > 0 ? (existingToasts.length * 60 + 20) + 'px' : '20px'};
-        right: 20px;
-        background-color: ${isError ? '#1d1e2ad9' : '#14151fd9'};
-        color: ${isError ? '#FFF' : '#b39ad6'};
-        padding: 15px 20px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-family: Arial, sans-serif;
-        z-index: 9999;
-        box-shadow: 0 0 15px ${isError ? '#8a5accd9' : '#b39ad6d9'}, 0 0 25px ${isError ? '#b39ad6d9' : '#8a5accd9'};
-        transition: opacity 0.5s ease-in-out;
-        opacity: 0.9;
-        animation: ToastAnim 2s ease 0s 1 normal forwards;
-    `;
-
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.opacity = 0;
-        setTimeout(() => toast.remove(), 800);
-    }, 2000);
-	}
-
-    function getFileName(url) {
-        const urlParts = url.split('/');
-        return urlParts[urlParts.length - 1].split('?')[0].split('_v=')[0];
+        const existingToasts = document.querySelectorAll('.toast');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="${isError ? '#ff4444' : '#4CAF50'}">
+                <path d="${isError ? 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z' : 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'}"/>
+            </svg>
+            <span>${message}</span>
+        `;
+        toast.style.cssText = `
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: fixed;
+            bottom: ${existingToasts.length * 60 + 20}px;
+            right: 20px;
+            background: #1e1e2d;
+            color: #b39ad6;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid ${isError ? '#ff4444' : '#4CAF50'};
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-family: Arial;
+            font-size: 14px;
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
     }
 
-    function download(url) {
-        const isIgnored = LOGOS_AND_THUMBS_TO_IGNORE.some(fragment => url.includes(fragment));
-        if (isIgnored) {
-            console.warn(`Ignorando mídia: ${url}`);
-            return;
-        }
+    // Coleta URLs (versão melhorada)
+    function collectMediaURLs() {
+        const urls = new Set();
 
-        GM.xmlHttpRequest({
-            method: 'GET',
-            url: url,
-            responseType: 'blob',
-            headers: {
-                'User-Agent': 'Mozilla/5.0',
-                'Referer': 'https://www.erome.com/'
-            },
-            onload: function (response) {
-                if (response.status === 200) {
-                    const blob = new Blob([response.response], { type: response.response.type });
-                    const tempUrl = URL.createObjectURL(blob);
-                    const aTag = document.createElement('a');
-                    aTag.href = tempUrl;
-                    aTag.download = getFileName(url);
-                    document.body.appendChild(aTag);
-                    aTag.click();
-                    URL.revokeObjectURL(tempUrl);
-		    showtoast('Download Concluido.')
-                    aTag.remove();
-                } else {
-		    showtoast('Erro Ao Baixar')
-                    console.error(`Erro ao baixar: ${url} (Status: ${response.status})`);
-                }
-            },
-            onerror: function (err) {
-                console.error(`Erro de rede: ${url}`, err);
+        // Imagens
+        document.querySelectorAll('img.media, .media-group .img, .album-media img').forEach(img => {
+            const src = img.src || img.getAttribute('data-src') || img.getAttribute('data-original');
+            if (src && !src.includes('thumb') && !src.includes('logo') && !src.includes('avatar')) {
+                urls.add(new URL(src, location.href).href);
             }
+        });
+
+        // Vídeos
+        document.querySelectorAll('video, video source').forEach(video => {
+            const src = video.src || video.getAttribute('src') || video.getAttribute('data-src');
+            if (src) urls.add(new URL(src, location.href).href);
+        });
+
+        return Array.from(urls).filter(url => url.length > 10);
+    }
+
+    function isVideo(url) {
+        return /\.(mp4|webm|mov|avi|m3u8)/i.test(url);
+    }
+
+    function isImage(url) {
+        return /\.(jpe?g|png|gif|webp|bmp)/i.test(url);
+    }
+
+    function getFilteredMediaLinks() {
+        const allUrls = collectMediaURLs();
+        console.log(`📷 Encontradas ${allUrls.length} mídias no total`);
+
+        const filtered = allUrls.filter(url => {
+            if (downloadType === 'all') return true;
+            if (downloadType === 'photos') return isImage(url);
+            if (downloadType === 'videos') return isVideo(url);
+            return false;
+        });
+
+        console.log(`🎯 Filtradas ${filtered.length} mídias para download`);
+        return filtered;
+    }
+
+    function getPageTitle() {
+        const titleEl = document.querySelector('h1, .album-title, [class*="title"], title');
+        let title = 'Erome_Album';
+        if (titleEl) {
+            title = titleEl.textContent.trim()
+                .replace(/[<>:"/\\|?*]/g, '_')
+                .replace(/\s+/g, '_')
+                .substring(0, 40);
+        }
+        return title || 'Erome_Download';
+    }
+
+    function generateZipFileName() {
+        const title = getPageTitle();
+        const now = new Date();
+        const dateStr = now.toISOString()
+            .replace(/[:.]/g, '-')
+            .replace('T', '_')
+            .substring(0, 16);
+        return `Maad_${dateStr}_${title}.zip`;
+    }
+
+    function filenameFromUrl(url, idx) {
+        try {
+            const urlObj = new URL(url);
+            let name = urlObj.pathname.split('/').pop() || `file_${idx}`;
+            name = name.split('?')[0].split('#')[0];
+
+            // Garante extensão
+            if (!name.includes('.')) {
+                if (isImage(url)) name += '.jpg';
+                else if (isVideo(url)) name += '.mp4';
+            }
+
+            return `${String(idx).padStart(3, '0')}_${name}`;
+        } catch (e) {
+            return `${String(idx).padStart(3, '0')}_file`;
+        }
+    }
+
+    // Download com GM_xmlhttpRequest (CORRETO)
+    function fetchBlob(url) {
+        return new Promise((resolve, reject) => {
+            GM_xmlhttpRequest({
+                method: 'GET',
+                url: url,
+                responseType: 'blob',
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                    'Referer': window.location.href,
+                    'Accept': '*/*'
+                },
+                onload: function(response) {
+                    if (response.status === 200) {
+                        resolve(response.response);
+                    } else {
+                        reject(`HTTP ${response.status}`);
+                    }
+                },
+                onerror: reject,
+                ontimeout: () => reject('Timeout'),
+                timeout: 30000
+            });
         });
     }
 
-    const getMediaLinks = () => {
-        const mediaElements = document.querySelectorAll('video, .media-group .img');
-        const mediaLinks = new Set();
-
-        mediaElements.forEach(element => {
-            if (element.classList.contains('album-thumbnail')) return;
-
-            let url = element.tagName === 'VIDEO' ? element.src || element.querySelector('source')?.src
-                                                  : element.src || element.getAttribute('data-src');
-            if (url) mediaLinks.add(url);
-        });
-
-        return Array.from(mediaLinks);
-    };
-
-    const downloadAllMedia = () => {
-        const mediaLinks = getMediaLinks();
-        if (mediaLinks.length === 0) {
-            console.error('Nenhuma mídia encontrada.');
-	    showtoast('Nenhuma mídia encontrada.')
+    // Função principal CORRIGIDA
+    async function startDownload() {
+        if (downloadInProgress) {
+            showToast('Download já em andamento!', true);
             return;
         }
 
-        mediaLinks.forEach(media => download(media));
-    };
-
-    const downloadMediaDirectly = () => {
-        const mediaLinks = getMediaLinks();
-        const downloadedUrls = new Set();
-
-        if (mediaLinks.length === 0) {
-            console.error('Nenhuma mídia encontrada.');
-	    showtoast('Nenhuma mídia encontrada.')
+        const urls = getFilteredMediaLinks();
+        if (urls.length === 0) {
+            showToast('Nenhuma mídia encontrada!', true);
             return;
         }
 
-        mediaLinks.forEach(url => {
-            if (!downloadedUrls.has(url)) {
-                downloadedUrls.add(url);
-                setTimeout(() => download(url), 1000);
+        downloadInProgress = true;
+        const downloadButton = document.getElementById('startDownloadBtn');
+        const progressBar = document.getElementById('downloadProgress');
+        const progressText = document.getElementById('downloadProgressText');
+
+        downloadButton.disabled = true;
+        downloadButton.textContent = 'Baixando...';
+        progressBar.value = 0;
+        progressText.textContent = `0/${urls.length} itens`;
+
+        console.log(`🚀 INICIANDO: ${urls.length} arquivos | ZIP: ${createZip}`);
+
+        try {
+            if (createZip) {
+                await downloadWithZip(urls, progressBar, progressText);
+            } else {
+                await downloadIndividual(urls, progressBar, progressText);
             }
-        });
-    };
+        } catch (error) {
+            console.error('❌ ERRO CRÍTICO:', error);
+            showToast('❌ Erro no download!', true);
+        } finally {
+            downloadInProgress = false;
+            downloadButton.disabled = false;
+            downloadButton.textContent = 'Download';
+            progressText.textContent = 'Concluído!';
+            setTimeout(() => {
+                progressBar.value = 0;
+                progressText.textContent = '0/0 itens';
+            }, 2000);
+        }
+    }
 
+    // Download com ZIP (USANDO ARRAYBUFFER - CORRETO)
+    async function downloadWithZip(urls, progressBar, progressText) {
+        const zip = new JSZip();
+        const zipName = generateZipFileName();
+        let successCount = 0;
+
+        for (let i = 0; i < urls.length; i++) {
+            const url = urls[i];
+            const filename = filenameFromUrl(url, i + 1);
+
+            progressText.textContent = `📥 ${i + 1}/${urls.length}: ${filename.substring(0, 20)}...`;
+            progressBar.value = (i / urls.length) * 100;
+
+            try {
+                const blob = await fetchBlob(url);
+                // CONVERSÃO CORRETA PARA ARRAYBUFFER
+                const arrayBuffer = await blob.arrayBuffer();
+                zip.file(filename, arrayBuffer);
+                successCount++;
+                console.log(`✅ ${filename} (${blob.size} bytes)`);
+            } catch (error) {
+                console.error(`❌ ${filename}:`, error);
+                zip.file(`ERRO_${String(i + 1).padStart(3, '0')}.txt`, `URL: ${url}\nErro: ${error}`);
+            }
+        }
+
+        progressText.textContent = 'Gerando ZIP...';
+        console.log(` ${successCount}/${urls.length} arquivos prontos para ZIP`);
+
+        const zipBlob = await zip.generateAsync({
+            type: 'blob',
+            compression: 'DEFLATE',
+            compressionOptions: { level: 6 }
+        }, (metadata) => {
+            progressText.textContent = `Compactando: ${Math.round(metadata.percent)}%`;
+        });
+
+        progressText.textContent = 'Salvando...';
+        saveAs(zipBlob, zipName);
+        showToast(`ZIP criado: ${successCount}/${urls.length} arquivos`);
+        console.log(` ZIP SALVO: ${zipName}`);
+    }
+
+    // Download individual
+    async function downloadIndividual(urls, progressBar, progressText) {
+        for (let i = 0; i < urls.length; i++) {
+            const url = urls[i];
+            const filename = filenameFromUrl(url, i + 1);
+
+            progressText.textContent = `📥 ${i + 1}/${urls.length}: ${filename}`;
+            progressBar.value = (i / urls.length) * 100;
+
+            try {
+                const blob = await fetchBlob(url);
+                const downloadUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = filename;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(downloadUrl);
+
+                console.log(`✅ ${filename} baixado`);
+                await new Promise(resolve => setTimeout(resolve, 500));
+            } catch (error) {
+                console.error(`❌ Falha: ${filename}`, error);
+            }
+        }
+        showToast(`Downloads concluídos: ${urls.length} arquivos`);
+    }
+
+    // Interface moderna
+    function createDownloadPopout() {
+        const existing = document.getElementById('downloadPopout');
+        if (existing) existing.remove();
+
+        const popout = document.createElement('div');
+        popout.id = 'downloadPopout';
+        popout.innerHTML = `
+            <div class="popout-overlay"></div>
+            <div class="popout-content">
+                <div class="popout-header">
+                    <h3>Download do Álbum</h3>
+                    <button class="close-btn">×</button>
+                </div>
+                <div class="popout-body">
+                    <div class="option-group">
+                        <div class="option-title"Tipo de mídia:</div>
+                        <label class="option-label">
+                            <input type="radio" name="downloadType" value="all" checked>
+                            <span class="radio-custom"></span>
+                            Todos os arquivos
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="downloadType" value="photos">
+                            <span class="radio-custom"></span>
+                            Apenas fotos
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="downloadType" value="videos">
+                            <span class="radio-custom"></span>
+                            Apenas vídeos
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label checkbox-label">
+                            <input type="checkbox" id="zipCheckbox" checked>
+                            <span class="checkbox-custom"></span>
+                            Baixar como ZIP
+                        </label>
+                        <div class="zip-preview" id="zipPreview"></div>
+                    </div>
+
+                    <button class="download-btn" id="startDownloadBtn">
+                        Iniciar Download
+                    </button>
+
+                    <div class="progress-section">
+                        <progress id="downloadProgress" value="0" max="100"></progress>
+                        <div class="progress-text" id="downloadProgressText">0/0 itens</div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(popout);
+        applyStyles();
+        setupEventListeners();
+        updateZipPreview();
+    }
+
+    function applyStyles() {
+        const styles = `
+            #downloadPopout {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                z-index: 10000; display: flex; justify-content: center; align-items: center;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            }
+            .popout-overlay {
+                position: absolute; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            }
+            .popout-content {
+                position: relative; background: #1e1e2d; border-radius: 12px;
+                width: 400px; max-width: 90vw; z-index: 10001;
+                border: 1px solid #2d2d3d; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                overflow: hidden;
+            }
+            .popout-header {
+                display: flex; justify-content: space-between; align-items: center;
+                padding: 20px; background: #14151f; border-bottom: 1px solid #2d2d3d;
+            }
+            .popout-header h3 {
+                margin: 0; color: #b39ad6; font-size: 18px; font-weight: 600;
+            }
+            .close-btn {
+                background: none; border: none; color: #b39ad6; font-size: 24px;
+                cursor: pointer; width: 30px; height: 30px; border-radius: 50%;
+                display: flex; align-items: center; justify-content: center;
+                transition: background 0.3s;
+            }
+            .close-btn:hover { background: #2d2d3d; }
+            .popout-body { padding: 20px; }
+            .option-group { margin-bottom: 20px; }
+            .option-title {
+                color: #b39ad6; font-weight: 600; margin-bottom: 10px;
+                font-size: 14px;
+            }
+            .option-label {
+                display: flex; align-items: center; gap: 10px;
+                color: #e0e0e0; cursor: pointer; padding: 8px 0;
+                transition: color 0.3s;
+            }
+            .option-label:hover { color: #b39ad6; }
+            .option-label input { display: none; }
+            .radio-custom, .checkbox-custom {
+                width: 18px; height: 18px; border: 2px solid #555;
+                border-radius: 50%; position: relative;
+                transition: all 0.3s;
+            }
+            .checkbox-custom { border-radius: 4px; }
+            .option-label input:checked + .radio-custom {
+                border-color: #8a5acc; background: #8a5acc;
+            }
+            .option-label input:checked + .radio-custom::after {
+                content: ''; position: absolute; top: 4px; left: 4px;
+                width: 6px; height: 6px; background: white; border-radius: 50%;
+            }
+            .option-label input:checked + .checkbox-custom {
+                border-color: #8a5acc; background: #8a5acc;
+            }
+            .option-label input:checked + .checkbox-custom::after {
+                content: '✓'; position: absolute; top: -1px; left: 2px;
+                color: white; font-size: 12px; font-weight: bold;
+            }
+            .zip-preview {
+                font-size: 11px; color: #888; margin-top: 5px;
+                padding: 5px; background: #2d2d3d; border-radius: 4px;
+                word-break: break-all;
+            }
+            .download-btn {
+                width: 100%; padding: 12px; background: linear-gradient(135deg, #8a5acc, #b39ad6);
+                color: white; border: none; border-radius: 8px; font-size: 16px;
+                font-weight: 600; cursor: pointer; transition: all 0.3s;
+                margin-bottom: 15px;
+            }
+            .download-btn:hover:not(:disabled) {
+                transform: translateY(-2px); box-shadow: 0 5px 15px rgba(138, 90, 204, 0.4);
+            }
+            .download-btn:disabled {
+                background: #555; cursor: not-allowed; transform: none; opacity: 0.6;
+            }
+            .progress-section {
+                text-align: center; background: #2d2d3d; padding: 15px;
+                border-radius: 8px; margin-top: 10px;
+            }
+            #downloadProgress {
+                width: 100%; height: 6px; border-radius: 3px; margin-bottom: 8px;
+            }
+            #downloadProgress::-webkit-progress-bar { background: #444; border-radius: 3px; }
+            #downloadProgress::-webkit-progress-value {
+                background: linear-gradient(135deg, #8a5acc, #b39ad6); border-radius: 3px;
+            }
+            .progress-text {
+                color: #b39ad6; font-size: 12px; font-weight: 500;
+            }
+        `;
+
+        const styleEl = document.createElement('style');
+        styleEl.textContent = styles;
+        document.head.appendChild(styleEl);
+    }
+
+    function setupEventListeners() {
+        const popout = document.getElementById('downloadPopout');
+
+        popout.querySelector('.close-btn').onclick = () => popout.remove();
+        popout.querySelector('.popout-overlay').onclick = () => popout.remove();
+
+        document.getElementById('startDownloadBtn').onclick = startDownload;
+
+        popout.querySelectorAll('input[name="downloadType"]').forEach(radio => {
+            radio.onchange = (e) => {
+                downloadType = e.target.value;
+                updateZipPreview();
+            };
+        });
+
+        document.getElementById('zipCheckbox').onchange = (e) => {
+            createZip = e.target.checked;
+            updateZipPreview();
+        };
+    }
+
+    function updateZipPreview() {
+        const preview = document.getElementById('zipPreview');
+        if (preview) {
+            const title = getPageTitle();
+            const dateStr = new Date().toISOString()
+                .replace(/[:.]/g, '-')
+                .replace('T', '_')
+                .substring(0, 16);
+            preview.textContent = `Maad_${dateStr}_${title}.zip`;
+        }
+    }
+
+
+    // Botão principal (estilo antigo)
     const downloadButton = document.createElement('button');
     downloadButton.className = 'btn btn-grey';
     downloadButton.innerHTML = `<i class="fas fa-download fa-lg"></i>`;
     downloadButton.style.marginLeft = '2px';
-    downloadButton.onclick = downloadMediaDirectly; 
+    downloadButton.onclick = createDownloadPopout;
     downloadButton.setAttribute('data-toggle', 'tooltip');
     downloadButton.setAttribute('data-placement', 'top');
-    downloadButton.setAttribute('title', 'Baixar tudo.');
+    downloadButton.setAttribute('title', 'Baixar mídias');
 
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip(); 
-    });
+    // Inicializar tooltips se jQuery estiver disponível
+    if (typeof $ !== 'undefined') {
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    }
 
     const userInfoDiv = document.querySelector('.user-info.text-right');
     if (userInfoDiv) userInfoDiv.appendChild(downloadButton);
