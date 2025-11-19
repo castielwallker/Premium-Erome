@@ -57,7 +57,7 @@
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/erome.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/player.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/nsfw.js
-// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/download.js
+// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/downloadpop.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/hidden.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/theme.js
 // @  不要试图复制粘贴我的脚本然后像是你是创作者一样分享给别人 不要试图复制粘贴我的脚本然后像是你是创作者一样分享给别人 不要试图复制粘贴我的脚本然后像是你是创作者一样分享给别人 不要试图复制粘贴我的脚本然后像是你是创作者一样分享给别人
