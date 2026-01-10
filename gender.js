@@ -12,11 +12,11 @@
     'use strict';
 
     const iconesGenero = {
-        "all": 'fa-solid fa-mars-and-venus-burst fa-lg',
-        "straight": 'fa-solid fa-venus-mars fa-lg',
-        "trans": 'fa-solid fa-transgender fa-lg',
-        "gay": 'fa-solid fa-mars-double fa-lg',
-        "hentai": 'fa-solid fa-mercury fa-lg'
+        "all": 'svg-fa svg-fas-fa-mars-and-venus-burst',
+        "straight": 'svg-fa svg-fas-fa-venus-mars',
+        "trans": 'svg-fa svg-fas-fa-transgender',
+        "gay": 'svg-fa svg-fas-fa-mars-double',
+        "hentai": 'svg-fa svg-fas-fa-mercury'
     };
 
     let generoAtual = localStorage.getItem("generoSelecionado") || "all";
