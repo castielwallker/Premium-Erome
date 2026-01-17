@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Erome Gender (SVG Fix)
+// @name         Erome Gender
 // @namespace    https://www.erome.com/
 // @version      1.1
-// @description  Select Gender Erome - Premium (Fixed Icons)
+// @description  Select Gender Erome - Premium
 // @author       Maad
 // @match        https://*.erome.com/*
 // @grant        none
@@ -11,7 +11,6 @@
 (function() {
     'use strict';
 
-    // IDs dos ícones SVGs nativos do Erome
     const iconesGenero = {
         "all": 'fas-fa-mars-and-venus-burst',
         "straight": 'fas-fa-venus-mars',
@@ -21,9 +20,6 @@
     };
 
     let generoAtual = localStorage.getItem("generoSelecionado") || "all";
-
-    // Função auxiliar para gerar o HTML do SVG correto
-    // Define fill: currentColor para respeitar a cor branca do seu estilo
     function getSvgHtml(iconId) {
         return `<svg class="svg-fa" style="width: 18px; height: 18px; fill: currentColor;">
                     <use xlink:href="#${iconId}"></use>
@@ -43,7 +39,6 @@
 
         let botaoGenero = document.createElement("div");
         botaoGenero.id = "botao-genero";
-        // CORREÇÃO AQUI: Usa a função do SVG
         botaoGenero.innerHTML = getSvgHtml(iconesGenero[generoAtual]);
         botaoGenero.style.display = "flex";
         botaoGenero.style.alignItems = "center";
@@ -69,11 +64,10 @@
 
         Object.keys(iconesGenero).forEach(genero => {
             let item = document.createElement("li");
-            // CORREÇÃO AQUI: Usa a função do SVG + Texto
             item.innerHTML = `${getSvgHtml(iconesGenero[genero])} ${genero.toUpperCase()}`;
             item.style.display = "flex";
             item.style.alignItems = "center";
-            item.style.gap = "8px"; // Ajustei levemente o gap para o SVG não colar no texto
+            item.style.gap = "8px"; 
             item.style.padding = "5px 10px";
             item.style.cursor = "pointer";
             item.style.color = "#fff";
@@ -82,7 +76,6 @@
             item.addEventListener("click", () => {
                 generoAtual = genero;
                 localStorage.setItem("generoSelecionado", genero);
-                // CORREÇÃO AQUI: Atualiza o botão com o SVG
                 botaoGenero.innerHTML = getSvgHtml(iconesGenero[genero]);
                 dropdownMenu.style.display = "none";
                 window.location.href = `https://www.erome.com/version/${genero}`;
