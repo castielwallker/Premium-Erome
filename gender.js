@@ -1,16 +1,17 @@
 // ==UserScript==
-// @name         Erome Gender
+// @name         Erome Gender (SVG Fix)
 // @namespace    https://www.erome.com/
-// @version      1.0
-// @description  Select Gender Erome - Premium
+// @version      1.1
+// @description  Select Gender Erome - Premium (Fixed Icons)
 // @author       Maad
-// @match        https://www.erome.com/*
+// @match        https://*.erome.com/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
 
+    // IDs dos ícones SVGs nativos do Erome
     const iconesGenero = {
         "all": 'fas-fa-mars-and-venus-burst',
         "straight": 'fas-fa-venus-mars',
@@ -21,10 +22,17 @@
 
     let generoAtual = localStorage.getItem("generoSelecionado") || "all";
 
+    // Função auxiliar para gerar o HTML do SVG correto
+    // Define fill: currentColor para respeitar a cor branca do seu estilo
+    function getSvgHtml(iconId) {
+        return `<svg class="svg-fa" style="width: 18px; height: 18px; fill: currentColor;">
+                    <use xlink:href="#${iconId}"></use>
+                </svg>`;
+    }
+
     function criarComboBox() {
         const botaoMenu = document.querySelector(".navbar-toggle");
         if (!botaoMenu) return;
-
 
         let comboContainer = document.createElement("div");
         comboContainer.id = "combo-genero";
@@ -35,7 +43,8 @@
 
         let botaoGenero = document.createElement("div");
         botaoGenero.id = "botao-genero";
-        botaoGenero.innerHTML = `<i class="${iconesGenero[generoAtual]}"></i>`;
+        // CORREÇÃO AQUI: Usa a função do SVG
+        botaoGenero.innerHTML = getSvgHtml(iconesGenero[generoAtual]);
         botaoGenero.style.display = "flex";
         botaoGenero.style.alignItems = "center";
         botaoGenero.style.padding = "10px";
@@ -56,13 +65,15 @@
         dropdownMenu.style.display = "none";
         dropdownMenu.style.minWidth = "120px";
         dropdownMenu.style.filter = "drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.1))";
+        dropdownMenu.style.zIndex = "9999"; // Garante que fique acima de outros elementos
 
         Object.keys(iconesGenero).forEach(genero => {
             let item = document.createElement("li");
-            item.innerHTML = `<i class="${iconesGenero[genero]}"></i> ${genero.toUpperCase()}`;
+            // CORREÇÃO AQUI: Usa a função do SVG + Texto
+            item.innerHTML = `${getSvgHtml(iconesGenero[genero])} ${genero.toUpperCase()}`;
             item.style.display = "flex";
             item.style.alignItems = "center";
-            item.style.gap = "5px";
+            item.style.gap = "8px"; // Ajustei levemente o gap para o SVG não colar no texto
             item.style.padding = "5px 10px";
             item.style.cursor = "pointer";
             item.style.color = "#fff";
@@ -71,11 +82,11 @@
             item.addEventListener("click", () => {
                 generoAtual = genero;
                 localStorage.setItem("generoSelecionado", genero);
-                botaoGenero.innerHTML = `<i class="${iconesGenero[genero]}"></i>`;
+                // CORREÇÃO AQUI: Atualiza o botão com o SVG
+                botaoGenero.innerHTML = getSvgHtml(iconesGenero[genero]);
                 dropdownMenu.style.display = "none";
                 window.location.href = `https://www.erome.com/version/${genero}`;
             });
-
 
             item.addEventListener("mouseover", () => {
                 item.style.transform = "scale(1.1)";
