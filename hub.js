@@ -18,7 +18,10 @@
         .navbar-right li:has(i.fa-search) + li:has(a[href="/"]) {
             display: none !important;
         }
-        .hub-container { vertical-align: middle; }
+        .hub-container {
+        vertical-align: middle;
+        margin-top: 15px !important;
+    }
     `);
 
     const hubState = {
