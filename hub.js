@@ -65,10 +65,15 @@
     function limparInterface() {
         if (window.location.pathname.includes('/a/')) {
             const userArea = document.querySelector('.col-sm-5.user-info.username.mb-5');
-            if (userArea) userArea.querySelectorAll('.btn-pink, .btn-grey, button').forEach(b => b.style.display = 'none');
+            if (userArea) userArea.querySelectorAll('.btn-download, .btn-pink, .btn-grey, button').forEach(b => b.style.display = 'none');
             document.querySelectorAll('.media-group img').forEach(el => el.style.display = hubState.showPhotos ? 'block' : 'none');
             document.querySelectorAll('.media-group video, .video-js').forEach(el => el.style.display = hubState.showVideos ? 'block' : 'none');
         }
+
+        document.querySelectorAll('.btn-download, .btn-grey i.fa-download, .btn-grey i.fas.fa-download').forEach(el => {
+            const btn = el.classList.contains('btn-download') ? el : (el.closest('button') || el.parentElement);
+            if (btn) btn.style.display = hubState.showDownloadBtn ? 'inline-block' : 'none';
+        });
     }
 
     function criarMenuBase(id, mainIcon, items) {
@@ -159,6 +164,7 @@
         if (window.location.pathname.includes('/a/')) {
             const configItems = [
                 { t: "DOWNLOADER", i: "download", fn: () => document.querySelector('.btn-grey i.fa-download, .btn-download')?.parentElement.click() },
+                { t: "OCULTAR DOWNLOAD", i: "hide_dl", key: "showDownloadBtn" },
                 { t: "OCULTAR FOTOS", i: "photo", key: "showPhotos" },
                 { t: "OCULTAR VÍDEOS", i: "video", key: "showVideos" },
                 { t: "MODO CINEMA", i: "cinema", fn: () => {
