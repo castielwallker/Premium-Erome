@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Erome Premium Hub
 // @namespace    https://www.erome.com/
-// @version      1.0
-// @description  Privacidade em todo o site & Configurações apenas em álbuns.
+// @version      4.1
+// @description  Hub unificado com Gênero, Privacidade e Configurações.
 // @author       Maad
 // @match        https://*.erome.com/*
 // @grant        GM_addStyle
@@ -11,7 +11,6 @@
 (function() {
     'use strict';
 
-    // 1. ESCONDER BOTÕES ORIGINAIS DA NAVBAR EM TODO O SITE
     GM_addStyle(`
         #nsfw-toggle-btn,
         .navbar-right li:has(a[style*="margin-left: -20px"]),
@@ -19,6 +18,7 @@
         .navbar-right li:has(i.fa-search) + li:has(a[href="/"]) {
             display: none !important;
         }
+        .hub-container { vertical-align: middle; }
     `);
 
     const hubState = {
@@ -30,7 +30,15 @@
         hiddenActive: false
     };
 
-    const svgs = {
+    const officialGenderIcons = {
+        "all": 'fas-fa-mars-and-venus-burst',
+        "straight": 'fas-fa-venus-mars',
+        "trans": 'fas-fa-transgender',
+        "gay": 'fas-fa-mars-double',
+        "hentai": 'fas-fa-mercury'
+    };
+
+    const customSvgs = {
         settings: '<path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>',
         privacy: '<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>',
         download: '<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>',
@@ -41,41 +49,45 @@
         eye: '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>'
     };
 
-    function getSvg(name, size = 18) {
-        return `<svg viewBox="0 0 24 24" style="width: ${size}px; height: ${size}px; fill: #FFFFFF; display: inline-block; vertical-align: middle;">${svgs[name]}</svg>`;
+    // Função para gerar HTML do SVG (Híbrida: Oficiais vs Custom)
+    function getIconHtml(iconId, size = 18) {
+        if (officialGenderIcons[iconId] || iconId.startsWith('fas-')) {
+            const id = officialGenderIcons[iconId] || iconId;
+            return `<svg class="svg-fa" style="width: ${size}px; height: ${size}px; fill: #FFFFFF; color: #FFFFFF; display: inline-block; vertical-align: middle;">
+                        <use xlink:href="#${id}"></use>
+                    </svg>`;
+        }
+        return `<svg viewBox="0 0 24 24" style="width: ${size}px; height: ${size}px; fill: #FFFFFF; display: inline-block; vertical-align: middle;">${customSvgs[iconId]}</svg>`;
     }
 
     function limparInterface() {
-        // Só tenta esconder elementos de álbum se estiver em um álbum
         if (window.location.pathname.includes('/a/')) {
             const userArea = document.querySelector('.col-sm-5.user-info.username.mb-5');
             if (userArea) userArea.querySelectorAll('.btn-pink, .btn-grey, button').forEach(b => b.style.display = 'none');
-
-            document.querySelectorAll('.btn-download, .btn-grey i.fa-download, .btn-grey i.fas.fa-download').forEach(el => {
-                const btn = el.classList.contains('btn-download') ? el : (el.closest('button') || el.parentElement);
-                if (btn) btn.style.display = hubState.showDownloadBtn ? 'inline-block' : 'none';
-            });
-
             document.querySelectorAll('.media-group img').forEach(el => el.style.display = hubState.showPhotos ? 'block' : 'none');
             document.querySelectorAll('.media-group video, .video-js').forEach(el => el.style.display = hubState.showVideos ? 'block' : 'none');
         }
     }
 
-    function criarMenuBase(id, iconName, items) {
+    function criarMenuBase(id, mainIcon, items) {
         if (document.getElementById(id)) return;
         let container = document.createElement("div");
         container.id = id;
-        container.style.cssText = "position: relative; display: inline-block; margin-left: 10px; cursor: pointer; vertical-align: middle;";
+        container.className = "hub-container";
+        container.style.cssText = "position: relative; display: inline-block; margin-left: 10px; cursor: pointer;";
+
         let btn = document.createElement("div");
-        btn.innerHTML = getSvg(iconName, 20);
+        btn.innerHTML = getIconHtml(mainIcon, 20);
         btn.style.cssText = "display: flex; align-items: center; padding: 9px; background: #1d1e2a; border-radius: 10px; margin-top: -10px; color: #b39ad6; transition: 0.3s;";
+
         let dropdown = document.createElement("ul");
-        dropdown.style.cssText = "position: absolute; top: 45px; left: 0; background: #14151f; border-radius: 5px; box-shadow: 0px 0px 15px rgba(0,0,0,0.7); padding: 10px; list-style: none; display: none; min-width: 180px; z-index: 10000; border: 1px solid rgba(255,255,255,0.05);";
+        dropdown.style.cssText = "position: absolute; top: 45px; left: 0; background: #14151f; border-radius: 5px; box-shadow: 0px 0px 15px rgba(0,0,0,0.7); padding: 10px; list-style: none; display: none; min-width: 160px; z-index: 10000; border: 1px solid rgba(255,255,255,0.05);";
 
         items.forEach(item => {
             let li = document.createElement("li");
-            li.innerHTML = `<span style="margin-right:10px">${getSvg(item.i)}</span> ${item.t}`;
+            li.innerHTML = `<span style="margin-right:10px">${getIconHtml(item.i)}</span> ${item.t}`;
             li.style.cssText = "display: flex; align-items: center; padding: 8px 12px; cursor: pointer; color: #fff; transition: 0.2s; font-size: 11px; font-weight: bold; white-space: nowrap;";
+
             li.onclick = (e) => {
                 e.stopPropagation();
                 if (item.key) {
@@ -85,6 +97,7 @@
                 if (item.fn) item.fn();
                 limparInterface();
             };
+
             li.onmouseover = () => {
                 li.style.transform = "scale(1.05)";
                 li.style.textShadow = "0px 0px 8px #8a5acc";
@@ -101,7 +114,7 @@
         btn.onclick = (e) => {
             e.stopPropagation();
             const isVisible = dropdown.style.display === "block";
-            document.querySelectorAll("#combo-hub ul, #privacy-hub ul").forEach(u => u.style.display = "none");
+            document.querySelectorAll(".hub-container ul").forEach(u => u.style.display = "none");
             dropdown.style.display = isVisible ? "none" : "block";
         };
 
@@ -116,31 +129,34 @@
     function montarMenus() {
         const navToggle = document.querySelector(".navbar-toggle");
         if (!navToggle) return;
+        const target = navToggle.parentNode;
+        const ref = navToggle.nextSibling;
 
-        const isAlbumPage = window.location.pathname.includes('/a/');
-        const genderMenu = document.getElementById("combo-genero");
-        const target = genderMenu ? genderMenu.parentNode : navToggle.parentNode;
-        const ref = genderMenu ? genderMenu.nextSibling : navToggle.nextSibling;
+        const generoSalvo = localStorage.getItem("generoSelecionado") || "all";
+        const genderItems = Object.keys(officialGenderIcons).map(g => ({
+            t: g.toUpperCase(),
+            i: officialGenderIcons[g],
+            fn: () => {
+                localStorage.setItem("generoSelecionado", g);
+                window.location.href = `https://www.erome.com/version/${g}`;
+            }
+        }));
+        const hubGender = criarMenuBase("gender-hub", officialGenderIcons[generoSalvo], genderItems);
+        target.insertBefore(hubGender, ref);
 
-        // 1. MENU PRIVACIDADE (Sempre aparece)
         const privacyItems = [
-            { t: "ATIVAR NSFW BLUR", i: "eye", fn: () => {
-                document.getElementById('nsfw-toggle-btn')?.click();
-                hubState.nsfwBlur = !hubState.nsfwBlur;
-            }, key: "nsfwBlur" },
+            { t: "NSFW BLUR", i: "eye", fn: () => { document.getElementById('nsfw-toggle-btn')?.click(); hubState.nsfwBlur = !hubState.nsfwBlur; }, key: "nsfwBlur" },
             { t: "MODO HIDDEN", i: "eye", fn: () => {
                 const hiddenBtn = Array.from(document.querySelectorAll('a')).find(el => el.textContent.includes('HIDDEN'));
                 if (hiddenBtn) hiddenBtn.click();
-                hubState.hiddenActive = !hubState.hiddenActive;
             }, key: "hiddenActive" }
         ];
         const hubPrivacy = criarMenuBase("privacy-hub", "privacy", privacyItems);
+        target.insertBefore(hubPrivacy, hubGender.nextSibling);
 
-        // 2. MENU CONFIGURAÇÕES (Apenas em álbuns)
-        if (isAlbumPage) {
+        if (window.location.pathname.includes('/a/')) {
             const configItems = [
                 { t: "DOWNLOADER", i: "download", fn: () => document.querySelector('.btn-grey i.fa-download, .btn-download')?.parentElement.click() },
-                { t: "OCULTAR DOWNLOAD", i: "hide_dl", key: "showDownloadBtn" },
                 { t: "OCULTAR FOTOS", i: "photo", key: "showPhotos" },
                 { t: "OCULTAR VÍDEOS", i: "video", key: "showVideos" },
                 { t: "MODO CINEMA", i: "cinema", fn: () => {
@@ -150,18 +166,14 @@
                 }}
             ];
             const hubConfig = criarMenuBase("combo-hub", "settings", configItems);
-            target.insertBefore(hubConfig, ref);
-            target.insertBefore(hubPrivacy, hubConfig.nextSibling);
-        } else {
-            // Se não for álbum, insere apenas o de privacidade
-            target.insertBefore(hubPrivacy, ref);
+            target.insertBefore(hubConfig, hubPrivacy.nextSibling);
         }
     }
 
     window.addEventListener("load", () => {
         montarMenus();
         setInterval(limparInterface, 1000);
-        document.addEventListener("click", () => document.querySelectorAll("#combo-hub ul, #privacy-hub ul").forEach(u => u.style.display = "none"));
+        document.addEventListener("click", () => document.querySelectorAll(".hub-container ul").forEach(u => u.style.display = "none"));
     });
 
 })();
