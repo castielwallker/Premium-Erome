@@ -18,6 +18,7 @@
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/downloadpop.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/hidden.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/theme.js
+// @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/redirect.js
 // @require      https://github.com/castielwallker/Premium-Erome/raw/refs/heads/main/hub.js
 // @grant        GM.xmlHttpRequest
 // @grant        GM_addStyle
