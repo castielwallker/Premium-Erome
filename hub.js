@@ -18,8 +18,7 @@
         .navbar-right li:has(i.fa-search) + li:has(a[href="/"]) {
             display: none !important;
         }
-        .hub-container {
-        margin-top: 1px !important;
+
     }
     `);
 
