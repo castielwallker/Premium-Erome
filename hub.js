@@ -20,7 +20,7 @@
         }
         .hub-container {
         vertical-align: middle;
-        margin-top: 10px !important;
+        margin-top: 5px !important;
     }
     `);
 
