@@ -19,8 +19,7 @@
             display: none !important;
         }
         .hub-container {
-        vertical-align: middle;
-        margin-top: 5px !important;
+        margin-top: 1px !important;
     }
     `);
 
