@@ -73,7 +73,7 @@
         let container = document.createElement("div");
         container.id = id;
         container.className = "hub-container";
-        container.style.cssText = "position: relative; display: inline-block; padding: 10px margin-left: 10px; cursor: pointer;";
+        container.style.cssText = "position: relative; display: inline-block; padding: 15px; margin-left: 10px; cursor: pointer;";
 
         let btn = document.createElement("div");
         btn.innerHTML = getIconHtml(mainIcon, 20);
