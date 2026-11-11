@@ -128,3 +128,47 @@ Inspirado no feed do TikTok, mas com a mídia do Erome.
 ---
 
 ## ⚙️ Como funciona (resumo técnico)
+erome-premium.user.js
+├── @require JSZip + FileSaver (via CDN)
+├── @grant GM_xmlhttpRequest (downloads com Referer correto)
+├── @grant GM_addStyle (injeção de CSS)
+│
+├── CONFIG + STATE (tema, flags, persistência em localStorage)
+├── Redirect Blocker (window.open + click capture + MutationObserver)
+├── Toast System (notificações animadas)
+├── Download Engine (pLimit 4 + retry exponencial + blob → save)
+├── Inline Download Buttons (anexa em .media-group img/video e .album-image img)
+├── Video Duration Detection (range request bytes=0-500 + cache em localStorage)
+├── Album Count Badges (contagem de fotos/vídeos por álbum)
+├── Album Likes (async) (fetch de até 30 álbuns, extrai like count)
+├── Sort Albums (por views/vídeos/fotos, asc/desc)
+├── Toggles (photos, videos, download buttons, NSFW, cinema, video-only)
+├── Hidden Slider (filtro de duração 0–100s)
+├── Video.js Enhancements (speed, download, flip, cinema, PiP)
+├── Bulk Download Modal (filtros + ZIP + progresso)
+├── TikTok Mode (feed vertical, IntersectionObserver, pré-carregamento)
+├── FAB + Hubs (navbar reconstruída, menus popup)
+├── Bypass (remove #disclaimer e #needAccount)
+├── Infinite Scroll (usa $.fn.infiniteScroll se disponível)
+└── Refresh Loop (MutationObserver + setInterval 2s)
+
+
+---
+
+## 🎨 Personalização
+
+### Alterar a paleta do tema
+
+No topo do script, edite `CONFIG`:
+
+```javascript
+const CONFIG = {
+    brand: 'Erome Premium All-in-One',
+    accent: '#8a5acc',       // cor principal
+    accentSoft: '#b39ad6',
+    dark: '#14151f',
+    surface: '#1d1e2a',
+    success: '#4ade80',
+    danger: '#ef4444',
+    warning: '#fbbf24'
+};
